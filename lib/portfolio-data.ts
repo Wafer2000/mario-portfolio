@@ -267,7 +267,7 @@ export const projects: Project[] = [
     stack: ["Google Apps Script", "Google Forms", "Google Sheets", "JavaScript", "Automatización"],
   },
   {
-    id: "cloud-solutions", number: "16", name: "Cloud Solutions & Migrations · Servinformación", category: "cloud", year: "2022—2024", visual: "containers", cover: "/assets/projects/cloud-solutions.svg",
+    id: "cloud-solutions", number: "14", name: "Cloud Solutions & Migrations · Servinformación", category: "cloud", year: "2022—2024", visual: "containers", cover: "/assets/projects/cloud-solutions.svg",
     type: ["Participación profesional · Arquitectura cloud", "Professional participation · Cloud architecture"], status: ["Experiencia profesional completada", "Completed professional experience"],
     headline: ["Del requisito a una arquitectura desplegable.", "From requirement to deployable architecture."],
     description: ["Trabajo de análisis, diseño de soluciones cloud, arquitectura y planificación de migraciones como GCP Pre-Sales Engineer.", "Requirements analysis, cloud solution design, architecture and migration planning as a GCP Pre-Sales Engineer."],
@@ -288,7 +288,7 @@ export const projects: Project[] = [
     stack: ["GCP", "AWS", "Azure", "Docker", "Kubernetes", "Arquitectura cloud", "Migraciones"],
   },
   {
-    id: "wake-on-lan", number: "17", name: "Wake-on-LAN Home Automation", category: "cloud", year: "2026", visual: "maya", cover: "/assets/projects/wake-on-lan.svg",
+    id: "wake-on-lan", number: "15", name: "Wake-on-LAN Home Automation", category: "cloud", year: "2026", visual: "maya", cover: "/assets/projects/wake-on-lan.svg",
     type: ["Proyecto personal · Automatización", "Personal project · Automation"], status: ["Configurado y probado por etapas", "Configured and tested in stages"],
     headline: ["Encender un equipo también puede automatizarse.", "Even powering on a computer can be automated."],
     description: ["Proyecto personal para encender y controlar un PC remotamente mediante Wake-on-LAN, red doméstica y herramientas de automatización.", "A personal project for remotely powering on and controlling a PC through Wake-on-LAN, a home network and automation tools."],
@@ -307,7 +307,7 @@ export const projects: Project[] = [
     stack: ["Wake-on-LAN", "LAN", "Archer C80", "Alexa", "PC Commander", "Push2Run", "Automatización"],
   },
   {
-    id: "dev-minds", number: "18", name: "Dev-Minds", category: "education", year: "2026", visual: "edtech", cover: "/assets/projects/dev-minds.svg",
+    id: "dev-minds", number: "16", name: "Dev-Minds", category: "education", year: "2026", visual: "edtech", cover: "/assets/projects/dev-minds.svg",
     type: ["Proyecto educativo · Dirección", "Education project · Lead"], status: ["Centro de interés en ejecución", "Learning initiative in progress"],
     headline: ["Tecnología que se aprende construyendo.", "Technology learned by building."],
     description: ["Centro de Interés que dirijo para acercar programación, pensamiento computacional y trabajo STEAM a estudiantes mediante actividades y proyectos.", "A learning initiative I lead to bring programming, computational thinking and STEAM work to students through activities and projects."],
@@ -326,7 +326,7 @@ export const projects: Project[] = [
     stack: ["STEAM", "ABP / PBL", "Pensamiento computacional", "Programación", "Evaluación digital"],
   },
   {
-    id: "digital-security", number: "19", name: "Digital Citizenship & Security", category: "education", year: "2026", visual: "license", cover: "/assets/projects/digital-security.svg",
+    id: "digital-security", number: "17", name: "Digital Citizenship & Security", category: "education", year: "2026", visual: "license", cover: "/assets/projects/digital-security.svg",
     type: ["Proyecto educativo · Seguridad digital", "Education project · Digital security"], status: ["Diseñado para aula", "Designed for classroom use"],
     headline: ["Usar tecnología también implica saber protegerse.", "Using technology also means knowing how to stay safe."],
     description: ["Secuencia educativa sobre identidad digital, riesgos, violencia digital, estafas, malware, privacidad y protección de información.", "An educational sequence covering digital identity, risks, online violence, scams, malware, privacy and information protection."],
@@ -346,7 +346,7 @@ export const projects: Project[] = [
     stack: ["Ciudadanía digital", "Seguridad digital", "Privacidad", "Pensamiento computacional", "ABP / PBL"],
   },
   {
-    id: "cloud-delivery", number: "22", name: "Cloud, CI/CD & Delivery Engineering", category: "cloud", year: "2018—2026", visual: "containers", cover: "/assets/projects/cloud-delivery.svg",
+    id: "cloud-delivery", number: "18", name: "Cloud, CI/CD & Delivery Engineering", category: "cloud", year: "2018—2026", visual: "containers", cover: "/assets/projects/cloud-delivery.svg",
     type: ["Práctica transversal · Cloud & DevOps", "Cross-project practice · Cloud & DevOps"], status: ["Experiencia aplicada en múltiples proyectos", "Applied across multiple projects"],
     headline: ["El software no termina cuando compila.", "Software does not end when it compiles."],
     description: ["Trabajo transversal de despliegue, automatización, control de calidad y operación usando servicios cloud, repositorios y pipelines.", "Cross-project work in deployment, automation, quality control and operations using cloud services, repositories and pipelines."],
