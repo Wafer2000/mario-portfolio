@@ -1,17 +1,19 @@
 export type Lang = "es" | "en";
 export type Copy = readonly [string, string];
 export const text = (value: Copy, lang: Lang) => value[lang === "es" ? 0 : 1] || value[0] || value[1];
-export type Category = "all" | "web" | "mobile" | "ai" | "desktop" | "concept";
+export type Category = "all" | "web" | "mobile" | "ai" | "desktop" | "education" | "cloud" | "concept";
 export type Project = {
   id: string; name: string; number: string; category: Category; year: string;
   type: Copy; status: Copy; headline: Copy; description: Copy; problem: Copy;
   contribution: Copy; decisions: Copy[]; features: Copy[]; validation: Copy;
-  stack: string[]; link?: string; repo?: string; visual: string;
+  stack: string[]; link?: string; repo?: string; visual: string; visible?: boolean;
+  cover?: string; gallery?: { url: string; caption: Copy }[];
 };
 export const categories: { id: Category; label: Copy }[] = [
   { id: "all", label: ["Todos", "All"] }, { id: "web", label: ["Web & Full-Stack", "Web & Full-Stack"] },
   { id: "mobile", label: ["Mobile", "Mobile"] }, { id: "ai", label: ["IA & Agentes", "AI & Agents"] },
-  { id: "desktop", label: ["Desktop", "Desktop"] }, { id: "concept", label: ["Propuestas", "Proposals"] },
+  { id: "desktop", label: ["Desktop", "Desktop"] }, { id: "education", label: ["Educación & EdTech", "Education & EdTech"] },
+  { id: "cloud", label: ["Cloud & Infra", "Cloud & Infra"] }, { id: "concept", label: ["Propuestas", "Proposals"] },
 ];
 
 export const projects: Project[] = [
@@ -222,6 +224,149 @@ export const projects: Project[] = [
     validation: ["La propuesta y la experiencia técnica están documentadas. No se presenta como producto entregado.", "The proposal and technical experience are documented. It is not presented as a delivered product."],
     stack: ["Flutter", "Dart", "Python", "FastAPI", "Stripe Connect", "APIs"],
   },
+  {
+    id: "gyo-medical", number: "12", name: "GYO Medical I.P.S. · Internal Alerts", category: "desktop", year: "2026", visual: "alerts", cover: "/assets/projects/gyo-medical.svg",
+    type: ["Participación profesional · Salud & TI", "Professional participation · Healthcare IT"], status: ["Desarrollado e implementado internamente", "Developed and implemented internally"],
+    headline: ["Comunicación interna con contexto tecnológico.", "Internal communication with technical context."],
+    description: ["Aplicación interna para anuncios, notificaciones y alertas institucionales, acompañada por trabajo de soporte e infraestructura tecnológica en GYO Medical I.P.S.", "An internal application for institutional announcements, notifications and alerts, alongside IT support and infrastructure work at GYO Medical I.P.S."],
+    problem: ["La operación necesitaba centralizar avisos internos y mantener disponible una infraestructura tecnológica que también soportaba sistemas, equipos y conectividad del centro médico.", "Operations needed a central place for internal notices while keeping the technology infrastructure that supported systems, devices and connectivity available."],
+    contribution: ["Desarrollo e implementación de la aplicación interna y participación en soporte de sistemas, LAN/Wi-Fi, cableado, hardware, impresoras, inventario tecnológico y documentación.", "Development and implementation of the internal application plus participation in systems support, LAN/Wi-Fi, cabling, hardware, printers, technology inventory and documentation."],
+    features: [
+      ["Anuncios, notificaciones y alertas internas para el personal.", "Internal announcements, notifications and alerts for staff."],
+      ["Soporte operativo sobre equipos, conectividad y periféricos del entorno institucional.", "Operational support for devices, connectivity and peripherals in the institutional environment."],
+      ["Participación alrededor de HIS/ERP y ecosistemas PACS/DICOM sin alterar sus responsabilidades clínicas.", "Work around HIS/ERP and PACS/DICOM ecosystems without changing their clinical responsibilities."],
+      ["Inventario y documentación técnica para facilitar continuidad y soporte.", "Technology inventory and documentation to support continuity and maintenance."],
+    ],
+    decisions: [
+      ["Mantener la herramienta de comunicación separada de los sistemas clínicos especializados.", "Keep the communication tool separate from specialized clinical systems."],
+      ["Documentar cambios y soporte para reducir dependencia de conocimiento informal.", "Document changes and support work to reduce dependence on informal knowledge."],
+      ["Priorizar una implementación interna simple y mantenible para el entorno disponible.", "Prioritize a simple, maintainable internal implementation for the available environment."],
+    ],
+    validation: ["El proyecto forma parte de mi participación tecnológica en GYO Medical I.P.S. y se presenta como trabajo interno, no como producto clínico ni sistema de diagnóstico.", "This project is part of my technology work at GYO Medical I.P.S. and is presented as an internal tool, not as a clinical or diagnostic product."],
+    stack: ["Aplicación interna", "LAN / Wi-Fi", "Soporte TI", "HIS / ERP", "PACS / DICOM"],
+  },
+  {
+    id: "exam-randomizer", number: "13", name: "Randomized Exam Generator", category: "education", year: "2026", visual: "edtech", cover: "/assets/projects/exam-randomizer.svg",
+    type: ["Proyecto educativo · Automatización", "Education project · Automation"], status: ["Diseñado y automatizado", "Designed and automated"],
+    headline: ["Un banco de preguntas. Exámenes distintos.", "One question bank. Different exams."],
+    description: ["Sistema para generar evaluaciones individuales a partir de un banco amplio de preguntas usando Google Forms, Sheets y Apps Script.", "A system that generates individual assessments from a larger question bank using Google Forms, Sheets and Apps Script."],
+    problem: ["Crear exámenes diferentes manualmente para cada estudiante consume tiempo y dificulta mantener una misma cobertura temática y trazabilidad.", "Creating different exams manually for every student takes time and makes consistent topic coverage and traceability harder."],
+    contribution: ["Diseño del flujo de automatización, selección aleatoria de preguntas, generación de formularios y registro de cada evaluación entregada.", "Automation flow design, random question selection, form generation and registration of each delivered assessment."],
+    features: [
+      ["Banco central de aproximadamente 100 preguntas y selección automática de 50 por estudiante.", "Central bank of about 100 questions with automatic selection of 50 per student."],
+      ["Generación de formularios individuales y registro del estudiante.", "Individual form generation and student registration."],
+      ["Control para reducir duplicados y conservar evidencia de qué evaluación recibió cada persona.", "Controls to reduce duplicates and keep evidence of which assessment each person received."],
+      ["Uso de herramientas Google para facilitar administración y adopción docente.", "Use of Google tools to simplify administration and teacher adoption."],
+    ],
+    decisions: [
+      ["Mantener el banco de preguntas en Sheets para facilitar mantenimiento sin tocar código.", "Keep the question bank in Sheets so it can be maintained without editing code."],
+      ["Usar Apps Script como capa de automatización para trabajar dentro del ecosistema Google.", "Use Apps Script as the automation layer inside the Google ecosystem."],
+      ["Registrar las asignaciones para poder auditar y reproducir el proceso de evaluación.", "Record assignments so the assessment process can be audited and reproduced."],
+    ],
+    validation: ["El flujo fue planteado para uso educativo con generación aleatoria y registro automatizado. La calidad final de cada evaluación depende del banco de preguntas configurado por el docente.", "The flow was designed for educational use with randomized generation and automated records. Final assessment quality depends on the question bank configured by the teacher."],
+    stack: ["Google Apps Script", "Google Forms", "Google Sheets", "JavaScript", "Automatización"],
+  },
+  {
+    id: "cloud-solutions", number: "16", name: "Cloud Solutions & Migrations · Servinformación", category: "cloud", year: "2022—2024", visual: "containers", cover: "/assets/projects/cloud-solutions.svg",
+    type: ["Participación profesional · Arquitectura cloud", "Professional participation · Cloud architecture"], status: ["Experiencia profesional completada", "Completed professional experience"],
+    headline: ["Del requisito a una arquitectura desplegable.", "From requirement to deployable architecture."],
+    description: ["Trabajo de análisis, diseño de soluciones cloud, arquitectura y planificación de migraciones como GCP Pre-Sales Engineer.", "Requirements analysis, cloud solution design, architecture and migration planning as a GCP Pre-Sales Engineer."],
+    problem: ["Migrar o diseñar una solución cloud exige traducir necesidades de negocio y restricciones técnicas en una arquitectura viable, segura y operable.", "Migrating or designing a cloud solution requires translating business needs and technical constraints into a viable, secure and operable architecture."],
+    contribution: ["Levantamiento de requisitos, diseño de alternativas, troubleshooting, planificación de migraciones y trabajo con servicios de GCP, AWS y Azure.", "Requirements discovery, solution design, troubleshooting, migration planning and work with GCP, AWS and Azure services."],
+    features: [
+      ["Análisis técnico y levantamiento de requisitos para soluciones cloud.", "Technical analysis and requirements discovery for cloud solutions."],
+      ["Arquitecturas y planes de migración considerando aplicaciones, datos y operación.", "Architectures and migration plans considering applications, data and operations."],
+      ["Uso de contenedores y herramientas como Docker/Kubernetes cuando el escenario lo requería.", "Use of containers and tools such as Docker/Kubernetes when the scenario required them."],
+      ["Troubleshooting y comunicación técnica para conectar equipos comerciales y de ingeniería.", "Troubleshooting and technical communication connecting commercial and engineering teams."],
+    ],
+    decisions: [
+      ["Comenzar por restricciones y objetivos antes de seleccionar servicios cloud.", "Start with constraints and goals before selecting cloud services."],
+      ["Diseñar migraciones por etapas para reducir riesgo operacional.", "Design migrations in stages to reduce operational risk."],
+      ["Documentar supuestos y dependencias para que la arquitectura pueda ser evaluada y ejecutada.", "Document assumptions and dependencies so the architecture can be evaluated and executed."],
+    ],
+    validation: ["Este caso resume mi participación profesional en arquitectura y preventa técnica; no representa una única migración ni expone información confidencial de clientes.", "This case summarizes my professional participation in architecture and technical pre-sales; it does not represent a single migration or expose confidential client information."],
+    stack: ["GCP", "AWS", "Azure", "Docker", "Kubernetes", "Arquitectura cloud", "Migraciones"],
+  },
+  {
+    id: "wake-on-lan", number: "17", name: "Wake-on-LAN Home Automation", category: "cloud", year: "2026", visual: "maya", cover: "/assets/projects/wake-on-lan.svg",
+    type: ["Proyecto personal · Automatización", "Personal project · Automation"], status: ["Configurado y probado por etapas", "Configured and tested in stages"],
+    headline: ["Encender un equipo también puede automatizarse.", "Even powering on a computer can be automated."],
+    description: ["Proyecto personal para encender y controlar un PC remotamente mediante Wake-on-LAN, red doméstica y herramientas de automatización.", "A personal project for remotely powering on and controlling a PC through Wake-on-LAN, a home network and automation tools."],
+    problem: ["Acceder de forma remota a un PC apagado requiere coordinación entre firmware, adaptador de red, router y una ruta segura para enviar la señal de encendido.", "Remotely reaching a powered-off PC requires coordination between firmware, the network adapter, router and a safe path for the wake signal."],
+    contribution: ["Configuración y pruebas de Wake-on-LAN con router Archer C80, exploración de integración con Alexa y herramientas de control como PC Commander y Push2Run.", "Wake-on-LAN configuration and testing with an Archer C80 router, plus exploration of Alexa integration and control tools such as PC Commander and Push2Run."],
+    features: [
+      ["Configuración de Wake-on-LAN entre PC, BIOS/UEFI, adaptador y red local.", "Wake-on-LAN configuration across the PC, BIOS/UEFI, network adapter and LAN."],
+      ["Pruebas de encendido remoto y rutas de automatización doméstica.", "Remote wake testing and home-automation paths."],
+      ["Exploración de comandos por voz y acciones posteriores al encendido.", "Exploration of voice commands and post-wake actions."],
+    ],
+    decisions: [
+      ["Validar primero Wake-on-LAN dentro de la red antes de agregar capas de automatización.", "Validate Wake-on-LAN inside the local network before adding automation layers."],
+      ["Mantener separadas las credenciales y accesos remotos de la simple señal de encendido.", "Keep credentials and remote access separate from the wake signal itself."],
+    ],
+    validation: ["El proyecto documenta configuración y pruebas personales. La disponibilidad desde fuera de la red depende del router, ISP y mecanismo remoto usado.", "The project documents personal configuration and testing. Availability from outside the network depends on the router, ISP and remote mechanism used."],
+    stack: ["Wake-on-LAN", "LAN", "Archer C80", "Alexa", "PC Commander", "Push2Run", "Automatización"],
+  },
+  {
+    id: "dev-minds", number: "18", name: "Dev-Minds", category: "education", year: "2026", visual: "edtech", cover: "/assets/projects/dev-minds.svg",
+    type: ["Proyecto educativo · Dirección", "Education project · Lead"], status: ["Centro de interés en ejecución", "Learning initiative in progress"],
+    headline: ["Tecnología que se aprende construyendo.", "Technology learned by building."],
+    description: ["Centro de Interés que dirijo para acercar programación, pensamiento computacional y trabajo STEAM a estudiantes mediante actividades y proyectos.", "A learning initiative I lead to bring programming, computational thinking and STEAM work to students through activities and projects."],
+    problem: ["La enseñanza de tecnología gana sentido cuando el estudiante puede relacionar conceptos con problemas, prototipos y resultados que puede observar.", "Technology education becomes more meaningful when students connect concepts with problems, prototypes and results they can observe."],
+    contribution: ["Dirección del Centro de Interés, diseño de actividades, acompañamiento de proyectos y articulación de pensamiento computacional, ABP y STEAM.", "Leadership of the learning initiative, activity design, project guidance and integration of computational thinking, project-based learning and STEAM."],
+    features: [
+      ["Actividades de programación y pensamiento computacional con enfoque progresivo.", "Programming and computational-thinking activities with a progressive approach."],
+      ["Proyectos ABP/STEAM vinculados con problemas y productos observables.", "PBL/STEAM projects connected to problems and observable outcomes."],
+      ["Uso de herramientas digitales para evaluación, seguimiento y participación.", "Use of digital tools for assessment, tracking and participation."],
+    ],
+    decisions: [
+      ["Priorizar aprendizaje basado en proyectos sobre actividades aisladas.", "Prioritize project-based learning over isolated activities."],
+      ["Ajustar la complejidad de las herramientas al grado y a los recursos disponibles.", "Match tool complexity to the grade level and available resources."],
+    ],
+    validation: ["Dev-Minds forma parte de mi trabajo docente y de liderazgo tecnológico. Los productos específicos dependen de cada grupo y periodo académico.", "Dev-Minds is part of my teaching and technology-leadership work. Specific outputs depend on each student group and academic period."],
+    stack: ["STEAM", "ABP / PBL", "Pensamiento computacional", "Programación", "Evaluación digital"],
+  },
+  {
+    id: "digital-security", number: "19", name: "Digital Citizenship & Security", category: "education", year: "2026", visual: "license", cover: "/assets/projects/digital-security.svg",
+    type: ["Proyecto educativo · Seguridad digital", "Education project · Digital security"], status: ["Diseñado para aula", "Designed for classroom use"],
+    headline: ["Usar tecnología también implica saber protegerse.", "Using technology also means knowing how to stay safe."],
+    description: ["Secuencia educativa sobre identidad digital, riesgos, violencia digital, estafas, malware, privacidad y protección de información.", "An educational sequence covering digital identity, risks, online violence, scams, malware, privacy and information protection."],
+    problem: ["Los estudiantes usan servicios digitales todos los días, pero necesitan criterios prácticos para reconocer riesgos y tomar mejores decisiones de seguridad y convivencia.", "Students use digital services every day but need practical criteria to recognize risks and make better security and online-behavior decisions."],
+    contribution: ["Diseño de unidades, actividades, evaluaciones y productos de aula conectando ciudadanía digital con pensamiento computacional y análisis de casos.", "Design of units, activities, assessments and classroom outputs connecting digital citizenship with computational thinking and case analysis."],
+    features: [
+      ["Identidad digital, privacidad y protección de datos personales.", "Digital identity, privacy and personal-data protection."],
+      ["Reconocimiento de estafas, malware y prácticas de seguridad cotidiana.", "Recognition of scams, malware and everyday security practices."],
+      ["Violencia digital, convivencia y responsabilidad en plataformas en línea.", "Online violence, digital citizenship and responsible behavior on platforms."],
+      ["Actividades, campañas e infografías como productos de aprendizaje.", "Activities, campaigns and infographics as learning outputs."],
+    ],
+    decisions: [
+      ["Trabajar con escenarios cotidianos para convertir conceptos de seguridad en decisiones concretas.", "Use everyday scenarios to turn security concepts into concrete decisions."],
+      ["Evitar enseñar solo herramientas y priorizar principios que sigan siendo útiles aunque cambien las plataformas.", "Avoid teaching only specific tools and prioritize principles that remain useful as platforms change."],
+    ],
+    validation: ["El proyecto está integrado a planeaciones de Tecnología e Informática y se evalúa mediante productos, actividades y evidencias de aula.", "The project is integrated into Technology and Computing lesson plans and assessed through classroom products, activities and evidence."],
+    stack: ["Ciudadanía digital", "Seguridad digital", "Privacidad", "Pensamiento computacional", "ABP / PBL"],
+  },
+  {
+    id: "cloud-delivery", number: "22", name: "Cloud, CI/CD & Delivery Engineering", category: "cloud", year: "2018—2026", visual: "containers", cover: "/assets/projects/cloud-delivery.svg",
+    type: ["Práctica transversal · Cloud & DevOps", "Cross-project practice · Cloud & DevOps"], status: ["Experiencia aplicada en múltiples proyectos", "Applied across multiple projects"],
+    headline: ["El software no termina cuando compila.", "Software does not end when it compiles."],
+    description: ["Trabajo transversal de despliegue, automatización, control de calidad y operación usando servicios cloud, repositorios y pipelines.", "Cross-project work in deployment, automation, quality control and operations using cloud services, repositories and pipelines."],
+    problem: ["Un producto necesita builds reproducibles, validaciones, entornos y una ruta de despliegue que reduzca errores entre desarrollo y producción.", "A product needs reproducible builds, validations, environments and a deployment path that reduces errors between development and production."],
+    contribution: ["Configuración y uso de Git/GitHub, Vercel, Supabase, Firebase, GCP, AWS, Azure, Docker, Kubernetes y Azure DevOps según el contexto del proyecto.", "Configuration and use of Git/GitHub, Vercel, Supabase, Firebase, GCP, AWS, Azure, Docker, Kubernetes and Azure DevOps depending on project context."],
+    features: [
+      ["Validaciones de TypeScript, lint, tests y build antes de liberar cambios.", "TypeScript, lint, test and build checks before releasing changes."],
+      ["Despliegues web y backend en servicios administrados y cloud.", "Web and backend deployments on managed and cloud services."],
+      ["Migraciones SQL, políticas RLS y administración de configuración en proyectos con Supabase.", "SQL migrations, RLS policies and configuration management in Supabase projects."],
+      ["Pipelines y prácticas CI/CD para reducir trabajo manual y detectar errores temprano.", "CI/CD pipelines and practices to reduce manual work and detect errors early."],
+    ],
+    decisions: [
+      ["Usar validaciones automatizadas como condición previa al despliegue.", "Use automated checks as a prerequisite for deployment."],
+      ["Mantener secretos y configuración fuera del código fuente cuando el producto los requiere.", "Keep secrets and configuration out of source code when the product requires them."],
+      ["Adaptar la complejidad de infraestructura al tamaño y necesidades reales del producto.", "Match infrastructure complexity to the product's actual scale and needs."],
+    ],
+    validation: ["Este caso agrupa prácticas aplicadas en distintos productos y empleos; no pretende representar un único sistema o una sola infraestructura.", "This case groups practices applied across different products and roles; it does not represent a single system or infrastructure."],
+    stack: ["Git / GitHub", "CI/CD", "Vercel", "Supabase", "Firebase", "GCP", "AWS", "Azure", "Docker", "Kubernetes", "Azure DevOps"],
+  },
+
 ];
 
 export const experience = [

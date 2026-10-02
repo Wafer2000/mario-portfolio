@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+<defs><pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="#2b3036" stroke-width="1"/></pattern><linearGradient id="fade" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#181b20"/><stop offset="1" stop-color="#101316"/></linearGradient></defs>
+<rect width="1200" height="720" fill="url(#fade)"/><rect width="1200" height="720" fill="url(#grid)" opacity=".48"/><circle cx="1060" cy="-20" r="240" fill="#c6f368" opacity=".06"/>
+<text x="70" y="76" fill="#c6f368" font-family="Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="4">MG / PROJECT FILE</text>
+<text x="70" y="128" fill="#f4f6f1" font-family="Arial, sans-serif" font-size="42" font-weight="800" letter-spacing="-1">CLOUD DELIVERY</text>
+<text x="72" y="163" fill="#8e98a3" font-family="Arial, sans-serif" font-size="17" font-weight="600" letter-spacing="2">CI/CD / OPERATIONS</text>
+<g transform="translate(70 0)"><path d="M170 250h260v260H170zM490 190h300v120H490zM490 350h390v160H490z" fill="none" stroke="#f4f6f1" stroke-width="5"/><path d="M430 380h60M790 380h90" stroke="#c6f368" stroke-width="10"/></g>
+<g transform="translate(160 625)"><rect width="135" height="42" rx="21" fill="#252a30" stroke="#3b444d"/><text x="67.5" y="27" text-anchor="middle" fill="#c6f368" font-size="14" font-family="Arial, sans-serif" font-weight="700">GIT</text></g><g transform="translate(315 625)"><rect width="135" height="42" rx="21" fill="#252a30" stroke="#3b444d"/><text x="67.5" y="27" text-anchor="middle" fill="#c6f368" font-size="14" font-family="Arial, sans-serif" font-weight="700">DOCKER</text></g><g transform="translate(470 625)"><rect width="135" height="42" rx="21" fill="#252a30" stroke="#3b444d"/><text x="67.5" y="27" text-anchor="middle" fill="#c6f368" font-size="14" font-family="Arial, sans-serif" font-weight="700">CI/CD</text></g>
+<text x="1110" y="666" text-anchor="end" fill="#6e7882" font-family="Arial, sans-serif" font-size="14" font-weight="700">MARIO GONSALVEZ · 2026</text>
+</svg>

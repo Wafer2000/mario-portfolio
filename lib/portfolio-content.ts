@@ -16,7 +16,7 @@ const externalUrl = z.string().max(2048).refine(value => {
 
 export const projectSchema = z.object({
   id: z.string().regex(/^[a-z0-9-]{1,80}$/), name: short.min(1), number: short,
-  category: z.enum(["web", "mobile", "ai", "desktop", "concept"]), year: short,
+  category: z.enum(["web", "mobile", "ai", "desktop", "education", "cloud", "concept"]), year: short,
   type: copy, status: copy, headline: copy, description: copy, problem: copy,
   contribution: copy, decisions: z.array(copy).max(30), features: z.array(copy).max(30),
   validation: copy, stack: z.array(short).max(40), link: externalUrl.optional(), repo: externalUrl.optional(),
