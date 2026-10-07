@@ -507,7 +507,9 @@ export const certificates = [
   { issuer: "Google Cloud", name: "Cloud Digital Leader", year: "", kind: ["Certificación histórica · Expirada", "Historical certification · Expired"] as Copy },
 ];
 
-export const featuredProjectIds = ["cloud-solutions", "maya", "commerce", "banking", "licensing"] as const;
+export const featuredProjectIds = ["cloud-solutions", "maya", "eficode-fullstack", "commerce", "banking", "licensing"] as const;
+
+export const additionalPriorityIds = ["musiclinks", "ai-global", "containers", "alerts", "cloud-delivery", "gyo-medical"] as const;
 
 export const aiCloudDirection = {
   name: "AI Cloud Platform",
