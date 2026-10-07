@@ -1,17 +1,21 @@
 export type Lang = "es" | "en";
 export type Copy = readonly [string, string];
 export const text = (value: Copy, lang: Lang) => value[lang === "es" ? 0 : 1] || value[0] || value[1];
-export type Category = "all" | "web" | "mobile" | "ai" | "desktop" | "education" | "cloud" | "concept";
+export type Category = "all" | "web" | "backend" | "mobile" | "ai" | "desktop" | "education" | "cloud" | "concept";
 export type Project = {
   id: string; name: string; number: string; category: Category; year: string;
   type: Copy; status: Copy; headline: Copy; description: Copy; problem: Copy;
   contribution: Copy; decisions: Copy[]; features: Copy[]; validation: Copy;
   stack: string[]; link?: string; repo?: string; visual: string; visible?: boolean;
   cover?: string; gallery?: { url: string; caption: Copy }[];
+  caseStudy?: {
+    context?: Copy; role?: Copy; architecture?: Copy[]; challenges?: Copy[]; security?: Copy[];
+    testing?: Copy[]; deployment?: Copy[]; results?: Copy[]; lessons?: Copy[];
+  };
 };
 export const categories: { id: Category; label: Copy }[] = [
   { id: "all", label: ["Todos", "All"] }, { id: "web", label: ["Web & Full-Stack", "Web & Full-Stack"] },
-  { id: "mobile", label: ["Mobile", "Mobile"] }, { id: "ai", label: ["IA & Agentes", "AI & Agents"] },
+  { id: "backend", label: ["Backend & APIs", "Backend & APIs"] }, { id: "mobile", label: ["Mobile", "Mobile"] }, { id: "ai", label: ["IA & Agentes", "AI & Agents"] },
   { id: "desktop", label: ["Desktop", "Desktop"] }, { id: "education", label: ["Educación & EdTech", "Education & EdTech"] },
   { id: "cloud", label: ["Cloud & Infra", "Cloud & Infra"] }, { id: "concept", label: ["Propuestas", "Proposals"] },
 ];
@@ -38,6 +42,20 @@ export const projects: Project[] = [
       ["Importaciones con identificadores estables para reintentar filas pendientes sin duplicar unidades.", "Use stable import identifiers to retry incomplete rows without duplicating devices."],
     ],
     validation: ["La entrega v3.3.78 documenta 143 pruebas de ventas, crédito/SQL, flujos, catálogos e interfaces, además de TypeScript, lint y build. La revisión usa datos de ensayo; cámara, lector e impresora requieren validación física en la instalación.", "Release v3.3.78 documents 143 tests covering sales, credit/SQL, workflows, catalogs and interfaces, plus TypeScript, lint and build checks. Reviews use test data; camera, scanner and printer require physical validation at installation."],
+    caseStudy: {
+      context: ["Operación comercial multi-tienda con inventario serializado, ventas, crédito, clientes y catálogos.", "Multi-store commercial operation with serialized inventory, sales, credit, customers and catalogs."],
+      role: ["Full-Stack Engineer responsable de evolución funcional, reglas de negocio, datos, permisos y experiencia de uso.", "Full-Stack Engineer responsible for functional evolution, business rules, data, permissions and user experience."],
+      architecture: [
+        ["Next.js/React y TypeScript para la aplicación web y PWA.", "Next.js/React and TypeScript for the web application and PWA."],
+        ["Supabase/PostgreSQL para persistencia, autenticación, permisos y lógica de datos.", "Supabase/PostgreSQL for persistence, authentication, permissions and data logic."],
+        ["ExcelJS e integraciones de cámara/lector/impresión alrededor de los flujos operativos.", "ExcelJS plus camera/scanner/printing integrations around operational workflows."],
+      ],
+      challenges: [["Mantener consistencia entre stock, ventas, crédito y cancelaciones dentro de una operación multi-tienda.", "Keep inventory, sales, credit and cancellations consistent across a multi-store operation."], ["Evitar duplicados y respuestas obsoletas en importaciones y búsquedas asíncronas.", "Avoid duplicates and stale responses in imports and asynchronous searches."]],
+      security: [["Separación de empresa, usuario y rol en las consultas y flujos sensibles.", "Company, user and role separation across queries and sensitive workflows."], ["Auditoría y trazabilidad para operaciones como ventas y cancelaciones.", "Auditability and traceability for operations such as sales and cancellations."]],
+      testing: [["La versión v3.3.78 documenta 143 pruebas, además de TypeScript, lint y build.", "Release v3.3.78 documents 143 tests plus TypeScript, lint and build checks."]],
+      deployment: [["Aplicación desplegada en Vercel; validaciones físicas de cámara, lector e impresora se realizan en instalación.", "Application deployed on Vercel; camera, scanner and printer require physical validation at installation."]],
+      results: [["Producto operativo que centraliza inventario, ventas, clientes, crédito, reportes y catálogos en una misma plataforma.", "Operational product centralizing inventory, sales, customers, credit, reports and catalogs in one platform."]],
+    },
     stack: ["Next.js", "React", "TypeScript", "Supabase", "PostgreSQL", "PWA", "ExcelJS"],
     link: "https://apple-device-inventory.vercel.app", repo: "https://github.com/Wafer2000/apple-device-inventory",
   },
@@ -60,6 +78,15 @@ export const projects: Project[] = [
       ["Las claves privadas permanecen en su dispositivo; el servidor conserva las claves públicas.", "Private keys stay on the device; the server stores public keys."],
     ],
     validation: ["El paquete v0.7.3 incluye suites de evaluación de núcleo, seguridad, memoria, SQLite, coordinación y worker. La visión, voz y expansión del acceso remoto forman parte de la evolución del proyecto.", "The v0.7.3 package includes evaluation suites for core behavior, security, memory, SQLite, coordination and the worker. Vision, voice and expanded remote access remain part of the roadmap."],
+    caseStudy: {
+      context: ["Agente local experimental orientado a operar herramientas, memoria y coordinación entre dispositivos sin ceder el control de ejecución.", "Experimental local agent focused on tools, memory and device coordination without giving up execution control."],
+      role: ["Diseño del runtime y desarrollo incremental de herramientas, memoria, sesiones, política, identidad y coordinación remota.", "Runtime design and incremental development of tools, memory, sessions, policy, identity and remote coordination."],
+      architecture: [["Ollama ejecuta modelos locales; un registro de herramientas conecta archivos, Git y terminal.", "Ollama runs local models; a tool registry connects files, Git and terminal."], ["SQLite conserva memoria y sesiones locales, mientras HTTP/WebSocket coordina tareas remotas.", "SQLite stores local memory and sessions while HTTP/WebSocket coordinates remote tasks."], ["El worker aplica política local antes de ejecutar acciones.", "The worker enforces local policy before executing actions."]],
+      challenges: [["Coordinar equipos y herramientas sin convertir el agente en un ejecutor sin límites.", "Coordinate devices and tools without turning the agent into an unrestricted executor."], ["Separar estado local, coordinación remota e identidad para que cada capa pueda evolucionar.", "Separate local state, remote coordination and identity so each layer can evolve independently."]],
+      security: [["Identidad Ed25519, códigos de emparejamiento de un solo uso y protección contra replay.", "Ed25519 identity, one-time pairing codes and replay protection."], ["Claves privadas permanecen en el dispositivo y las acciones sensibles pueden requerir aprobación local.", "Private keys remain on-device and sensitive actions can require local approval."]],
+      testing: [["El paquete v0.7.3 incluye suites para núcleo, seguridad, memoria, SQLite, coordinación y worker.", "The v0.7.3 package includes suites for core behavior, security, memory, SQLite, coordination and the worker."]],
+      results: [["Prototipo funcional con arquitectura local-first y una base para voz, visión y expansión de acceso remoto.", "Functional local-first prototype with a foundation for voice, vision and expanded remote access."]],
+    },
     stack: ["Node.js", "JavaScript", "Ollama", "SQLite", "WebSocket", "Ed25519"],
   },
   {
@@ -122,6 +149,16 @@ export const projects: Project[] = [
       ["Resolver los requisitos nativos sin fragmentar la experiencia multiplataforma.", "Address native requirements without fragmenting the cross-platform experience."],
     ],
     validation: ["Experiencia profesional en aplicaciones bancarias productivas. El caso describe mi contribución al equipo; no publica código, datos operativos ni pantallas internas del cliente.", "Professional experience in production banking applications. This case describes my team contribution without publishing client source code, operational data or internal screens."],
+    caseStudy: {
+      context: ["Software financiero móvil en producción para Android/iOS dentro de equipos empresariales.", "Production financial mobile software for Android/iOS within enterprise teams."],
+      role: ["Senior Flutter Developer en EPAM, participando en funcionalidades, integraciones, debugging, code review, refactoring, pruebas y entrega continua.", "Senior Flutter Developer at EPAM contributing features, integrations, debugging, code review, refactoring, testing and continuous delivery."],
+      architecture: [["Flutter/Dart con BLoC/Riverpod para separar presentación y lógica de negocio.", "Flutter/Dart with BLoC/Riverpod to separate presentation and business logic."], ["APIs REST, WebSockets y servicios Firebase/GCP conectan capacidades financieras.", "REST APIs, WebSockets and Firebase/GCP services connect financial capabilities."], ["Kotlin, Swift y Platform Channels cubren integraciones nativas específicas.", "Kotlin, Swift and Platform Channels cover platform-specific integrations."]],
+      challenges: [["Mantener una experiencia consistente entre Android/iOS mientras se integran reglas financieras y capacidades nativas.", "Keep a consistent Android/iOS experience while integrating financial rules and native capabilities."]],
+      security: [["El trabajo se realiza dentro de requisitos de seguridad móvil y confidencialidad propios del software financiero.", "The work operates under mobile-security and confidentiality requirements typical of financial software."]],
+      testing: [["Pruebas, revisión de código, debugging y refactoring forman parte del flujo de entrega.", "Testing, code review, debugging and refactoring are part of the delivery workflow."]],
+      deployment: [["Pipelines de CI/CD con Git y Azure DevOps para software que llega a producción.", "CI/CD pipelines with Git and Azure DevOps for software delivered to production."]],
+      results: [["Contribución continua a servicios bancarios, Bre-B para personas y empresas y soluciones para Pymes.", "Ongoing contribution to banking services, Bre-B for individuals and businesses, and SME solutions."]],
+    },
     stack: ["Flutter", "Dart", "BLoC", "Riverpod", "Kotlin", "Swift", "REST", "Azure DevOps"],
   },
   {
@@ -144,7 +181,7 @@ export const projects: Project[] = [
     stack: ["Next.js", "React", "TypeScript", "Supabase Auth", "PostgreSQL", "Storage"],
   },
   {
-    id: "licensing", number: "07", name: "MusicLinks Licensing", category: "desktop", year: "2026", visual: "license",
+    id: "licensing", number: "07", name: "MusicLinks Licensing", category: "backend", year: "2026", visual: "license",
     type: ["Módulo de producto · Licencias", "Product module · Licensing"], status: ["Generación probada", "Generation tested"],
     headline: ["Una licencia. Un dispositivo.", "One license. One device."],
     description: ["Generador administrativo y backend de licencias mensuales y anuales con duración desde la primera activación.", "Administrative generator and monthly/annual license backend with duration starting at first activation."],
@@ -160,6 +197,15 @@ export const projects: Project[] = [
       ["Separar las funciones administrativas de los endpoints usados por la aplicación.", "Separate administrative functions from the endpoints used by the application."],
     ],
     validation: ["La generación mensual/anual y los errores de plan, email y autenticación fueron probados. El flujo completo de activación y expiración quedó pendiente de prueba manual en el registro más reciente.", "Monthly/annual generation and plan, email and authentication errors were tested. The latest record leaves the complete activation/expiration flow pending manual testing."],
+    caseStudy: {
+      context: ["Backend y herramienta administrativa para comercializar MusicLinks con licencias por dispositivo y vigencia controlada.", "Backend and administrative tooling to commercialize MusicLinks with device-bound licenses and controlled validity."],
+      role: ["Diseño e implementación del generador administrativo, modelo de licencias y funciones de generación, activación y validación.", "Design and implementation of the administrative generator, license model, and issuance, activation and validation functions."],
+      architecture: [["Supabase y Edge Functions concentran generación, activación y validación.", "Supabase and Edge Functions handle issuance, activation and validation."], ["El cliente Windows conserva estado local protegido con DPAPI y usa una huella de dispositivo.", "The Windows client keeps DPAPI-protected local state and uses a device fingerprint."], ["Las funciones administrativas están separadas de los endpoints consumidos por la aplicación.", "Administrative functions are separated from application-facing endpoints."]],
+      challenges: [["Iniciar vigencia en la primera activación sin extenderla durante revalidaciones y conservar licencias heredadas.", "Start validity on first activation without extending it during revalidation while preserving legacy licenses."]],
+      security: [["Token administrativo separado, vínculo por dispositivo y estado local protegido con DPAPI.", "Separate administrative token, device binding and DPAPI-protected local state."]],
+      testing: [["Se probaron generación mensual/anual y errores de plan, email y autenticación; el ciclo completo de expiración sigue marcado para prueba manual.", "Monthly/annual generation plus plan, email and authentication errors were tested; the full expiration lifecycle remains flagged for manual testing."]],
+      results: [["Generación de licencias mensuales y anuales probada con un dispositivo por licencia.", "Monthly and annual license generation tested with one device per license."]],
+    },
     stack: ["PowerShell", "C# Launcher", "Supabase", "Edge Functions", "TypeScript", "DPAPI"], repo: "https://github.com/Wafer2000/MusicLinks",
   },
   {
@@ -267,7 +313,28 @@ export const projects: Project[] = [
     stack: ["Google Apps Script", "Google Forms", "Google Sheets", "JavaScript", "Automatización"],
   },
   {
-    id: "cloud-solutions", number: "14", name: "Cloud Solutions & Migrations · Servinformación", category: "cloud", year: "2022—2024", visual: "containers", cover: "/assets/projects/cloud-solutions.svg",
+    id: "eficode-fullstack", number: "14", name: "Full-Stack Product Engineering · EFFICODE", category: "web", year: "2018—2022", visual: "global", cover: "/assets/projects/eficode-fullstack.svg",
+    type: ["Participación profesional · Full-Stack", "Professional participation · Full-Stack"], status: ["Experiencia profesional completada", "Completed professional experience"],
+    headline: ["Mobile, web y backend conectados.", "Mobile, web and backend connected."],
+    description: ["Conjunto de soluciones desarrolladas durante mi etapa como Full-Stack Developer, combinando aplicaciones móviles, frontends web, APIs e integraciones.", "A set of solutions developed during my time as a Full-Stack Developer, combining mobile applications, web frontends, APIs and integrations."],
+    problem: ["Los productos empresariales suelen requerir varias capas trabajando juntas: experiencia móvil/web, reglas de negocio, datos, autenticación e integraciones externas.", "Enterprise products often require multiple layers working together: mobile/web experiences, business rules, data, authentication and external integrations."],
+    contribution: ["Desarrollo Full-Stack con Flutter, Python/FastAPI, JavaScript/TypeScript y Angular, además de APIs, bases de datos, cloud e integraciones empresariales.", "Full-Stack development with Flutter, Python/FastAPI, JavaScript/TypeScript and Angular, plus APIs, databases, cloud and enterprise integrations."],
+    features: [
+      ["Aplicaciones Flutter conectadas a servicios backend y APIs REST.", "Flutter applications connected to backend services and REST APIs."],
+      ["Servicios Python/FastAPI y frontends JavaScript/TypeScript/Angular.", "Python/FastAPI services and JavaScript/TypeScript/Angular frontends."],
+      ["Persistencia SQL/NoSQL, autenticación JWT y servicios en AWS/Firebase.", "SQL/NoSQL persistence, JWT authentication and AWS/Firebase services."],
+      ["Integraciones con pagos, ERP y flujos financieros/transaccionales según el proyecto.", "Payment, ERP and financial/transactional integrations depending on the project."],
+    ],
+    decisions: [
+      ["Definir contratos claros entre frontend, mobile y backend para reducir acoplamiento.", "Define clear contracts between frontend, mobile and backend to reduce coupling."],
+      ["Aplicar pruebas y separación por capas para facilitar mantenimiento de productos en evolución.", "Apply tests and layered separation to make evolving products easier to maintain."],
+      ["Elegir servicios cloud e integraciones según necesidades reales de cada solución.", "Choose cloud services and integrations based on the actual needs of each solution."],
+    ],
+    validation: ["Se presenta como experiencia profesional agrupada. Por confidencialidad no se atribuyen nombres, datos ni detalles de clientes que no estén documentados públicamente.", "Presented as grouped professional experience. For confidentiality, no client names, data or details are attributed unless publicly documented."],
+    stack: ["Flutter", "Dart", "Python", "FastAPI", "Angular", "TypeScript", "REST", "SQL / NoSQL", "AWS", "Firebase", "SAP / Siigo"],
+  },
+  {
+    id: "cloud-solutions", number: "15", name: "Cloud Solutions & Migrations · Servinformación", category: "cloud", year: "2022—2024", visual: "containers", cover: "/assets/projects/cloud-solutions.svg",
     type: ["Participación profesional · Arquitectura cloud", "Professional participation · Cloud architecture"], status: ["Experiencia profesional completada", "Completed professional experience"],
     headline: ["Del requisito a una arquitectura desplegable.", "From requirement to deployable architecture."],
     description: ["Trabajo de análisis, diseño de soluciones cloud, arquitectura y planificación de migraciones como GCP Pre-Sales Engineer.", "Requirements analysis, cloud solution design, architecture and migration planning as a GCP Pre-Sales Engineer."],
@@ -285,10 +352,18 @@ export const projects: Project[] = [
       ["Documentar supuestos y dependencias para que la arquitectura pueda ser evaluada y ejecutada.", "Document assumptions and dependencies so the architecture can be evaluated and executed."],
     ],
     validation: ["Este caso resume mi participación profesional en arquitectura y preventa técnica; no representa una única migración ni expone información confidencial de clientes.", "This case summarizes my professional participation in architecture and technical pre-sales; it does not represent a single migration or expose confidential client information."],
+    caseStudy: {
+      context: ["Experiencia profesional en preventa técnica y arquitectura cloud, traduciendo necesidades de negocio a opciones desplegables.", "Professional experience in technical pre-sales and cloud architecture, translating business needs into deployable options."],
+      role: ["GCP Pre-Sales Engineer: levantamiento de requisitos, diseño de alternativas, troubleshooting y planificación de migraciones.", "GCP Pre-Sales Engineer: requirements discovery, solution design, troubleshooting and migration planning."],
+      architecture: [["Diseño con servicios de GCP, AWS y Azure según restricciones y objetivos del escenario.", "Design using GCP, AWS and Azure services according to scenario constraints and goals."], ["Docker y Kubernetes se incorporan cuando la necesidad de contenerización u orquestación lo justifica.", "Docker and Kubernetes are introduced when containerization or orchestration needs justify them."], ["Migraciones diseñadas por etapas para controlar dependencias y riesgo operacional.", "Migrations designed in stages to manage dependencies and operational risk."]],
+      challenges: [["Convertir requisitos comerciales y técnicos en una arquitectura que pueda evaluarse, migrarse y operarse.", "Turn business and technical requirements into an architecture that can be evaluated, migrated and operated."]],
+      security: [["La arquitectura considera viabilidad, seguridad y operación sin exponer información confidencial de clientes.", "Architecture considers viability, security and operations without exposing confidential client information."]],
+      results: [["Experiencia aplicada en análisis cloud, diseño de soluciones y planes de migración multi-cloud.", "Applied experience in cloud analysis, solution design and multi-cloud migration planning."]],
+    },
     stack: ["GCP", "AWS", "Azure", "Docker", "Kubernetes", "Arquitectura cloud", "Migraciones"],
   },
   {
-    id: "wake-on-lan", number: "15", name: "Wake-on-LAN Home Automation", category: "cloud", year: "2026", visual: "maya", cover: "/assets/projects/wake-on-lan.svg",
+    id: "wake-on-lan", number: "16", name: "Wake-on-LAN Home Automation", category: "cloud", year: "2026", visual: "maya", cover: "/assets/projects/wake-on-lan.svg",
     type: ["Proyecto personal · Automatización", "Personal project · Automation"], status: ["Configurado y probado por etapas", "Configured and tested in stages"],
     headline: ["Encender un equipo también puede automatizarse.", "Even powering on a computer can be automated."],
     description: ["Proyecto personal para encender y controlar un PC remotamente mediante Wake-on-LAN, red doméstica y herramientas de automatización.", "A personal project for remotely powering on and controlling a PC through Wake-on-LAN, a home network and automation tools."],
@@ -307,7 +382,7 @@ export const projects: Project[] = [
     stack: ["Wake-on-LAN", "LAN", "Archer C80", "Alexa", "PC Commander", "Push2Run", "Automatización"],
   },
   {
-    id: "dev-minds", number: "16", name: "Dev-Minds", category: "education", year: "2026", visual: "edtech", cover: "/assets/projects/dev-minds.svg",
+    id: "dev-minds", number: "17", name: "Dev-Minds", category: "education", year: "2026", visual: "edtech", cover: "/assets/projects/dev-minds.svg",
     type: ["Proyecto educativo · Dirección", "Education project · Lead"], status: ["Centro de interés en ejecución", "Learning initiative in progress"],
     headline: ["Tecnología que se aprende construyendo.", "Technology learned by building."],
     description: ["Centro de Interés que dirijo para acercar programación, pensamiento computacional y trabajo STEAM a estudiantes mediante actividades y proyectos.", "A learning initiative I lead to bring programming, computational thinking and STEAM work to students through activities and projects."],
@@ -326,7 +401,7 @@ export const projects: Project[] = [
     stack: ["STEAM", "ABP / PBL", "Pensamiento computacional", "Programación", "Evaluación digital"],
   },
   {
-    id: "digital-security", number: "17", name: "Digital Citizenship & Security", category: "education", year: "2026", visual: "license", cover: "/assets/projects/digital-security.svg",
+    id: "digital-security", number: "18", name: "Digital Citizenship & Security", category: "education", year: "2026", visual: "license", cover: "/assets/projects/digital-security.svg",
     type: ["Proyecto educativo · Seguridad digital", "Education project · Digital security"], status: ["Diseñado para aula", "Designed for classroom use"],
     headline: ["Usar tecnología también implica saber protegerse.", "Using technology also means knowing how to stay safe."],
     description: ["Secuencia educativa sobre identidad digital, riesgos, violencia digital, estafas, malware, privacidad y protección de información.", "An educational sequence covering digital identity, risks, online violence, scams, malware, privacy and information protection."],
@@ -346,7 +421,45 @@ export const projects: Project[] = [
     stack: ["Ciudadanía digital", "Seguridad digital", "Privacidad", "Pensamiento computacional", "ABP / PBL"],
   },
   {
-    id: "cloud-delivery", number: "18", name: "Cloud, CI/CD & Delivery Engineering", category: "cloud", year: "2018—2026", visual: "containers", cover: "/assets/projects/cloud-delivery.svg",
+    id: "microbit-arduino", number: "19", name: "Computational Thinking · micro:bit & Arduino", category: "education", year: "2026", visual: "maya", cover: "/assets/projects/microbit-arduino.svg",
+    type: ["Proyecto educativo · STEAM", "Education project · STEAM"], status: ["Planeado e integrado al currículo", "Planned and integrated into the curriculum"],
+    headline: ["Del algoritmo al prototipo.", "From algorithm to prototype."],
+    description: ["Línea de actividades que conecta descomposición, patrones, algoritmos y evaluación de soluciones con prototipos usando micro:bit y Arduino.", "A set of activities connecting decomposition, patterns, algorithms and solution evaluation with prototypes using micro:bit and Arduino."],
+    problem: ["El pensamiento computacional puede quedarse abstracto si el estudiante no ve cómo un algoritmo controla o explica el comportamiento de un sistema real.", "Computational thinking can remain abstract if students do not see how an algorithm controls or explains the behavior of a real system."],
+    contribution: ["Diseño de la progresión didáctica y de cierres STEAM que llevan conceptos de pensamiento computacional hacia prototipos físicos y evaluación de soluciones.", "Design of the learning progression and STEAM final projects that move computational-thinking concepts toward physical prototypes and solution evaluation."],
+    features: [
+      ["Descomposición de problemas, reconocimiento de patrones y construcción de algoritmos.", "Problem decomposition, pattern recognition and algorithm construction."],
+      ["Prototipos y actividades con micro:bit/Arduino según disponibilidad del aula.", "Prototypes and activities with micro:bit/Arduino depending on classroom availability."],
+      ["Evaluación de resultados y mejora iterativa de soluciones.", "Result evaluation and iterative improvement of solutions."],
+    ],
+    decisions: [
+      ["Enseñar primero el razonamiento y luego la herramienta de hardware.", "Teach the reasoning first and the hardware tool second."],
+      ["Trabajar con prototipos pequeños que puedan probarse y mejorarse dentro del tiempo de clase.", "Use small prototypes that can be tested and improved within class time."],
+    ],
+    validation: ["La línea está incorporada a la planeación de pensamiento computacional/STEAM; el hardware utilizado puede variar según los recursos disponibles.", "The line is incorporated into computational-thinking/STEAM planning; hardware can vary depending on available resources."],
+    stack: ["micro:bit", "Arduino", "STEAM", "Pensamiento computacional", "Algoritmos", "Prototipado"],
+  },
+  {
+    id: "university-apps", number: "20", name: "University Mobile & Web Apps", category: "mobile", year: "Formación / Studies", visual: "banking", cover: "/assets/projects/university-apps.svg",
+    type: ["Proyectos académicos · Ingeniería de Sistemas", "Academic projects · Systems Engineering"], status: ["Proyectos de formación", "Training projects"],
+    headline: ["Aprender software construyendo software.", "Learning software by building software."],
+    description: ["Aplicaciones y ejercicios académicos desarrollados durante mi formación en Ingeniería de Sistemas, incluyendo experiencias con Ionic y Firebase.", "Applications and academic exercises developed during my Systems Engineering studies, including work with Ionic and Firebase."],
+    problem: ["La formación técnica requiere pasar de conceptos a implementaciones donde interfaz, datos y lógica funcionen juntos.", "Technical education requires moving from concepts to implementations where interface, data and logic work together."],
+    contribution: ["Participación en proyectos académicos de desarrollo móvil/web y práctica de integración entre frontend, persistencia y servicios en la nube.", "Participation in academic mobile/web development projects and practice integrating frontend, persistence and cloud services."],
+    features: [
+      ["Aplicaciones híbridas y prototipos móviles con Ionic Framework.", "Hybrid applications and mobile prototypes with Ionic Framework."],
+      ["Persistencia y servicios con Firebase en ejercicios académicos.", "Persistence and services with Firebase in academic exercises."],
+      ["Práctica de análisis, implementación y presentación de soluciones de software.", "Practice in analyzing, implementing and presenting software solutions."],
+    ],
+    decisions: [
+      ["Usar los proyectos académicos como espacio para integrar varias capas de una aplicación.", "Use academic projects as a space to integrate multiple application layers."],
+      ["Priorizar prototipos funcionales que permitan validar conceptos del curso.", "Prioritize functional prototypes that validate course concepts."],
+    ],
+    validation: ["Se presenta como una agrupación de proyectos de formación. El historial disponible no conserva nombres y alcance suficiente de cada aplicación individual para detallarlas sin inventar información.", "Presented as a group of training projects. The available history does not preserve enough names and scope for each individual application to describe them without inventing details."],
+    stack: ["Ionic Framework", "Firebase", "Mobile", "Web", "Ingeniería de Sistemas"],
+  },
+  {
+    id: "cloud-delivery", number: "21", name: "Cloud, CI/CD & Delivery Engineering", category: "cloud", year: "2018—2026", visual: "containers", cover: "/assets/projects/cloud-delivery.svg",
     type: ["Práctica transversal · Cloud & DevOps", "Cross-project practice · Cloud & DevOps"], status: ["Experiencia aplicada en múltiples proyectos", "Applied across multiple projects"],
     headline: ["El software no termina cuando compila.", "Software does not end when it compiles."],
     description: ["Trabajo transversal de despliegue, automatización, control de calidad y operación usando servicios cloud, repositorios y pipelines.", "Cross-project work in deployment, automation, quality control and operations using cloud services, repositories and pipelines."],
@@ -370,29 +483,40 @@ export const projects: Project[] = [
 ];
 
 export const experience = [
-  { company: "EPAM", role: "Senior Flutter Developer", dates: ["Junio 2025 — Actualidad", "June 2025 — Present"] as Copy, description: ["Soluciones bancarias móviles. Flutter/Dart, BLoC/Riverpod, APIs, integraciones Android/iOS, pruebas y CI/CD.", "Mobile banking solutions. Flutter/Dart, BLoC/Riverpod, APIs, Android/iOS integrations, tests and CI/CD."] as Copy, current: true },
-  { company: "Periferia IT Group", role: "Semi Senior Flutter Mobile Developer", dates: ["Noviembre 2024 — Junio 2025", "November 2024 — June 2025"] as Copy, description: ["Aplicaciones Android/iOS, APIs REST y WebSockets, Firebase, SQLite y gestión de estado. Testing, debugging y refactoring.", "Android/iOS applications, REST APIs and WebSockets, Firebase, SQLite and state management. Testing, debugging and refactoring."] as Copy },
-  { company: "Servinformación", role: "GCP Pre-Sales Engineer", dates: ["Octubre 2022 — Enero 2024", "October 2022 — January 2024"] as Copy, description: ["Análisis de requisitos, diseño de soluciones cloud, arquitectura y planificación de migraciones. GCP, AWS, Azure, Docker y Kubernetes.", "Requirements analysis, cloud solution design, architecture and migration planning. GCP, AWS, Azure, Docker and Kubernetes."] as Copy },
-  { company: "EFFICODE", role: "Full-Stack Developer", dates: ["Febrero 2018 — Septiembre 2022", "February 2018 — September 2022"] as Copy, description: ["Mobile, web y servicios con Flutter, Python/FastAPI, JavaScript/TypeScript y Angular. APIs, JWT, SQL/NoSQL, AWS/Firebase y pruebas Pytest/Jest.", "Mobile, web and services using Flutter, Python/FastAPI, JavaScript/TypeScript and Angular. APIs, JWT, SQL/NoSQL, AWS/Firebase and Pytest/Jest tests."] as Copy },
+  { company: "EPAM", role: "Senior Flutter Developer", dates: ["Junio 2025 — Actualidad", "June 2025 — Present"] as Copy, description: ["Ingeniería de software móvil en productos bancarios en producción: Flutter/Dart, APIs, CI/CD, testing, code review e integraciones nativas Android/iOS con Kotlin, Swift y Platform Channels.", "Mobile software engineering for production banking products: Flutter/Dart, APIs, CI/CD, testing, code review and native Android/iOS integrations with Kotlin, Swift and Platform Channels."] as Copy, current: true },
+  { company: "Periferia IT Group", role: "Semi Senior Flutter Mobile Developer", dates: ["Noviembre 2024 — Junio 2025", "November 2024 — June 2025"] as Copy, description: ["Desarrollo Android/iOS con Flutter, APIs REST, WebSockets, Firebase y SQLite. Trabajo en arquitectura, gestión de estado, testing, debugging y refactoring.", "Android/iOS development with Flutter, REST APIs, WebSockets, Firebase and SQLite. Work across architecture, state management, testing, debugging and refactoring."] as Copy },
+  { company: "Servinformación", role: "GCP Pre-Sales Engineer", dates: ["Octubre 2022 — Enero 2024", "October 2022 — January 2024"] as Copy, description: ["Arquitectura cloud, levantamiento de requisitos, diseño de soluciones y planificación de migraciones con GCP, AWS y Azure; Docker/Kubernetes cuando el escenario lo requería.", "Cloud architecture, requirements discovery, solution design and migration planning with GCP, AWS and Azure; Docker/Kubernetes when the scenario required them."] as Copy },
+  { company: "EFFICODE", role: "Full-Stack Developer", dates: ["Febrero 2018 — Septiembre 2022", "February 2018 — September 2022"] as Copy, description: ["Ingeniería Full-Stack con Python/FastAPI, JavaScript/TypeScript, Angular y Flutter. APIs, JWT, SQL/NoSQL, AWS/Firebase, testing con Pytest/Jest e integraciones empresariales.", "Full-Stack engineering with Python/FastAPI, JavaScript/TypeScript, Angular and Flutter. APIs, JWT, SQL/NoSQL, AWS/Firebase, Pytest/Jest testing and enterprise integrations."] as Copy },
 ];
 
 export const expertise = [
-  { title: ["Mobile", "Mobile"] as Copy, note: ["Una base de código. La profundidad nativa que hace falta.", "One codebase. Native depth where it matters."] as Copy, items: ["Flutter", "Dart", "BLoC", "Riverpod", "Provider", "FlutterFlow", "Kotlin", "Swift", "Platform Channels", "BLE / GATT", "Android / iOS"] },
-  { title: ["Web, APIs & Datos", "Web, APIs & Data"] as Copy, note: ["Del flujo de usuario a las reglas del negocio.", "From user flows to business rules."] as Copy, items: ["Next.js", "React", "Angular", "JavaScript", "TypeScript", "Python", "FastAPI", "Node.js", "REST", "WebSockets", "SQL / NoSQL", "PostgreSQL", "SQLite", "JWT"] },
-  { title: ["Cloud & Calidad", "Cloud & Quality"] as Copy, note: ["Arquitectura, pruebas y entrega continua.", "Architecture, testing and continuous delivery."] as Copy, items: ["GCP", "AWS", "Azure", "Firebase", "Supabase", "Docker", "Kubernetes", "Git / GitHub", "Azure DevOps", "CI/CD", "Clean Architecture", "Pytest / Jest"] },
-  { title: ["Integraciones & IA", "Integrations & AI"] as Copy, note: ["Sistemas conectados y herramientas con propósito.", "Connected systems and purposeful tools."] as Copy, items: ["Stripe / Stripe Connect", "SAP / Siigo", "Pagos / Conciliación", "Geolocalización", "Notificaciones", "Cifrado", "Ollama", "Codex", "Claude Code", "Copilot", "Cursor", "Gemini", "MCP"] },
+  { title: ["Software Engineering", "Software Engineering"] as Copy, note: ["Diseño sistemas mantenibles antes de elegir el framework.", "I design maintainable systems before choosing the framework."] as Copy, items: ["Software Architecture", "Clean Architecture", "Git / GitHub", "Testing", "CI/CD", "REST APIs", "WebSockets", "SQL / NoSQL"] },
+  { title: ["Backend & APIs", "Backend & APIs"] as Copy, note: ["Servicios, contratos y datos que sostienen el producto.", "Services, contracts and data that support the product."] as Copy, items: ["Python", "FastAPI", "TypeScript", "Node.js", "PostgreSQL", "Supabase", "REST", "WebSockets", "JWT", "Pytest / Jest"] },
+  { title: ["Cloud & Platform", "Cloud & Platform"] as Copy, note: ["Arquitectura, contenedores y entrega continua para producción.", "Architecture, containers and continuous delivery for production."] as Copy, items: ["GCP", "AWS", "Azure", "Docker", "Kubernetes", "Vercel", "Firebase", "Azure DevOps", "GitHub Actions", "CI/CD"] },
+  { title: ["Mobile Engineering", "Mobile Engineering"] as Copy, note: ["Flutter como especialidad fuerte, con profundidad nativa cuando hace falta.", "Flutter as a strong specialty, with native depth where it matters."] as Copy, items: ["Flutter", "Dart", "BLoC", "Riverpod", "Provider", "Kotlin", "Swift", "Platform Channels", "Android / iOS"] },
+  { title: ["AI Engineering", "AI Engineering"] as Copy, note: ["Agentes, modelos locales e integración de IA con controles de ejecución.", "Agents, local models and AI integration with execution controls."] as Copy, items: ["OpenAI API", "Ollama", "Agents", "RAG", "Embeddings", "MCP", "Codex", "Gemini", "AI Engineering"] },
 ];
 
 export const certificates = [
-  { issuer: "OpenAI", name: "API Deployment Practitioner", year: "2026", kind: ["Credencial completada", "Completed credential"] as Copy },
-  { issuer: "OpenAI", name: "Codex Deployment Practitioner", year: "2026", kind: ["Credencial completada", "Completed credential"] as Copy },
-  { issuer: "OpenAI", name: "Technical Practitioner", year: "2026", kind: ["Credencial completada", "Completed credential"] as Copy },
-  { issuer: "OpenAI", name: "Cyber Deployment Practitioner", year: "2026", kind: ["Credencial completada", "Completed credential"] as Copy },
-  { issuer: "OpenAI", name: "Cyber Solutions Practitioner", year: "2026", kind: ["Credencial completada", "Completed credential"] as Copy },
+  { issuer: "OpenAI", name: "Codex Deployment Practitioner", year: "2026", kind: ["Credencial prioritaria", "Priority credential"] as Copy },
+  { issuer: "OpenAI", name: "API Deployment Practitioner", year: "2026", kind: ["Credencial prioritaria", "Priority credential"] as Copy },
+  { issuer: "OpenAI", name: "Technical Practitioner", year: "2026", kind: ["Credencial prioritaria", "Priority credential"] as Copy },
+  { issuer: "OpenAI", name: "Cyber Solutions Practitioner", year: "2026", kind: ["Credencial prioritaria", "Priority credential"] as Copy },
+  { issuer: "OpenAI", name: "Cyber Deployment Practitioner", year: "2026", kind: ["Credencial prioritaria", "Priority credential"] as Copy },
   { issuer: "Google", name: "Certified Partner Specialist · Gemini Enterprise Agent Development", year: "2026", kind: ["Certificación · Vence 07/02/2027", "Certification · Expires February 7, 2027"] as Copy },
   { issuer: "Google Cloud", name: "Associate Cloud Engineer", year: "2023—2026", kind: ["Certificación histórica · Expirada", "Historical certification · Expired"] as Copy },
   { issuer: "Google Cloud", name: "Cloud Digital Leader", year: "", kind: ["Certificación histórica · Expirada", "Historical certification · Expired"] as Copy },
 ];
+
+export const featuredProjectIds = ["maya", "cloud-solutions", "commerce", "banking", "licensing"] as const;
+
+export const aiCloudDirection = {
+  name: "Enterprise AI Knowledge Platform",
+  status: ["Próximo flagship · Arquitectura objetivo", "Next flagship · Target architecture"] as Copy,
+  headline: ["Una plataforma AI Cloud para conocimiento empresarial, RAG, agentes y observabilidad.", "An AI Cloud platform for enterprise knowledge, RAG, agents and observability."] as Copy,
+  note: ["Espacio reservado para el próximo case study. Se presenta como dirección técnica planificada, no como proyecto terminado.", "Reserved for the next case study. Presented as a planned technical direction, not as a completed project."] as Copy,
+  stack: ["Next.js", "Python", "FastAPI", "PostgreSQL", "pgvector", "Redis", "OpenAI API", "RAG", "Embeddings", "Agents", "Docker", "Kubernetes", "Terraform", "GCP / AWS", "GitHub Actions", "OpenTelemetry", "Prometheus", "Grafana"],
+};
 
 export const archiveRepos = [
   "SOFTWARE_EDUCATIVO-ADMINISTRADOR-", "SOFTWARE_EDUCATIVO-ESTUDIANTES-", "SOFTWARE_EDUCATIVO-PREINSCRITOS-", "SOFTWARE_EDUCATIVO-PROFESOR-", "softwaresolutions", "DBCONTABLE", "HSSR", "koba", "ai_global",

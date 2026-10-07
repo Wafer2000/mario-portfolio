@@ -16,12 +16,17 @@ const externalUrl = z.string().max(2048).refine(value => {
 
 export const projectSchema = z.object({
   id: z.string().regex(/^[a-z0-9-]{1,80}$/), name: short.min(1), number: short,
-  category: z.enum(["web", "mobile", "ai", "desktop", "education", "cloud", "concept"]), year: short,
+  category: z.enum(["web", "backend", "mobile", "ai", "desktop", "education", "cloud", "concept"]), year: short,
   type: copy, status: copy, headline: copy, description: copy, problem: copy,
   contribution: copy, decisions: z.array(copy).max(30), features: z.array(copy).max(30),
   validation: copy, stack: z.array(short).max(40), link: externalUrl.optional(), repo: externalUrl.optional(),
   visual: z.string().regex(/^[a-z0-9-]{1,80}$/), visible: z.boolean().optional(),
   cover: mediaUrl.optional(), gallery: z.array(z.object({ url: mediaUrl, caption: copy })).max(12).optional(),
+  caseStudy: z.object({
+    context: copy.optional(), role: copy.optional(), architecture: z.array(copy).max(12).optional(), challenges: z.array(copy).max(12).optional(),
+    security: z.array(copy).max(12).optional(), testing: z.array(copy).max(12).optional(), deployment: z.array(copy).max(12).optional(),
+    results: z.array(copy).max(12).optional(), lessons: z.array(copy).max(12).optional(),
+  }).optional(),
 });
 
 export const portfolioSchema = z.object({
@@ -51,11 +56,11 @@ export type PortfolioVersion = { id: string; revision: number; actor: string; cr
 export const defaultContent: PortfolioContent = portfolioSchema.parse({
   profile: {
     fullName: "Mario Fernando Gonsalvez Arias", shortName: "Mario Gonsalvez",
-    role: "Senior Flutter Developer · Full-Stack Engineer", location: "Maicao, La Guajira · Colombia",
+    role: "Senior Software Engineer", location: "Maicao, La Guajira · Colombia",
     university: "Universidad de La Guajira", education: ["Ingeniería de Sistemas", "Systems Engineering"],
-    title: ["Ideas claras.", "Clear ideas."], subtitle: ["Software real.", "Real software."],
-    introduction: ["Soy Mario Fernando Gonsalvez Arias. Desarrollo aplicaciones móviles, plataformas web y herramientas de IA que resuelven problemas concretos.", "I'm Mario Fernando Gonsalvez Arias. I build mobile applications, web platforms and AI tools that solve real problems."],
-    about: [["Mi especialidad es Flutter, pero mi trabajo comienza antes de la primera pantalla y continúa después del despliegue. Conecto experiencia de usuario, reglas de negocio, APIs, datos y nube.", "Flutter is my specialty, but my work starts before the first screen and continues after deployment. I connect user experience, business rules, APIs, data and cloud."], ["He trabajado en productos financieros, aplicaciones móviles y soluciones Full-Stack. Hoy también construyo herramientas de automatización y agentes locales, con atención a la arquitectura, las pruebas y el control de sus acciones.", "I've worked on financial products, mobile applications and Full-Stack solutions. Today I also build automation tools and local agents, with attention to architecture, testing and control over their actions."]],
+    title: ["Senior Software Engineer", "Senior Software Engineer"], subtitle: ["Mobile · Backend · Cloud · AI", "Mobile · Backend · Cloud · AI"],
+    introduction: ["Diseño y construyo software de producción en entornos mobile, backend y cloud, combinando Flutter, Python, TypeScript, plataformas cloud e IA aplicada.", "I design and build production software across mobile, backend and cloud environments, combining Flutter, Python, TypeScript, cloud platforms and applied AI."],
+    about: [["Soy Senior Software Engineer con más de 7 años de experiencia construyendo software y una especialización fuerte en Flutter y Mobile Engineering. Mi perfil no se limita a la interfaz: trabajo desde arquitectura y APIs hasta datos, integraciones, pruebas y despliegue.", "I am a Senior Software Engineer with 7+ years of experience building software and a strong specialization in Flutter and Mobile Engineering. My work goes beyond the interface: I operate from architecture and APIs through data, integrations, testing and deployment."], ["Mi experiencia Full-Stack incluye Python/FastAPI, JavaScript/TypeScript, Angular, SQL/NoSQL y servicios en AWS/Firebase. En cloud he trabajado en arquitectura y planificación de migraciones con GCP, AWS y Azure, además de Docker y Kubernetes.", "My Full-Stack background includes Python/FastAPI, JavaScript/TypeScript, Angular, SQL/NoSQL and AWS/Firebase services. In cloud, I have worked on architecture and migration planning with GCP, AWS and Azure, plus Docker and Kubernetes."], ["Hoy estoy profundizando en AI Engineering y AI Cloud Engineering: agentes, modelos locales, APIs de IA y plataformas que combinan backend, cloud, observabilidad y automatización con controles claros.", "Today I am deepening my focus on AI Engineering and AI Cloud Engineering: agents, local models, AI APIs and platforms combining backend, cloud, observability and automation with clear controls."]],
     softwareYears: "7+", flutterYears: "6+", currentCompany: "EPAM",
     photoUrl: "/assets/mario-portrait.webp", cvEsUrl: "/cv/Mario_Gonsalvez_ES.pdf", cvEnUrl: "/cv/Mario_Gonsalvez_EN.pdf",
     training: "Accelerate Development with Antigravity · Deploy an Agent with ADK · Evaluate and Improve ADK Agents",
