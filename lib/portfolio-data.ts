@@ -23,7 +23,7 @@ export const categories: { id: Category; label: Copy }[] = [
 export const projects: Project[] = [
   {
     id: "commerce", number: "01", name: "IP Global Commerce", category: "web", year: "2026", visual: "commerce",
-    type: ["Producto · Inventario Apple", "Product · Apple Inventory"], status: ["Desarrollado · v3.3.78", "Developed · v3.3.78"],
+    type: ["Full-Stack · Backend · Product Engineering", "Full-Stack · Backend · Product Engineering"], status: ["Desarrollado · v3.3.78", "Developed · v3.3.78"],
     headline: ["Cada equipo. Toda su historia.", "Every device. Its entire story."],
     description: ["Una plataforma para gestionar inventario, ventas, clientes, crédito y catálogos en múltiples tiendas.", "A platform for inventory, sales, customers, credit and catalogs across multiple stores."],
     problem: ["Vender equipos implica controlar cada IMEI, su condición, su batería y su costo. La operación también necesita pagos mixtos, abonos, cuotas y trazabilidad por tienda.", "Selling devices requires tracking each IMEI, condition, battery level and cost. Store operations also need mixed payments, installments and traceability."],
@@ -61,7 +61,7 @@ export const projects: Project[] = [
   },
   {
     id: "maya", number: "02", name: "MAYA", category: "ai", year: "2026", visual: "maya",
-    type: ["Proyecto propio · Agente local", "Personal project · Local agent"], status: ["Prototipo · v0.7.3", "Prototype · v0.7.3"],
+    type: ["Local AI · Agents · Tooling", "Local AI · Agents · Tooling"], status: ["Prototipo · v0.7.3", "Prototype · v0.7.3"],
     headline: ["IA local. Acciones con control.", "Local AI. Controlled actions."],
     description: ["Un asistente modular con memoria local, herramientas, políticas de ejecución y coordinación entre dispositivos.", "A modular assistant with local memory, tools, execution policies and cross-device coordination."],
     problem: ["Un agente útil necesita operar sobre archivos y terminal, recordar contexto y coordinar equipos sin perder el control de qué acciones puede ejecutar.", "A useful agent needs file and terminal access, remembered context and device coordination with clear control over what it can execute."],
@@ -133,8 +133,8 @@ export const projects: Project[] = [
   },
   {
     id: "banking", number: "05", name: "Mobile Banking", category: "mobile", year: "2025—2026", visual: "banking",
-    type: ["Experiencia profesional · EPAM", "Professional experience · EPAM"], status: ["Trabajo en producción", "Production work"],
-    headline: ["Experiencias financieras en Flutter.", "Financial experiences built with Flutter."],
+    type: ["Enterprise Software · Financial Technology", "Enterprise Software · Financial Technology"], status: ["Trabajo en producción", "Production work"],
+    headline: ["Software financiero en producción.", "Financial software in production."],
     description: ["Desarrollo y mantenimiento de aplicaciones bancarias para Android e iOS, con integraciones nativas y servicios financieros.", "Development and maintenance of Android and iOS banking applications with native integrations and financial services."],
     problem: ["Los flujos bancarios combinan reglas de negocio, integración de servicios, seguridad móvil y una experiencia consistente entre Android e iOS.", "Banking workflows combine business rules, service integration, mobile security and a consistent Android/iOS experience."],
     contribution: ["Como Senior Flutter Developer en EPAM, participo en nuevas funcionalidades, integraciones, debugging, revisión de código, refactoring, pruebas y entrega continua. El trabajo incluye servicios bancarios, Bre-B para personas naturales y jurídicas y soluciones para Pymes.", "As a Senior Flutter Developer at EPAM, I contribute features, integrations, debugging, code review, refactoring, tests and continuous delivery. The work includes banking services, Bre-B for individuals and businesses and SME solutions."],
@@ -182,7 +182,7 @@ export const projects: Project[] = [
   },
   {
     id: "licensing", number: "07", name: "MusicLinks Licensing", category: "backend", year: "2026", visual: "license",
-    type: ["Módulo de producto · Licencias", "Product module · Licensing"], status: ["Generación probada", "Generation tested"],
+    type: ["Backend · Licensing · Supabase", "Backend · Licensing · Supabase"], status: ["Generación probada", "Generation tested"],
     headline: ["Una licencia. Un dispositivo.", "One license. One device."],
     description: ["Generador administrativo y backend de licencias mensuales y anuales con duración desde la primera activación.", "Administrative generator and monthly/annual license backend with duration starting at first activation."],
     problem: ["La distribución de una app comercial necesita emitir licencias, controlar su vigencia y limitar el uso por dispositivo sin entregar funciones administrativas al cliente.", "Commercial app distribution needs license issuance, expiration control and device limits without exposing administrative functions to the client."],
@@ -335,7 +335,7 @@ export const projects: Project[] = [
   },
   {
     id: "cloud-solutions", number: "15", name: "Cloud Solutions & Migrations · Servinformación", category: "cloud", year: "2022—2024", visual: "containers", cover: "/assets/projects/cloud-solutions.svg",
-    type: ["Participación profesional · Arquitectura cloud", "Professional participation · Cloud architecture"], status: ["Experiencia profesional completada", "Completed professional experience"],
+    type: ["Cloud Architecture · Migrations", "Cloud Architecture · Migrations"], status: ["Experiencia profesional completada", "Completed professional experience"],
     headline: ["Del requisito a una arquitectura desplegable.", "From requirement to deployable architecture."],
     description: ["Trabajo de análisis, diseño de soluciones cloud, arquitectura y planificación de migraciones como GCP Pre-Sales Engineer.", "Requirements analysis, cloud solution design, architecture and migration planning as a GCP Pre-Sales Engineer."],
     problem: ["Migrar o diseñar una solución cloud exige traducir necesidades de negocio y restricciones técnicas en una arquitectura viable, segura y operable.", "Migrating or designing a cloud solution requires translating business needs and technical constraints into a viable, secure and operable architecture."],
@@ -490,11 +490,10 @@ export const experience = [
 ];
 
 export const expertise = [
-  { title: ["Software Engineering", "Software Engineering"] as Copy, note: ["Diseño sistemas mantenibles antes de elegir el framework.", "I design maintainable systems before choosing the framework."] as Copy, items: ["Software Architecture", "Clean Architecture", "Git / GitHub", "Testing", "CI/CD", "REST APIs", "WebSockets", "SQL / NoSQL"] },
-  { title: ["Backend & APIs", "Backend & APIs"] as Copy, note: ["Servicios, contratos y datos que sostienen el producto.", "Services, contracts and data that support the product."] as Copy, items: ["Python", "FastAPI", "TypeScript", "Node.js", "PostgreSQL", "Supabase", "REST", "WebSockets", "JWT", "Pytest / Jest"] },
-  { title: ["Cloud & Platform", "Cloud & Platform"] as Copy, note: ["Arquitectura, contenedores y entrega continua para producción.", "Architecture, containers and continuous delivery for production."] as Copy, items: ["GCP", "AWS", "Azure", "Docker", "Kubernetes", "Vercel", "Firebase", "Azure DevOps", "GitHub Actions", "CI/CD"] },
-  { title: ["Mobile Engineering", "Mobile Engineering"] as Copy, note: ["Flutter como especialidad fuerte, con profundidad nativa cuando hace falta.", "Flutter as a strong specialty, with native depth where it matters."] as Copy, items: ["Flutter", "Dart", "BLoC", "Riverpod", "Provider", "Kotlin", "Swift", "Platform Channels", "Android / iOS"] },
-  { title: ["AI Engineering", "AI Engineering"] as Copy, note: ["Agentes, modelos locales e integración de IA con controles de ejecución.", "Agents, local models and AI integration with execution controls."] as Copy, items: ["OpenAI API", "Ollama", "Agents", "RAG", "Embeddings", "MCP", "Codex", "Gemini", "AI Engineering"] },
+  { title: ["Software Engineering & Backend", "Software Engineering & Backend"] as Copy, note: ["Arquitectura, APIs, datos y lógica de negocio para software mantenible.", "Architecture, APIs, data and business logic for maintainable software."] as Copy, items: ["Python", "FastAPI", "TypeScript", "Node.js", "REST", "WebSockets", "PostgreSQL", "SQL / NoSQL", "JWT", "Clean Architecture"] },
+  { title: ["Cloud & DevOps", "Cloud & DevOps"] as Copy, note: ["Cloud, contenedores y entrega continua para entornos de producción.", "Cloud, containers and continuous delivery for production environments."] as Copy, items: ["GCP", "AWS", "Azure", "Docker", "Kubernetes", "Git / GitHub", "Azure DevOps", "CI/CD"] },
+  { title: ["Mobile Engineering", "Mobile Engineering"] as Copy, note: ["Flutter como especialidad fuerte, con integración nativa cuando el producto lo requiere.", "Flutter as a strong specialty, with native integration when the product requires it."] as Copy, items: ["Flutter", "Dart", "BLoC", "Riverpod", "Provider", "Kotlin", "Swift", "Platform Channels", "Android / iOS"] },
+  { title: ["AI & Integrations", "AI & Integrations"] as Copy, note: ["IA aplicada, agentes e integraciones empresariales conectadas al producto.", "Applied AI, agents and enterprise integrations connected to the product."] as Copy, items: ["OpenAI", "Gemini", "Codex", "MCP", "Ollama", "SAP", "Siigo", "Stripe", "Integrations"] },
 ];
 
 export const certificates = [
@@ -508,13 +507,13 @@ export const certificates = [
   { issuer: "Google Cloud", name: "Cloud Digital Leader", year: "", kind: ["Certificación histórica · Expirada", "Historical certification · Expired"] as Copy },
 ];
 
-export const featuredProjectIds = ["maya", "cloud-solutions", "commerce", "banking", "licensing"] as const;
+export const featuredProjectIds = ["commerce", "maya", "cloud-solutions", "banking", "licensing"] as const;
 
 export const aiCloudDirection = {
-  name: "Enterprise AI Knowledge Platform",
-  status: ["Próximo flagship · Arquitectura objetivo", "Next flagship · Target architecture"] as Copy,
-  headline: ["Una plataforma AI Cloud para conocimiento empresarial, RAG, agentes y observabilidad.", "An AI Cloud platform for enterprise knowledge, RAG, agents and observability."] as Copy,
-  note: ["Espacio reservado para el próximo case study. Se presenta como dirección técnica planificada, no como proyecto terminado.", "Reserved for the next case study. Presented as a planned technical direction, not as a completed project."] as Copy,
+  name: "AI Cloud Platform",
+  status: ["Planificado · Cloud-native AI", "Planned · Cloud-native AI"] as Copy,
+  headline: ["Cloud-native AI · Backend · Infraestructura · Deployment", "Cloud-native AI · Backend · Infrastructure · Deployment"] as Copy,
+  note: ["Próximo case study. Complementará a MAYA con una arquitectura AI cloud-native orientada a backend, infraestructura, observabilidad y despliegue.", "Next case study. It will complement MAYA with a cloud-native AI architecture focused on backend, infrastructure, observability and deployment."] as Copy,
   stack: ["Next.js", "Python", "FastAPI", "PostgreSQL", "pgvector", "Redis", "OpenAI API", "RAG", "Embeddings", "Agents", "Docker", "Kubernetes", "Terraform", "GCP / AWS", "GitHub Actions", "OpenTelemetry", "Prometheus", "Grafana"],
 };
 

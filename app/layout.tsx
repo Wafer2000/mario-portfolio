@@ -6,10 +6,10 @@ const siteUrl = "https://mario-portfolio-r8la.vercel.app";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Mario Gonsalvez | Senior Software Engineer",
+    default: "Mario Gonsalvez | Senior Software Engineer · Mobile · Backend · Cloud · AI",
     template: "%s | Mario Gonsalvez",
   },
-  description: "Senior Software Engineer with 7+ years of experience across Flutter/mobile, Python/FastAPI backend, TypeScript, cloud architecture on GCP/AWS/Azure, CI/CD and applied AI engineering.",
+  description: "Senior Software Engineer with 7+ years of experience across mobile, backend, cloud and AI engineering. Flutter, Python, FastAPI, TypeScript, GCP, AWS and Azure.",
   keywords: [
     "Mario Gonsalvez",
     "Senior Software Engineer",
@@ -34,16 +34,16 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: siteUrl,
-    title: "Mario Gonsalvez | Senior Software Engineer",
-    description: "Mobile · Backend · Cloud · AI. Production software, Flutter expertise, backend/cloud engineering and a clear AI engineering direction.",
+    title: "Mario Gonsalvez | Senior Software Engineer · Mobile · Backend · Cloud · AI",
+    description: "Senior Software Engineer with 7+ years of experience across mobile, backend, cloud and AI engineering. Flutter, Python, FastAPI, TypeScript, GCP, AWS and Azure.",
     siteName: "Mario Gonsalvez Portfolio",
     locale: "en_US",
     alternateLocale: ["es_CO"],
   },
   twitter: {
     card: "summary",
-    title: "Mario Gonsalvez | Senior Software Engineer",
-    description: "Mobile · Backend · Cloud · AI",
+    title: "Mario Gonsalvez | Senior Software Engineer · Mobile · Backend · Cloud · AI",
+    description: "Senior Software Engineer with 7+ years of experience across mobile, backend, cloud and AI engineering.",
   },
   icons: {
     icon: "/favicon.svg",

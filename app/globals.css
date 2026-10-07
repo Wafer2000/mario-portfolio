@@ -118,3 +118,29 @@
   .expertise-grid-five>article:last-child{grid-column:auto}
   .architecture-list>div{grid-template-columns:30px 22px 1fr;padding:14px}
 }
+
+/* 2026 portfolio adjustments: broader Senior Software Engineer positioning */
+.hero-repositioned .hero-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 28px}
+.hero-repositioned .hero-facts .fact-text strong{font-size:1.08rem;line-height:1.25;letter-spacing:-.02em;margin-top:2px}
+.hero-repositioned .hero-facts .fact-text span{margin-top:5px}
+.visual-ai-cloud{background:#172128;color:#dfe9ef;justify-content:flex-start}
+.visual-ai-cloud .visual-top{color:#aab8c1}
+.ai-cloud-mini{display:flex;align-items:center;gap:8px;margin:auto 0;width:100%}
+.ai-cloud-mini>span{display:flex;align-items:center;gap:8px;border:1px solid #ffffff1f;background:#ffffff08;border-radius:4px;padding:10px 11px;font-family:var(--mono);font-size:.72rem;min-width:0;flex:1}
+.ai-cloud-mini>i{width:14px;height:1px;background:#c6f36855}
+.planned-ai-card{border-style:dashed}
+.planned-card-body{cursor:default}
+.planned-label{display:flex;align-items:center;gap:7px;font-size:.78rem;font-weight:700;color:#61753f}
+.planned-label svg{color:#6f8b42}
+.contact-section .contact-heading h2{font-size:clamp(2.55rem,4.2vw,4.15rem);line-height:1.05}
+
+@media(max-width:900px){
+  .hero-repositioned .hero-facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ai-cloud-mini{flex-direction:column;align-items:stretch;gap:7px}
+  .ai-cloud-mini>i{height:8px;width:1px;margin:auto}
+}
+@media(max-width:600px){
+  .hero-repositioned .hero-facts{gap:18px 16px}
+  .hero-repositioned .hero-facts .fact-text strong{font-size:.98rem}
+  .contact-section .contact-heading h2{font-size:clamp(2.25rem,8vw,3.15rem)}
+}
