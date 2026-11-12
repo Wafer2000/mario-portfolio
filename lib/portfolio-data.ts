@@ -22,45 +22,149 @@ export const categories: { id: Category; label: Copy }[] = [
 
 export const projects: Project[] = [
   {
-    id: "commerce", number: "01", name: "IP Global Commerce", category: "web", year: "2026", visual: "commerce",
-    type: ["Full-Stack · Backend · Product Engineering", "Full-Stack · Backend · Product Engineering"], status: ["Desarrollado · v3.3.78", "Developed · v3.3.78"],
-    headline: ["Cada equipo. Toda su historia.", "Every device. Its entire story."],
-    description: ["Una plataforma para gestionar inventario, ventas, clientes, crédito y catálogos en múltiples tiendas.", "A platform for inventory, sales, customers, credit and catalogs across multiple stores."],
-    problem: ["Vender equipos implica controlar cada IMEI, su condición, su batería y su costo. La operación también necesita pagos mixtos, abonos, cuotas y trazabilidad por tienda.", "Selling devices requires tracking each IMEI, condition, battery level and cost. Store operations also need mixed payments, installments and traceability."],
-    contribution: ["Desarrollo Full-Stack y evolución del producto: reglas comerciales, flujos de venta y crédito, catálogos, permisos y una interfaz adaptable al trabajo diario.", "Full-Stack development and product evolution: business rules, sales and credit workflows, catalogs, permissions and an interface built for daily operations."],
+    id: "commerce", number: "01", name: "Apple Inventory", category: "web", year: "2026", visual: "commerce",
+    type: ["Producto IP Global Digital · Full-Stack · POS/CRM", "IP Global Digital product · Full-Stack · POS/CRM"], status: ["Activo · v3.3.89", "Active · v3.3.89"],
+    headline: ["Inventario, ventas y crédito en una sola operación.", "Inventory, sales and credit in one operation."],
+    description: ["Plataforma multiempresa para inventario de dispositivos, ventas, créditos, clientes, revendedores, pedidos, caja y trazabilidad por IMEI.", "Multi-company platform for device inventory, sales, credit, customers, resellers, orders, cash operations and IMEI-level traceability."],
+    problem: ["Una operación de venta de dispositivos necesita controlar IMEI, serial, batería, costos, stock, pagos, crédito y devoluciones sin perder trazabilidad entre empresas, sedes y usuarios.", "A device-sales operation needs to control IMEI, serial, battery health, costs, stock, payments, credit and returns without losing traceability across companies, branches and users."],
+    contribution: ["Diseño y evolución Full-Stack del producto: reglas de inventario y ventas, crédito, membresías, catálogos, roles, auditoría, búsqueda, importaciones y flujos operativos responsive.", "Full-Stack product design and evolution: inventory and sales rules, credit, memberships, catalogs, roles, auditing, search, imports and responsive operational workflows."],
     features: [
-      ["Inventario serializado y por cantidad. IMEI 1/2, serial, batería, estado, costos, proveedor y lotes.", "Serialized and quantity inventory. IMEI 1/2, serial, battery, condition, cost, supplier and batches."],
-      ["Búsqueda unificada, cámara y lector. Generación de códigos y etiquetas para impresión térmica de 58 mm.", "Unified search, camera and scanner support. Barcode and label generation for 58 mm thermal printing."],
-      ["Ventas con pagos mixtos, crédito directo o financiera. Abonos, calendario de cuotas, cartera y cancelaciones.", "Sales with mixed payments, direct credit or financing. Payments, installment schedules, receivables and cancellations."],
-      ["Clientes por documento, catálogos públicos y para revendedores, pedidos e importación desde Excel.", "Customer lookup by document, public and reseller catalogs, orders and Excel imports."],
-      ["Tiendas y roles independientes, invitaciones, sesiones en varios dispositivos, reportes y auditoría.", "Separate stores and roles, invitations, multi-device sessions, reports and audit trails."],
+      ["Inventario serializado por IMEI/serial, salud de batería, lotes, costos, proveedores y búsqueda unificada.", "Serialized inventory by IMEI/serial, battery health, batches, costs, suppliers and unified search."],
+      ["Ventas con pagos mixtos, crédito directo, cuotas, abonos, cartera, devoluciones y cancelaciones.", "Sales with mixed payments, direct credit, installments, payments, receivables, returns and cancellations."],
+      ["Roles multiempresa, propietarios, administradores, revendedores, clientes y sesiones en múltiples dispositivos.", "Multi-company roles for owners, administrators, resellers and customers, plus multi-device sessions."],
+      ["Catálogos, pedidos, importación Excel, escaneo/cámara, etiquetas e impresión para operación comercial.", "Catalogs, orders, Excel imports, camera/scanner support, labels and printing for commercial operations."]
     ],
     decisions: [
-      ["Separar empresa, usuario y rol en cada consulta para conservar el contexto de la operación.", "Keep company, user and role context in every query."],
-      ["Cancelar ventas y crédito con reposición de stock y registro de auditoría dentro del mismo flujo.", "Cancel sales and credit with inventory restoration and an audit record in the same workflow."],
-      ["Descartar respuestas de búsqueda antiguas y conservar los costos editados mientras llega la tasa de cambio.", "Discard stale search responses and preserve edited costs while exchange rates load."],
-      ["Importaciones con identificadores estables para reintentar filas pendientes sin duplicar unidades.", "Use stable import identifiers to retry incomplete rows without duplicating devices."],
+      ["Mantener empresa, tienda, usuario y rol como contexto de cada operación sensible.", "Keep company, store, user and role as context for every sensitive operation."],
+      ["Restaurar inventario y conservar auditoría cuando una venta o crédito se cancela o devuelve.", "Restore inventory and preserve audit history when a sale or credit operation is cancelled or returned."],
+      ["Usar validaciones y pruebas aisladas con datos de ensayo para no afectar operaciones reales.", "Use isolated validation and tests with synthetic data so real operations are not affected."]
     ],
-    validation: ["La entrega v3.3.78 documenta 143 pruebas de ventas, crédito/SQL, flujos, catálogos e interfaces, además de TypeScript, lint y build. La revisión usa datos de ensayo; cámara, lector e impresora requieren validación física en la instalación.", "Release v3.3.78 documents 143 tests covering sales, credit/SQL, workflows, catalogs and interfaces, plus TypeScript, lint and build checks. Reviews use test data; camera, scanner and printer require physical validation at installation."],
+    validation: ["El repositorio actual incluye typecheck, lint y suites para ventas, crédito, devoluciones, membresías, catálogos, interfaces y envíos. La versión declarada en package.json es 3.3.89.", "The current repository includes type checking, linting and suites for sales, credit, returns, memberships, catalogs, interfaces and shipping. package.json declares version 3.3.89."],
     caseStudy: {
-      context: ["Operación comercial multi-tienda con inventario serializado, ventas, crédito, clientes y catálogos.", "Multi-store commercial operation with serialized inventory, sales, credit, customers and catalogs."],
-      role: ["Full-Stack Engineer responsable de evolución funcional, reglas de negocio, datos, permisos y experiencia de uso.", "Full-Stack Engineer responsible for functional evolution, business rules, data, permissions and user experience."],
-      architecture: [
-        ["Next.js/React y TypeScript para la aplicación web y PWA.", "Next.js/React and TypeScript for the web application and PWA."],
-        ["Supabase/PostgreSQL para persistencia, autenticación, permisos y lógica de datos.", "Supabase/PostgreSQL for persistence, authentication, permissions and data logic."],
-        ["ExcelJS e integraciones de cámara/lector/impresión alrededor de los flujos operativos.", "ExcelJS plus camera/scanner/printing integrations around operational workflows."],
-      ],
-      challenges: [["Mantener consistencia entre stock, ventas, crédito y cancelaciones dentro de una operación multi-tienda.", "Keep inventory, sales, credit and cancellations consistent across a multi-store operation."], ["Evitar duplicados y respuestas obsoletas en importaciones y búsquedas asíncronas.", "Avoid duplicates and stale responses in imports and asynchronous searches."]],
-      security: [["Separación de empresa, usuario y rol en las consultas y flujos sensibles.", "Company, user and role separation across queries and sensitive workflows."], ["Auditoría y trazabilidad para operaciones como ventas y cancelaciones.", "Auditability and traceability for operations such as sales and cancellations."]],
-      testing: [["La versión v3.3.78 documenta 143 pruebas, además de TypeScript, lint y build.", "Release v3.3.78 documents 143 tests plus TypeScript, lint and build checks."]],
-      deployment: [["Aplicación desplegada en Vercel; validaciones físicas de cámara, lector e impresora se realizan en instalación.", "Application deployed on Vercel; camera, scanner and printer require physical validation at installation."]],
-      results: [["Producto operativo que centraliza inventario, ventas, clientes, crédito, reportes y catálogos en una misma plataforma.", "Operational product centralizing inventory, sales, customers, credit, reports and catalogs in one platform."]],
+      context: ["Producto comercial de IP Global Digital para centralizar la operación de negocios que venden dispositivos y accesorios.", "IP Global Digital commercial product for centralizing the operation of businesses selling devices and accessories."],
+      role: ["Product Owner / Full-Stack Engineer responsable de arquitectura funcional, reglas de negocio, datos, permisos y evolución del producto.", "Product Owner / Full-Stack Engineer responsible for functional architecture, business rules, data, permissions and product evolution."],
+      architecture: [["Next.js/React y TypeScript para la aplicación web responsive.", "Next.js/React and TypeScript for the responsive web application."], ["Supabase/PostgreSQL para autenticación, persistencia y aislamiento de datos.", "Supabase/PostgreSQL for authentication, persistence and data isolation."], ["ExcelJS, QR/barcodes y APIs del navegador alrededor de los flujos de inventario.", "ExcelJS, QR/barcodes and browser APIs around inventory workflows."]],
+      security: [["Roles, permisos y separación de empresas para proteger operaciones y datos.", "Roles, permissions and company separation to protect operations and data."], ["Auditoría en ventas, créditos, cancelaciones y cambios sensibles.", "Audit trails for sales, credit, cancellations and sensitive changes."]],
+      testing: [["Suites automatizadas cubren ventas, crédito, devoluciones, membresías, catálogos, interfaces y envíos.", "Automated suites cover sales, credit, returns, memberships, catalogs, interfaces and shipping."]],
+      deployment: [["Aplicación desplegada como producto web; las integraciones con hardware se validan en el entorno físico correspondiente.", "Deployed as a web product; hardware integrations are validated in their physical environment."]],
+      results: [["Una plataforma operativa que unifica inventario, ventas, crédito, clientes y administración multiempresa.", "An operational platform unifying inventory, sales, credit, customers and multi-company administration."]]
     },
-    stack: ["Next.js", "React", "TypeScript", "Supabase", "PostgreSQL", "PWA", "ExcelJS"],
-    link: "https://apple-device-inventory.vercel.app", repo: "https://github.com/Wafer2000/apple-device-inventory",
+    stack: ["Next.js", "React", "TypeScript", "Supabase", "PostgreSQL", "PWA", "ExcelJS", "Zod"],
+    link: "https://apple-device-inventory.vercel.app"
   },
   {
-    id: "maya", number: "02", name: "MAYA", category: "ai", year: "2026", visual: "maya",
+    id: "mesaflow", number: "02", name: "MesaFlow", category: "web", year: "2026", visual: "mesaflow",
+    type: ["Producto IP Global Digital · SaaS para restaurantes", "IP Global Digital product · Restaurant SaaS"], status: ["Publicado · Activo", "Published · Active"],
+    headline: ["La operación del restaurante, conectada.", "Restaurant operations, connected."],
+    description: ["Plataforma multiempresa para menú, pedidos, mesas, cocina, caja, inventario, personal, fidelización y múltiples sedes.", "Multi-company platform for menus, orders, tables, kitchen, cash operations, inventory, staff, loyalty and multiple branches."],
+    problem: ["Restaurantes con varias sedes necesitan que pedidos, caja, inventario, equipo y experiencia del cliente compartan una sola fuente de verdad sin perder la identidad de cada empresa.", "Multi-branch restaurants need orders, cash operations, inventory, staff and customer experience to share one source of truth without losing each company's identity."],
+    contribution: ["Diseño de producto, arquitectura multiempresa y desarrollo Full-Stack de los flujos públicos, operativos y administrativos de MesaFlow.", "Product design, multi-company architecture and Full-Stack development of MesaFlow's public, operational and administrative workflows."],
+    features: [
+      ["Menú público responsive, carrito y pedidos con consecutivo por empresa y sede.", "Responsive public menu, cart and orders with per-company and per-branch numbering."],
+      ["Mesas, cocina, turnos, caja diaria, gastos, transferencias y estados operativos.", "Tables, kitchen, shifts, daily cash register, expenses, transfers and operational states."],
+      ["Inventario, categorías, costos/precios, carga masiva y estadísticas de productos.", "Inventory, categories, cost/price management, bulk imports and product statistics."],
+      ["Multi-sede, roles de personal, personalización de marca, QR/NFC, fidelización y reportes.", "Multi-branch operation, staff roles, brand customization, QR/NFC, loyalty and reporting."]
+    ],
+    decisions: [
+      ["Separar datos por empresa y sede manteniendo una sola aplicación y una sola arquitectura de producto.", "Separate data by company and branch while keeping one application and one product architecture."],
+      ["Validar precios y pedidos en backend para no confiar en valores manipulables desde el cliente.", "Validate prices and orders on the backend instead of trusting client-controlled values."],
+      ["Usar pruebas con Postgres embebido y datos desechables para verificar aislamiento y reglas de negocio.", "Use embedded Postgres and disposable data to verify isolation and business rules."]
+    ],
+    validation: ["El repositorio contiene typecheck, lint, build y pruebas para aislamiento, caja, rutas por sede, importaciones, PWA, acceso de clientes, NFC, tiempos de servicio y otros flujos operativos.", "The repository contains type checking, linting, build validation and tests for isolation, cash operations, branch routing, imports, PWA, customer access, NFC, service times and other operational workflows."],
+    caseStudy: {
+      context: ["MesaFlow es un producto de IP Global Digital orientado a restaurantes multiempresa y multisede.", "MesaFlow is an IP Global Digital product for multi-company and multi-branch restaurants."],
+      role: ["Product Owner / Full-Stack Engineer responsable de producto, arquitectura, datos, UX operativa y evolución funcional.", "Product Owner / Full-Stack Engineer responsible for product, architecture, data, operational UX and functional evolution."],
+      architecture: [["Next.js 16 + React 19 + TypeScript para frontend y lógica web.", "Next.js 16 + React 19 + TypeScript for frontend and web logic."], ["Supabase/PostgreSQL y RLS para persistencia y aislamiento multiempresa.", "Supabase/PostgreSQL and RLS for persistence and multi-company isolation."], ["ExcelJS, QRCode y PDF tooling para operación, exportaciones y material de punto de venta.", "ExcelJS, QRCode and PDF tooling for operations, exports and point-of-sale materials."]],
+      security: [["RLS y permisos por empresa/restaurante para datos e imágenes.", "RLS and per-company/restaurant permissions for data and images."], ["Roles separados para propietarios, administradores, colaboradores y operadores de plataforma.", "Separated roles for owners, administrators, staff and platform operators."]],
+      testing: [["Pruebas automatizadas cubren aislamiento, caja, sedes, inventario, PWA, clientes, NFC y reglas operativas.", "Automated tests cover isolation, cash operations, branches, inventory, PWA, customers, NFC and operational rules."]],
+      deployment: [["Producto publicado en mesaflow.lat sobre Vercel y Supabase.", "Product published at mesaflow.lat on Vercel and Supabase."]],
+      results: [["Producto funcional capaz de soportar operación multiempresa, múltiples sedes y flujos de restaurante desde una sola plataforma.", "Functional product supporting multi-company, multi-branch restaurant operations from a single platform."]]
+    },
+    stack: ["Next.js", "React", "TypeScript", "Supabase", "PostgreSQL", "ExcelJS", "PWA", "QR / NFC", "Vercel"],
+    link: "https://mesaflow.lat/"
+  },
+  {
+    id: "random-playlist", number: "03", name: "Random Playlist", category: "web", year: "2026", visual: "playlist",
+    type: ["Producto IP Global Digital · Music SaaS", "IP Global Digital product · Music SaaS"], status: ["Publicado · Producción", "Published · Production"],
+    headline: ["Tus playlists, entre plataformas.", "Your playlists, across platforms."],
+    description: ["Aplicación web para organizar, crear, transferir y dividir playlists entre cuentas de servicios musicales conectados por el usuario.", "Web application for organizing, creating, transferring and splitting playlists across user-connected music-service accounts."],
+    problem: ["Mover playlists entre servicios musicales exige OAuth, paginación, matching de canciones, límites externos y reglas de plan sin perder orden ni contexto de cuenta.", "Moving playlists across music services requires OAuth, pagination, track matching, external limits and plan rules without losing order or account context."],
+    contribution: ["Diseño y desarrollo Full-Stack del producto, integraciones musicales, matching de canciones, transferencias, Split Playlist, sesiones, planes y panel administrativo.", "Full-Stack product design and development, music integrations, track matching, transfers, Split Playlist, sessions, plans and administration."],
+    features: [
+      ["TIDAL y YouTube/YouTube Music disponibles públicamente; Spotify integrado en modo administrativo y Apple Music preparado para habilitación futura.", "TIDAL and YouTube/YouTube Music are publicly available; Spotify is integrated in admin-only mode and Apple Music is prepared for future enablement."],
+      ["Conexión de múltiples cuentas, cuenta activa por plataforma y lectura completa de playlists.", "Multiple connected accounts, active account per platform and complete playlist reading."],
+      ["Transferencia multiplataforma con matching por título, artista y duración.", "Cross-platform transfer with matching by title, artist and duration."],
+      ["Split Playlist para dividir listas grandes conservando orden y límites del plan.", "Split Playlist for dividing large lists while preserving order and plan limits."]
+    ],
+    decisions: [
+      ["Mantener la disponibilidad comercial separada de la capacidad técnica de cada integración.", "Keep commercial availability separate from the technical capability of each integration."],
+      ["Aplicar límites de planes también en backend para que no dependan del frontend.", "Enforce plan limits on the backend so they do not depend on frontend behavior."],
+      ["Tratar origen/destino y cuenta activa como parte explícita del contexto de transferencia.", "Treat source/destination and active account as explicit transfer context."]
+    ],
+    validation: ["El producto está desplegado en randomplaylist.business. La documentación actual describe TIDAL y YouTube/YouTube Music como activos, Spotify en modo admin-only y Apple Music como próximamente disponible.", "The product is deployed at randomplaylist.business. Current documentation describes TIDAL and YouTube/YouTube Music as active, Spotify as admin-only and Apple Music as upcoming."],
+    caseStudy: {
+      context: ["Producto musical multiplataforma con cuentas conectadas, transferencias, split y membresías.", "Cross-platform music product with connected accounts, transfers, split and memberships."],
+      role: ["Product Owner / Full-Stack Engineer responsable de arquitectura, integraciones, reglas de producto y despliegue.", "Product Owner / Full-Stack Engineer responsible for architecture, integrations, product rules and deployment."],
+      architecture: [["Next.js 15/React 19 y TypeScript sobre App Router.", "Next.js 15/React 19 and TypeScript on App Router."], ["Supabase Auth + PostgreSQL para usuarios, sesiones, cuentas conectadas y estado del producto.", "Supabase Auth + PostgreSQL for users, sessions, connected accounts and product state."], ["OAuth/MusicKit y APIs de proveedores para lectura, creación y transferencia de playlists.", "OAuth/MusicKit and provider APIs for playlist reading, creation and transfer."]],
+      security: [["Tokens y cuentas de plataforma se manejan por usuario y sesión; la autoridad de administración no depende de un simple campo de plan.", "Platform tokens and accounts are handled per user/session; administrative authority does not depend on a simple plan field."]],
+      deployment: [["Producto en producción bajo randomplaylist.business y Vercel.", "Production product under randomplaylist.business and Vercel."]],
+      results: [["Flujo unificado para mover y dividir playlists entre servicios con reglas de planes y múltiples cuentas.", "Unified workflow for moving and splitting playlists across services with plan rules and multiple accounts."]]
+    },
+    stack: ["Next.js", "React", "TypeScript", "Supabase", "PostgreSQL", "OAuth", "Music APIs", "Vercel"],
+    link: "https://randomplaylist.business/"
+  },
+  {
+    id: "device-control", number: "04", name: "IP Device Control", category: "backend", year: "2026", visual: "devicecontrol",
+    type: ["Producto IP Global Digital · Backend & Device Management", "IP Global Digital product · Backend & Device Management"], status: ["Backend validado · Piloto de dispositivos", "Backend validated · Device pilot"],
+    headline: ["Crédito y control de dispositivos, conectados.", "Credit and device control, connected."],
+    description: ["Sistema para administrar dispositivos financiados y emitir restricciones remotas ante mora confirmada usando mecanismos oficiales de cada plataforma e integración con Apple Inventory.", "System for managing financed devices and issuing remote restrictions after confirmed delinquency using official platform mechanisms and Apple Inventory integration."],
+    problem: ["La financiación de equipos necesita vincular crédito, estado del dispositivo, órdenes remotas y evidencia sin depender de mecanismos inseguros o no oficiales.", "Device financing needs to connect credit status, device state, remote commands and evidence without relying on unsafe or unofficial mechanisms."],
+    contribution: ["Arquitectura del sistema, backend FastAPI, modelo multiempresa, órdenes versionadas e integración con Apple Inventory; diseño de agentes/MDM por plataforma.", "System architecture, FastAPI backend, multi-company model, versioned commands and Apple Inventory integration; design of platform-specific agents/MDM."],
+    features: [
+      ["Backend FastAPI para estados, mora, órdenes, multiempresa y panel web.", "FastAPI backend for states, delinquency, commands, multi-company operation and web panel."],
+      ["Servidor MDM para iPhone/iPad/Mac usando mecanismos oficiales de administración.", "MDM server for iPhone/iPad/Mac using official management mechanisms."],
+      ["Agente Android Device Owner y servicio Windows diseñados para restricciones administradas.", "Android Device Owner agent and Windows service designed for managed restrictions."],
+      ["Módulo de integración con Apple Inventory para disparar acciones desde el flujo de crédito.", "Apple Inventory integration module for triggering actions from the credit workflow."]
+    ],
+    decisions: [
+      ["Usar exclusivamente mecanismos oficiales de administración de cada plataforma.", "Use only official device-management mechanisms on each platform."],
+      ["No prometer resistencia universal a borrado/restauración sin validación física por modo de inscripción y modelo.", "Do not claim universal resistance to wipe/restore without physical validation by enrollment mode and device model."],
+      ["Versionar órdenes y estados para reducir ambigüedad entre backend y agentes.", "Version commands and states to reduce ambiguity between backend and agents."]
+    ],
+    validation: ["El repositorio documenta 26/26 pruebas del backend y 10/10 del servidor MDM; Android y Windows tienen fuente lista pero requieren validación física adicional.", "The repository documents 26/26 backend tests and 10/10 MDM-server tests; Android and Windows source is ready but still requires additional physical-device validation."],
+    caseStudy: {
+      context: ["Extensión de Apple Inventory para operaciones de crédito que requieren gestión remota de dispositivos financiados.", "Apple Inventory extension for credit operations requiring remote management of financed devices."],
+      role: ["Backend / Systems Engineer responsable de arquitectura, API, estados, seguridad y diseño de integración multi-plataforma.", "Backend / Systems Engineer responsible for architecture, API, states, security and multi-platform integration design."],
+      architecture: [["FastAPI como backend central y API de órdenes/estado.", "FastAPI as the central backend and command/state API."], ["MDM para Apple y agentes administrados para Android/Windows.", "MDM for Apple and managed agents for Android/Windows."], ["Integración con Apple Inventory para relacionar mora, crédito y acción remota.", "Apple Inventory integration linking delinquency, credit and remote action."]],
+      security: [["El sistema evita exploits y se apoya en mecanismos oficiales de gestión de dispositivos.", "The system avoids exploits and relies on official device-management mechanisms."], ["La resistencia a borrado depende de inscripción/modelo y no se presenta como garantía universal.", "Wipe resistance depends on enrollment/model and is not presented as a universal guarantee."]],
+      testing: [["26/26 pruebas de backend y 10/10 del servidor MDM documentadas en el repositorio.", "26/26 backend tests and 10/10 MDM-server tests documented in the repository."]],
+      results: [["Backend e integración con Apple Inventory demostrados; validación física multi-plataforma sigue como siguiente etapa.", "Backend and Apple Inventory integration demonstrated; multi-platform physical validation remains the next stage."]]
+    },
+    stack: ["Python", "FastAPI", "MDM", "Android Device Owner", "Windows Service", "Multi-tenant", "REST APIs"]
+  },
+  {
+    id: "exivun", number: "05", name: "Exivun", category: "ai", year: "2026", visual: "exivun",
+    type: ["Producto IP Global Digital · WhatsApp & AI Automation", "IP Global Digital product · WhatsApp & AI Automation"], status: ["En pruebas · Integración Meta en curso", "Testing · Meta integration in progress"],
+    headline: ["Operación empresarial desde WhatsApp.", "Business operations through WhatsApp."],
+    description: ["Plataforma multiempresa para atención, catálogo, inventario y ventas mediante WhatsApp, con automatización e IA aplicada.", "Multi-company platform for customer service, catalog, inventory and sales through WhatsApp, with automation and applied AI."],
+    problem: ["Muchas empresas atienden y venden por WhatsApp, pero la conversación queda separada del catálogo, inventario, seguimiento y automatización del negocio.", "Many businesses sell and support customers through WhatsApp, but conversations remain disconnected from catalog, inventory, tracking and business automation."],
+    contribution: ["Diseño del producto, flujos multiempresa, conexión técnica con Meta, webhook, suscripción de mensajes y preparación de automatizaciones con IA.", "Product design, multi-company flows, Meta technical integration, webhook, message subscription and preparation of AI-powered automations."],
+    features: [
+      ["Atención y flujos empresariales centralizados alrededor de WhatsApp.", "Customer-service and business workflows centered around WhatsApp."],
+      ["Catálogo, inventario y ventas conectados al contexto de cada empresa.", "Catalog, inventory and sales connected to each company's context."],
+      ["Webhook y campo de mensajes configurados para la integración con Meta.", "Webhook and messages field configured for Meta integration."],
+      ["Automatización con IA con límites de uso controlables por plataforma.", "AI automation with controllable platform usage limits."]
+    ],
+    decisions: [
+      ["Separar la configuración y los datos por empresa desde el diseño inicial.", "Separate configuration and data per company from the initial design."],
+      ["Mantener la integración Meta como dependencia explícita y no presentar la publicación como terminada antes de su verificación.", "Keep Meta integration as an explicit dependency and do not present publication as complete before verification."],
+      ["Aplicar límites a las llamadas de IA para controlar consumo y costos durante pruebas.", "Apply limits to AI calls to control usage and costs during testing."]
+    ],
+    validation: ["La aplicación está creada y en pruebas. La conexión técnica con Meta y el webhook quedaron configurados y el campo messages está suscrito; publicación/verificación final siguen pendientes.", "The application is built and in testing. The Meta technical connection and webhook are configured and the messages field is subscribed; final publication/verification remain pending."],
+    stack: ["WhatsApp Cloud API", "Meta Webhooks", "AI Automation", "Multi-tenant", "Inventory", "Sales"]
+  },
+  {
+    id: "maya", number: "06", name: "MAYA", category: "ai", year: "2026", visual: "maya",
     type: ["Local AI · Agents · Tooling", "Local AI · Agents · Tooling"], status: ["Prototipo · v0.7.3", "Prototype · v0.7.3"],
     headline: ["IA local. Acciones con control.", "Local AI. Controlled actions."],
     description: ["Un asistente modular con memoria local, herramientas, políticas de ejecución y coordinación entre dispositivos.", "A modular assistant with local memory, tools, execution policies and cross-device coordination."],
@@ -90,7 +194,7 @@ export const projects: Project[] = [
     stack: ["Node.js", "JavaScript", "Ollama", "SQLite", "WebSocket", "Ed25519"],
   },
   {
-    id: "musiclinks", number: "03", name: "MusicLinks", category: "desktop", year: "2026", visual: "musiclinks",
+    id: "musiclinks", number: "07", name: "MusicLinks", category: "desktop", year: "2026", visual: "musiclinks",
     type: ["Producto · Aplicación Windows", "Product · Windows application"], status: ["Instalación y uso comprobados", "Installation and use confirmed"],
     headline: ["Tu música, sus enlaces.", "Your music, its links."],
     description: ["Una aplicación de escritorio para obtener y organizar enlaces de canciones, álbumes y listas desde varias plataformas.", "A desktop application to collect and organize song, album and playlist links from several platforms."],
@@ -111,7 +215,7 @@ export const projects: Project[] = [
     stack: ["PowerShell", "Windows Forms", "Python", "yt-dlp", "spotdl", "Supabase"], repo: "https://github.com/Wafer2000/MusicLinks",
   },
   {
-    id: "ai-global", number: "04", name: "AI Global", category: "web", year: "2026", visual: "global",
+    id: "ai-global", number: "08", name: "AI Global", category: "web", year: "2026", visual: "global",
     type: ["Producto · Marketplace & EdTech", "Product · Marketplace & EdTech"], status: ["Despliegues registrados", "Recorded deployments"],
     headline: ["Comercio y aprendizaje conectados.", "Connecting commerce and learning."],
     description: ["Una plataforma de productos digitales y cursos con membresías, referidos, recargas y administración.", "A digital products and courses platform with memberships, referrals, top-ups and administration."],
@@ -132,7 +236,7 @@ export const projects: Project[] = [
     link: "https://ai-global-web.vercel.app", repo: "https://github.com/Wafer2000/ai-global-web",
   },
   {
-    id: "banking", number: "05", name: "Mobile Banking", category: "mobile", year: "2025—2026", visual: "banking",
+    id: "banking", number: "09", name: "Mobile Banking", category: "mobile", year: "2025—2026", visual: "banking",
     type: ["Enterprise Software · Financial Technology", "Enterprise Software · Financial Technology"], status: ["Trabajo en producción", "Production work"],
     headline: ["Software financiero en producción.", "Financial software in production."],
     description: ["Desarrollo y mantenimiento de aplicaciones bancarias para Android e iOS, con integraciones nativas y servicios financieros.", "Development and maintenance of Android and iOS banking applications with native integrations and financial services."],
@@ -162,7 +266,7 @@ export const projects: Project[] = [
     stack: ["Flutter", "Dart", "BLoC", "Riverpod", "Kotlin", "Swift", "REST", "Azure DevOps"],
   },
   {
-    id: "containers", number: "06", name: "La Raya Container Registry", category: "web", year: "2026", visual: "containers",
+    id: "containers", number: "10", name: "La Raya Container Registry", category: "web", year: "2026", visual: "containers",
     type: ["Aplicación · Logística", "Application · Logistics"], status: ["Sistema desarrollado", "Developed system"],
     headline: ["Trazabilidad desde el primer registro.", "Traceability from the first record."],
     description: ["Registro de contenedores, mercancías, evidencias y observaciones con acceso por trabajador y organización.", "Container, cargo, evidence and observation records with worker and organization access controls."],
@@ -181,7 +285,7 @@ export const projects: Project[] = [
     stack: ["Next.js", "React", "TypeScript", "Supabase Auth", "PostgreSQL", "Storage"],
   },
   {
-    id: "licensing", number: "07", name: "MusicLinks Licensing", category: "backend", year: "2026", visual: "license",
+    id: "licensing", number: "11", name: "MusicLinks Licensing", category: "backend", year: "2026", visual: "license",
     type: ["Backend · Licensing · Supabase", "Backend · Licensing · Supabase"], status: ["Generación probada", "Generation tested"],
     headline: ["Una licencia. Un dispositivo.", "One license. One device."],
     description: ["Generador administrativo y backend de licencias mensuales y anuales con duración desde la primera activación.", "Administrative generator and monthly/annual license backend with duration starting at first activation."],
@@ -209,7 +313,7 @@ export const projects: Project[] = [
     stack: ["PowerShell", "C# Launcher", "Supabase", "Edge Functions", "TypeScript", "DPAPI"], repo: "https://github.com/Wafer2000/MusicLinks",
   },
   {
-    id: "alerts", number: "08", name: "Alarmas médicas LAN", category: "desktop", year: "2026", visual: "alerts",
+    id: "alerts", number: "12", name: "Alarmas médicas LAN", category: "desktop", year: "2026", visual: "alerts",
     type: ["Prototipo · Red local Windows", "Prototype · Windows local network"], status: ["Prototipo en pruebas", "Prototype under testing"],
     headline: ["Una alerta. Varios equipos.", "One alert. Multiple devices."],
     description: ["Aplicación para emitir códigos y mensajes visuales desde un administrador a clientes de una red local.", "An application to send visual codes and messages from an administrator to local-network clients."],
@@ -228,7 +332,7 @@ export const projects: Project[] = [
     stack: ["Python", "PySide6", "TCP/LAN", "CSV", "JSON", "Windows"],
   },
   {
-    id: "human", number: "09", name: "Núcleo Humano", category: "web", year: "2026", visual: "human",
+    id: "human", number: "13", name: "Núcleo Humano", category: "web", year: "2026", visual: "human",
     type: ["Encargo · Portafolio académico", "Commission · Academic portfolio"], status: ["Entrega web · v6", "Web delivery · v6"],
     headline: ["Aprender también puede explorarse.", "Learning can be explored, too."],
     description: ["Una experiencia web para Juan Esteban. Evolución de Maestro · Ser Humano, con clases, evidencias y reflexión personal.", "A web experience for Juan Esteban. An evolution of Maestro · Ser Humano, with classes, evidence and personal reflection."],
@@ -247,7 +351,7 @@ export const projects: Project[] = [
     stack: ["HTML", "CSS", "JavaScript", "Responsive Design"],
   },
   {
-    id: "pharmacy", number: "10", name: "Inventario de farmacia", category: "concept", year: "2026", visual: "pharmacy",
+    id: "pharmacy", number: "14", name: "Inventario de farmacia", category: "concept", year: "2026", visual: "pharmacy", visible: false,
     type: ["Propuesta · Diseño de solución", "Proposal · Solution design"], status: ["Propuesta, sin entrega confirmada", "Proposal, delivery unconfirmed"],
     headline: ["Lotes, vencimientos y trazabilidad.", "Batches, expiration and traceability."],
     description: ["Propuesta funcional y técnica para controlar existencias, lotes, fechas de vencimiento y movimientos de una farmacia.", "Functional and technical proposal to track pharmacy stock, batches, expiration dates and movements."],
@@ -259,7 +363,7 @@ export const projects: Project[] = [
     stack: ["Análisis de requisitos", "Diseño funcional", "Planificación"],
   },
   {
-    id: "edtech", number: "11", name: "Marketplace de servicios & EdTech", category: "concept", year: "2026", visual: "edtech",
+    id: "edtech", number: "15", name: "Marketplace de servicios & EdTech", category: "concept", year: "2026", visual: "edtech", visible: false,
     type: ["Propuesta · Arquitectura de MVP", "Proposal · MVP architecture"], status: ["MVP propuesto", "Proposed MVP"],
     headline: ["Reservas, pagos y contenido digital.", "Bookings, payments and digital content."],
     description: ["Diseño de un MVP multiplataforma con proveedores, suscripciones, reservas, videollamadas y pagos divididos.", "Design of a cross-platform MVP with providers, subscriptions, bookings, video calls and split payments."],
@@ -271,7 +375,7 @@ export const projects: Project[] = [
     stack: ["Flutter", "Dart", "Python", "FastAPI", "Stripe Connect", "APIs"],
   },
   {
-    id: "gyo-medical", number: "12", name: "GYO Medical I.P.S. · Internal Alerts", category: "desktop", year: "2026", visual: "alerts", cover: "/assets/projects/gyo-medical.svg",
+    id: "gyo-medical", number: "16", name: "GYO Medical I.P.S. · Internal Alerts", category: "desktop", year: "2026", visual: "alerts", cover: "/assets/projects/gyo-medical.svg",
     type: ["Participación profesional · Salud & TI", "Professional participation · Healthcare IT"], status: ["Desarrollado e implementado internamente", "Developed and implemented internally"],
     headline: ["Comunicación interna con contexto tecnológico.", "Internal communication with technical context."],
     description: ["Aplicación interna para anuncios, notificaciones y alertas institucionales, acompañada por trabajo de soporte e infraestructura tecnológica en GYO Medical I.P.S.", "An internal application for institutional announcements, notifications and alerts, alongside IT support and infrastructure work at GYO Medical I.P.S."],
@@ -292,7 +396,7 @@ export const projects: Project[] = [
     stack: ["Aplicación interna", "LAN / Wi-Fi", "Soporte TI", "HIS / ERP", "PACS / DICOM"],
   },
   {
-    id: "exam-randomizer", number: "13", name: "Randomized Exam Generator", category: "education", year: "2026", visual: "edtech", cover: "/assets/projects/exam-randomizer.svg",
+    id: "exam-randomizer", number: "17", name: "Randomized Exam Generator", category: "education", year: "2026", visual: "edtech", cover: "/assets/projects/exam-randomizer.svg",
     type: ["Proyecto educativo · Automatización", "Education project · Automation"], status: ["Diseñado y automatizado", "Designed and automated"],
     headline: ["Un banco de preguntas. Exámenes distintos.", "One question bank. Different exams."],
     description: ["Sistema para generar evaluaciones individuales a partir de un banco amplio de preguntas usando Google Forms, Sheets y Apps Script.", "A system that generates individual assessments from a larger question bank using Google Forms, Sheets and Apps Script."],
@@ -313,7 +417,7 @@ export const projects: Project[] = [
     stack: ["Google Apps Script", "Google Forms", "Google Sheets", "JavaScript", "Automatización"],
   },
   {
-    id: "eficode-fullstack", number: "14", name: "Full-Stack Product Engineering · EFFICODE", category: "web", year: "2018—2022", visual: "global", cover: "/assets/projects/eficode-fullstack.svg",
+    id: "eficode-fullstack", number: "18", name: "Full-Stack Product Engineering · EFFICODE", category: "web", year: "2018—2022", visual: "global", cover: "/assets/projects/eficode-fullstack.svg",
     type: ["Participación profesional · Full-Stack", "Professional participation · Full-Stack"], status: ["Experiencia profesional completada", "Completed professional experience"],
     headline: ["Mobile, web y backend conectados.", "Mobile, web and backend connected."],
     description: ["Conjunto de soluciones desarrolladas durante mi etapa como Full-Stack Developer, combinando aplicaciones móviles, frontends web, APIs e integraciones.", "A set of solutions developed during my time as a Full-Stack Developer, combining mobile applications, web frontends, APIs and integrations."],
@@ -334,7 +438,7 @@ export const projects: Project[] = [
     stack: ["Flutter", "Dart", "Python", "FastAPI", "Angular", "TypeScript", "REST", "SQL / NoSQL", "AWS", "Firebase", "SAP / Siigo"],
   },
   {
-    id: "cloud-solutions", number: "15", name: "Cloud Solutions & Migrations · Servinformación", category: "cloud", year: "2022—2024", visual: "containers", cover: "/assets/projects/cloud-solutions.svg",
+    id: "cloud-solutions", number: "19", name: "Cloud Solutions & Migrations · Servinformación", category: "cloud", year: "2022—2024", visual: "containers", cover: "/assets/projects/cloud-solutions.svg",
     type: ["Cloud Architecture · Migrations", "Cloud Architecture · Migrations"], status: ["Experiencia profesional completada", "Completed professional experience"],
     headline: ["Del requisito a una arquitectura desplegable.", "From requirement to deployable architecture."],
     description: ["Trabajo de análisis, diseño de soluciones cloud, arquitectura y planificación de migraciones como GCP Pre-Sales Engineer.", "Requirements analysis, cloud solution design, architecture and migration planning as a GCP Pre-Sales Engineer."],
@@ -363,7 +467,7 @@ export const projects: Project[] = [
     stack: ["GCP", "AWS", "Azure", "Docker", "Kubernetes", "Arquitectura cloud", "Migraciones"],
   },
   {
-    id: "wake-on-lan", number: "16", name: "Wake-on-LAN Home Automation", category: "cloud", year: "2026", visual: "maya", cover: "/assets/projects/wake-on-lan.svg",
+    id: "wake-on-lan", number: "20", name: "Wake-on-LAN Home Automation", category: "cloud", year: "2026", visual: "maya", cover: "/assets/projects/wake-on-lan.svg",
     type: ["Proyecto personal · Automatización", "Personal project · Automation"], status: ["Configurado y probado por etapas", "Configured and tested in stages"],
     headline: ["Encender un equipo también puede automatizarse.", "Even powering on a computer can be automated."],
     description: ["Proyecto personal para encender y controlar un PC remotamente mediante Wake-on-LAN, red doméstica y herramientas de automatización.", "A personal project for remotely powering on and controlling a PC through Wake-on-LAN, a home network and automation tools."],
@@ -382,7 +486,7 @@ export const projects: Project[] = [
     stack: ["Wake-on-LAN", "LAN", "Archer C80", "Alexa", "PC Commander", "Push2Run", "Automatización"],
   },
   {
-    id: "dev-minds", number: "17", name: "Dev-Minds", category: "education", year: "2026", visual: "edtech", cover: "/assets/projects/dev-minds.svg",
+    id: "dev-minds", number: "21", name: "Dev-Minds", category: "education", year: "2026", visual: "edtech", cover: "/assets/projects/dev-minds.svg",
     type: ["Proyecto educativo · Dirección", "Education project · Lead"], status: ["Centro de interés en ejecución", "Learning initiative in progress"],
     headline: ["Tecnología que se aprende construyendo.", "Technology learned by building."],
     description: ["Centro de Interés que dirijo para acercar programación, pensamiento computacional y trabajo STEAM a estudiantes mediante actividades y proyectos.", "A learning initiative I lead to bring programming, computational thinking and STEAM work to students through activities and projects."],
@@ -401,7 +505,7 @@ export const projects: Project[] = [
     stack: ["STEAM", "ABP / PBL", "Pensamiento computacional", "Programación", "Evaluación digital"],
   },
   {
-    id: "digital-security", number: "18", name: "Digital Citizenship & Security", category: "education", year: "2026", visual: "license", cover: "/assets/projects/digital-security.svg",
+    id: "digital-security", number: "22", name: "Digital Citizenship & Security", category: "education", year: "2026", visual: "license", cover: "/assets/projects/digital-security.svg",
     type: ["Proyecto educativo · Seguridad digital", "Education project · Digital security"], status: ["Diseñado para aula", "Designed for classroom use"],
     headline: ["Usar tecnología también implica saber protegerse.", "Using technology also means knowing how to stay safe."],
     description: ["Secuencia educativa sobre identidad digital, riesgos, violencia digital, estafas, malware, privacidad y protección de información.", "An educational sequence covering digital identity, risks, online violence, scams, malware, privacy and information protection."],
@@ -421,7 +525,7 @@ export const projects: Project[] = [
     stack: ["Ciudadanía digital", "Seguridad digital", "Privacidad", "Pensamiento computacional", "ABP / PBL"],
   },
   {
-    id: "microbit-arduino", number: "19", name: "Computational Thinking · micro:bit & Arduino", category: "education", year: "2026", visual: "maya", cover: "/assets/projects/microbit-arduino.svg",
+    id: "microbit-arduino", number: "23", name: "Computational Thinking · micro:bit & Arduino", category: "education", year: "2026", visual: "maya", cover: "/assets/projects/microbit-arduino.svg",
     type: ["Proyecto educativo · STEAM", "Education project · STEAM"], status: ["Planeado e integrado al currículo", "Planned and integrated into the curriculum"],
     headline: ["Del algoritmo al prototipo.", "From algorithm to prototype."],
     description: ["Línea de actividades que conecta descomposición, patrones, algoritmos y evaluación de soluciones con prototipos usando micro:bit y Arduino.", "A set of activities connecting decomposition, patterns, algorithms and solution evaluation with prototypes using micro:bit and Arduino."],
@@ -440,7 +544,7 @@ export const projects: Project[] = [
     stack: ["micro:bit", "Arduino", "STEAM", "Pensamiento computacional", "Algoritmos", "Prototipado"],
   },
   {
-    id: "university-apps", number: "20", name: "University Mobile & Web Apps", category: "mobile", year: "Formación / Studies", visual: "banking", cover: "/assets/projects/university-apps.svg",
+    id: "university-apps", number: "24", name: "University Mobile & Web Apps", category: "mobile", year: "Formación / Studies", visual: "banking", cover: "/assets/projects/university-apps.svg",
     type: ["Proyectos académicos · Ingeniería de Sistemas", "Academic projects · Systems Engineering"], status: ["Proyectos de formación", "Training projects"],
     headline: ["Aprender software construyendo software.", "Learning software by building software."],
     description: ["Aplicaciones y ejercicios académicos desarrollados durante mi formación en Ingeniería de Sistemas, incluyendo experiencias con Ionic y Firebase.", "Applications and academic exercises developed during my Systems Engineering studies, including work with Ionic and Firebase."],
@@ -459,7 +563,7 @@ export const projects: Project[] = [
     stack: ["Ionic Framework", "Firebase", "Mobile", "Web", "Ingeniería de Sistemas"],
   },
   {
-    id: "cloud-delivery", number: "21", name: "Cloud, CI/CD & Delivery Engineering", category: "cloud", year: "2018—2026", visual: "containers", cover: "/assets/projects/cloud-delivery.svg",
+    id: "cloud-delivery", number: "25", name: "Cloud, CI/CD & Delivery Engineering", category: "cloud", year: "2018—2026", visual: "containers", cover: "/assets/projects/cloud-delivery.svg",
     type: ["Práctica transversal · Cloud & DevOps", "Cross-project practice · Cloud & DevOps"], status: ["Experiencia aplicada en múltiples proyectos", "Applied across multiple projects"],
     headline: ["El software no termina cuando compila.", "Software does not end when it compiles."],
     description: ["Trabajo transversal de despliegue, automatización, control de calidad y operación usando servicios cloud, repositorios y pipelines.", "Cross-project work in deployment, automation, quality control and operations using cloud services, repositories and pipelines."],
@@ -507,9 +611,9 @@ export const certificates = [
   { issuer: "Google Cloud", name: "Cloud Digital Leader", year: "", kind: ["Certificación histórica · Expirada", "Historical certification · Expired"] as Copy },
 ];
 
-export const featuredProjectIds = ["cloud-solutions", "maya", "eficode-fullstack", "commerce", "banking", "licensing"] as const;
+export const featuredProjectIds = ["cloud-solutions", "mesaflow", "commerce", "random-playlist", "device-control", "banking"] as const;
 
-export const additionalPriorityIds = ["musiclinks", "ai-global", "containers", "alerts", "cloud-delivery", "gyo-medical"] as const;
+export const additionalPriorityIds = ["exivun", "maya", "eficode-fullstack", "ai-global", "musiclinks", "licensing", "alerts", "containers", "cloud-delivery", "gyo-medical"] as const;
 
 export const aiCloudDirection = {
   name: "AI Cloud Platform",
