@@ -397,7 +397,7 @@ function Hero({ c, lang, L, t, cv, mode }: { c: PortfolioContent; lang: Lang; L:
           <span className="ok">✓ 7 checks passed</span>
         </code></pre>
       </div>
-      <div className="lens-ring" aria-hidden="true"><span>X-RAY</span></div>
+      <div className="lens-ring" aria-hidden="true"><span>{L("REVELADO", "DEVELOPING")}</span></div>
       <p className="hero-hint" aria-hidden="true">{L("Pasa el cursor: así está hecho por dentro.", "Hover: this is how it is built inside.")}</p>
     </section>
   );
