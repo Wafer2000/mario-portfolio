@@ -79,7 +79,6 @@ export default function Portfolio({ initialContent }: { initialContent: Portfoli
   const archiveCats = useMemo(() => categories.filter(cat => cat.id === "all" || archive.some(x => x.category === cat.id)), [archive]);
   const filtered = archive.filter(x => filter === "all" || x.category === filter);
   const visibleArchive = showAll ? filtered : filtered.slice(0, 6);
-  const teaching = c.projects.find(x => x.id === "dev-minds");
   const cv = lang === "es" ? p.cvEsUrl : p.cvEnUrl;
 
   return (
@@ -89,7 +88,7 @@ export default function Portfolio({ initialContent }: { initialContent: Portfoli
 
       <header className="nav">
         <a className="mono-mark" href="#top" aria-label="Mario Gonsalvez, inicio">
-          <span className="mm">MG</span>
+          <svg className="mm" viewBox="0 0 64 64" aria-hidden="true"><rect x="1" y="1" width="62" height="62" rx="14" fill="#1e1814" stroke="#4a3b31" strokeWidth="2" /><g fill="none" stroke="#efe8dc" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 43V21l9.5 12.5L30 21v22" /><path d="M53.5 26A9.5 9.5 0 1 0 53.5 38V32.5H47" /></g><circle className="mm-dot" cx="53" cy="12.5" r="3.6" fill="#b5502f" /></svg>
           <span className="mm-txt"><b>{p.shortName}</b><small>{p.role}</small></span>
         </a>
         <nav aria-label={L("Secciones", "Sections")}>
@@ -245,22 +244,10 @@ export default function Portfolio({ initialContent }: { initialContent: Portfoli
           </div>
         </section>
 
-        {/* ---------- Teaching ---------- */}
-        {teaching && (
-          <section className="sec teach" aria-labelledby="teach-h">
-            <div className="teach-in rv">
-              <span className="tag">{L("Hoja 07 · También enseño", "Sheet 07 · I also teach")}</span>
-              <h2 id="teach-h">{t(teaching.headline)}</h2>
-              <p className="lede">{t(teaching.description)}</p>
-              <button type="button" className="btn ghost" onClick={() => setOpen(teaching)}>{L("Ver Dev-Minds", "See Dev-Minds")} <span aria-hidden="true">↗</span></button>
-            </div>
-          </section>
-        )}
-
         {/* ---------- Contact ---------- */}
         <section className="contact" id="contacto" aria-labelledby="contact-h">
           <div className="contact-in">
-            <span className="tag">{L("Hoja 08 · Contacto", "Sheet 08 · Contact")}</span>
+            <span className="tag">{L("Hoja 07 · Contacto", "Sheet 07 · Contact")}</span>
             <h2 id="contact-h">{L("¿Construimos algo", "Shall we build something")}<br /><em>{L("que funcione de verdad?", "that actually works?")}</em></h2>
             <div className="contact-grid">
               <CopyRow label="Email" value={c.contact.email} L={L} />

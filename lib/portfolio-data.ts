@@ -486,7 +486,7 @@ export const projects: Project[] = [
     stack: ["Wake-on-LAN", "LAN", "Archer C80", "Alexa", "PC Commander", "Push2Run", "Automatización"],
   },
   {
-    id: "dev-minds", number: "21", name: "Dev-Minds", category: "education", year: "2026", visual: "edtech", cover: "/assets/projects/dev-minds.svg",
+    id: "dev-minds", number: "21", name: "Dev-Minds", category: "education", year: "2026", visual: "edtech", visible: false, cover: "/assets/projects/dev-minds.svg",
     type: ["Proyecto educativo · Dirección", "Education project · Lead"], status: ["Centro de interés en ejecución", "Learning initiative in progress"],
     headline: ["Tecnología que se aprende construyendo.", "Technology learned by building."],
     description: ["Centro de Interés que dirijo para acercar programación, pensamiento computacional y trabajo STEAM a estudiantes mediante actividades y proyectos.", "A learning initiative I lead to bring programming, computational thinking and STEAM work to students through activities and projects."],
