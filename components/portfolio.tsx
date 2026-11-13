@@ -1,228 +1,573 @@
 "use client";
 
-import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
-import type { LucideIcon } from "lucide-react";
-import { Activity, BookOpen, Boxes, BrainCircuit, Check, ChevronDown, Cloud, Code2, Code2 as Github, Copy, Cpu, Database, Download, ExternalLink, FileCode2, GitBranch, Globe2, GraduationCap, KeyRound, Layers3, UserRound as Linkedin, Mail, MapPin, Menu, Monitor, Plus, Rocket, RotateCcw, Search, Server, ShieldCheck, Smartphone, Terminal, TestTube2, Workflow, X } from "lucide-react";
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import { additionalPriorityIds, aiCloudDirection, categories, featuredProjectIds, text, type Category, type Lang } from "@/lib/portfolio-data";
-import { heroPhrases, pickHeroPhraseIndex } from "@/lib/hero-phrases";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { flushSync } from "react-dom";
+import { additionalPriorityIds, aiCloudDirection, categories, text, type Category, type Copy, type Lang } from "@/lib/portfolio-data";
 import type { PortfolioContent, PortfolioProject as Project } from "@/lib/portfolio-content";
 
+/* ---------- Language (persisted, same key as before) ---------- */
 let memoryLanguage: Lang = "es";
 function readLanguage(): Lang {
-  try { const value = localStorage.getItem("mario-portfolio-language"); if (value === "es" || value === "en") return value; } catch {}
+  try { const v = localStorage.getItem("mario-portfolio-language"); if (v === "es" || v === "en") return v; } catch {}
   return memoryLanguage;
 }
-function subscribeLanguage(callback: () => void) {
-  window.addEventListener("storage", callback);
-  window.addEventListener("mario-language-change", callback);
-  return () => { window.removeEventListener("storage", callback); window.removeEventListener("mario-language-change", callback); };
+function subscribeLanguage(cb: () => void) {
+  window.addEventListener("storage", cb);
+  window.addEventListener("mario-language-change", cb);
+  return () => { window.removeEventListener("storage", cb); window.removeEventListener("mario-language-change", cb); };
 }
-function setLang(value: Lang) {
-  memoryLanguage = value;
-  try { localStorage.setItem("mario-portfolio-language", value); } catch {}
+function setLang(v: Lang) {
+  memoryLanguage = v;
+  try { localStorage.setItem("mario-portfolio-language", v); } catch {}
   window.dispatchEvent(new Event("mario-language-change"));
 }
 
-const icons: Record<string, LucideIcon> = { commerce: Layers3, mesaflow: Workflow, playlist: Globe2, devicecontrol: ShieldCheck, exivun: BrainCircuit, maya: Cpu, musiclinks: Monitor, global: Globe2, banking: Smartphone, containers: Boxes, license: KeyRound, alerts: Activity, human: BookOpen, pharmacy: Boxes, edtech: GraduationCap };
-const translatedStack: Record<string, string> = { "Análisis de requisitos": "Requirements analysis", "Diseño funcional": "Functional design", "Planificación": "Planning", "Pagos / Conciliación": "Payments / Reconciliation", "Geolocalización": "Geolocation", "Notificaciones": "Notifications", "Cifrado": "Encryption", "Aplicación interna": "Internal application", "Soporte TI": "IT support", "Automatización": "Automation", "Arquitectura cloud": "Cloud architecture", "Migraciones": "Migrations", "Pensamiento computacional": "Computational thinking", "Programación": "Programming", "Evaluación digital": "Digital assessment", "Ciudadanía digital": "Digital citizenship", "Seguridad digital": "Digital security", "Privacidad": "Privacy", "Algoritmos": "Algorithms", "Prototipado": "Prototyping", "Ingeniería de Sistemas": "Systems Engineering", "Software Architecture": "Software Architecture", "AI Engineering": "AI Engineering", "GitHub Actions": "GitHub Actions", "Arquitectura": "Architecture", "Pruebas": "Testing" };
+type Mode = "magia" | "ing";
 
-let memoryHeroPhraseIndex: number | null = null;
-function subscribeHeroPhrase() { return () => {}; }
-function readHeroPhraseIndex() {
-  if (memoryHeroPhraseIndex === null) memoryHeroPhraseIndex = pickHeroPhraseIndex();
-  return memoryHeroPhraseIndex;
+/* Shipped work first; the planned AI platform lives in the lab, not at the top. */
+const FEATURED = ["mesaflow", "commerce", "random-playlist", "banking", "device-control", "cloud-solutions"] as const;
+const ORIGIN = "11.38°N 72.24°W";
+
+function hash7(s: string) {
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return (h >>> 0).toString(16).padStart(8, "0").slice(0, 7);
 }
 
-function MiniInventory({ lang }: { lang: Lang }) {
-  const [query, setQuery] = useState("");
-  const [sold, setSold] = useState(false);
-  const t = (es: string, en: string) => lang === "es" ? es : en;
-  const matches = "iphone 16 pro demo-001 negro black 256 gb".includes(query.trim().toLowerCase());
-  return <div className="inventory-demo">
-    <p className="eyebrow">Apple Inventory · IP Global Digital</p><h2>{t("Cada equipo.\nToda su historia.", "Every device.\nIts entire story.")}</h2>
-    <div className="mini-search"><Search size={16}/><input value={query} onChange={e=>setQuery(e.target.value)} aria-label={t("Buscar producto de ejemplo", "Search example product")} placeholder={t("Prueba: iPhone o DEMO-001", "Try: iPhone or DEMO-001")}/>{query && <button onClick={()=>setQuery("")} aria-label={t("Limpiar búsqueda", "Clear search")}><X size={15}/></button>}</div>
-    {matches ? <div className="mini-product"><span className="mini-icon"><Smartphone size={25}/></span><div className="mini-product-info"><strong>iPhone 16 Pro</strong><small>256 GB · {t("Negro", "Black")} · DEMO-001</small><div className="battery"><span><i/></span>92% {t("Batería", "Battery")}</div></div><span className={`mini-status ${sold ? "sold" : ""}`}>{sold ? t("Vendido", "Sold") : t("Disponible", "Available")}</span></div> : <div className="mini-empty">{t("Sin coincidencias. Prueba «iPhone».", "No matches. Try 'iPhone'.")}</div>}
-    <div className="demo-action-row"><span aria-live="polite">{sold ? t("Stock actualizado en la demo.", "Demo stock updated.") : t("Inventario → Venta → Trazabilidad", "Inventory · Sale · Traceability")}</span><button className="demo-button" onClick={()=>setSold(!sold)} disabled={!matches}>{sold ? <><RotateCcw size={13}/>{t("Reiniciar", "Reset")}</> : t("Simular venta", "Simulate sale")}</button></div>
-    <p className="demo-disclaimer">{t("Demostración con datos de ejemplo.", "Demonstration using sample data.")}</p>
-  </div>;
+function host(url: string) {
+  try { return new URL(url).host.replace(/^www\./, ""); } catch { return url; }
 }
 
-function MiniAgent({ lang }: { lang: Lang }) {
-  const [result, setResult] = useState<"read" | "write" | null>(null);
-  const t = (es: string, en: string) => lang === "es" ? es : en;
-  return <div className="agent-demo"><p className="eyebrow">MAYA / Local-first agent</p><h2>{t("IA local.\nAcciones con control.", "Local AI.\nControlled actions.")}</h2><div className="terminal-demo"><div><Terminal size={15}/><span>Policy Engine</span><small>v0.7.3</small></div><p><span className="terminal-prompt">›</span> {result === "write" ? "write_file" : "list_files"}<span className="terminal-cursor"/></p><p className={`terminal-result ${result === "write" ? "blocked" : ""}`} aria-live="polite">{result === "write" ? <><ShieldCheck size={16}/>{t("BLOCKED · Requiere aprobación local", "BLOCKED · Requires local approval")}</> : <><Check size={16}/>{t("SAFE · Lectura del workspace autorizado", "SAFE · Authorized workspace read")}</>}</p><p className="terminal-meta">{t("Identidad firmada · Memoria local", "Signed identity · Local memory")}</p></div><div className="agent-actions"><button className="demo-button" onClick={()=>setResult("read")}>{t("Simular lectura", "Simulate read")}</button><button className="demo-button outline" onClick={()=>setResult("write")}>{t("Simular escritura remota", "Simulate remote write")}</button></div><p className="demo-disclaimer">{t("Simulación de política. Sin acceso a tus archivos.", "Policy simulation. No access to your files.")}</p></div>;
-}
-
-function MiniMusic({ lang }: { lang: Lang }) {
-  const [input, setInput] = useState("https://www.youtube.com/watch?v=dQw4w9WgXc&si=example");
-  const [output, setOutput] = useState("");
-  const [error, setError] = useState("");
-  const [copied, setCopied] = useState(false);
-  const t = (es: string, en: string) => lang === "es" ? es : en;
-  function clean() {
-    setCopied(false); setError(""); setOutput("");
-    try {
-      const u = new URL(input.trim());
-      if (!["https:", "http:"].includes(u.protocol)) throw new Error();
-      const host = u.hostname.toLowerCase();
-      let result: URL;
-      if (["youtu.be", "www.youtu.be"].includes(host)) {
-        const id = u.pathname.slice(1); if (!/^[\w-]{11}$/.test(id)) throw new Error();
-        result = new URL("https://www.youtube.com/watch"); result.searchParams.set("v", id);
-      } else if (["youtube.com", "www.youtube.com", "music.youtube.com", "m.youtube.com"].includes(host)) {
-        result = new URL("https://www.youtube.com");
-        if (u.pathname === "/watch" && /^[\w-]{11}$/.test(u.searchParams.get("v") ?? "")) { result.pathname="/watch";result.searchParams.set("v",u.searchParams.get("v")!); }
-        else if (u.pathname === "/playlist" && /^[\w-]+$/.test(u.searchParams.get("list") ?? "")) {result.pathname="/playlist";result.searchParams.set("list",u.searchParams.get("list")!);}
-        else throw new Error();
-      } else if (host === "open.spotify.com" && /^\/(intl-[a-z]{2}\/)?(track|album|playlist)\/[a-zA-Z0-9]+\/?$/.test(u.pathname)) result = new URL(`https://open.spotify.com${u.pathname.replace(/^\/intl-[a-z]{2}/, "")}`);
-      else if (["deezer.com", "www.deezer.com"].includes(host) && /^\/(?:[a-z]{2}\/)?(track|album|playlist)\/\d+\/?$/.test(u.pathname)) result = new URL(`https://www.deezer.com${u.pathname}`);
-      else throw new Error();
-      setOutput(result.toString());
-    } catch { setError(t("Ingresa un enlace de YouTube, Spotify o Deezer compatible.", "Enter a supported YouTube, Spotify or Deezer link.")); }
-  }
-  return <div className="music-demo"><p className="eyebrow"><img src="/assets/musiclinks.png" alt="" width="21" height="21"/>MusicLinks</p><h2>{t("Tu música,\nsus enlaces.", "Your music,\nits links.")}</h2><label className="mini-label" htmlFor="music-url">{t("Prueba la limpieza de una URL", "Try cleaning a URL")}</label><input className="music-input" id="music-url" value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")clean();}} inputMode="url"/><div className="music-result" aria-live="polite">{error || output || t("El enlace limpio aparecerá aquí.", "The clean link will appear here.")}</div><div className="agent-actions"><button className="demo-button" onClick={clean}>{t("Limpiar enlace", "Clean link")}</button>{output && <button className="demo-button outline" onClick={async()=>{try{await navigator.clipboard.writeText(output);setCopied(true);}catch{setError(t("Selecciona y copia el resultado.", "Select and copy the result."));}}}>{copied ? <Check size={14}/> : <Copy size={14}/>} {copied ? t("Copiado", "Copied") : t("Copiar", "Copy")}</button>}</div><p className="demo-disclaimer">{t("Limpieza local de una URL. La app completa procesa álbumes y listas.", "Local URL cleanup. The full app processes albums and playlists.")}</p></div>;
-}
-
-function ProjectVisual({ project, lang }: { project: Project; lang: Lang }) {
-  const t = (es: string, en: string) => lang === "es" ? es : en;
-  const Icon = icons[project.visual] ?? Code2;
-  if (project.cover) return <div className="visual visual-photo"><img src={project.cover} alt={project.name} width="1000" height="600" loading="lazy"/><span>{project.name}</span></div>;
-  if (project.visual === "commerce") return <div className="visual visual-commerce"><div className="visual-top"><span>AI / Inventory</span><span>IP Global Digital</span></div><div className="visual-table"><div className="visual-table-head"><span>{t("Equipo", "Device")}</span><span>{t("Batería", "Battery")}</span><span>{t("Estado", "Status")}</span></div>{[{model:"iPhone 16 Pro",battery:"92%"},{model:"iPhone 15",battery:"87%"},{model:"iPad Air",battery:"100%"}].map((x,i)=><div key={x.model}><span><Smartphone size={14}/>{x.model}<small>DEMO-00{i+1}</small></span><span>{x.battery}</span><span className="table-pill">{t("Stock", "Stock")}</span></div>)}</div><div className="visual-caption">{t("Vista ilustrativa · Datos de ejemplo", "Illustrative view · Sample data")}</div></div>;
-  if (project.visual === "maya") return <div className="visual visual-maya"><div className="visual-top"><span><Terminal size={14}/>MAYA / Architecture</span><span>Local-first</span></div><div className="agent-diagram"><div><Cpu size={20}/><span>Ollama<small>{t("Modelo local", "Local model")}</small></span></div><i/><div className="policy-node"><ShieldCheck size={20}/><span>Policy Engine<small>{t("Permisos + Auditoría", "Permissions + Audit")}</small></span></div><i/><div><Workflow size={20}/><span>Tools / Remote Worker<small>{t("Workspace autorizado", "Authorized workspace")}</small></span></div></div></div>;
-  if (project.visual === "musiclinks") return <div className="visual visual-music"><img src="/assets/musiclinks.png" alt="Logo de MusicLinks" width="78" height="78"/><div><strong>MusicLinks</strong><span>Spotify · YouTube · Deezer</span></div><div className="music-wave" aria-hidden="true">{[12,25,39,21,44,55,33,21,39,51,29,16,36,45,23,12].map((n,i)=><i style={{height:n}} key={i}/>)}</div></div>;
-  if (project.visual === "global") return <div className="visual visual-global"><div className="global-word">AI GLOBAL<span>Digital Marketplace</span></div><div className="global-pills"><span><BookOpen size={14}/>{t("Cursos", "Courses")}</span><span><KeyRound size={14}/>{t("Membresías", "Memberships")}</span></div></div>;
-  if (project.visual === "banking") return <div className="visual visual-banking"><Smartphone size={38}/><div><strong>Flutter</strong><span>Android / iOS</span></div><span className="visual-big-label">Mobile<br/>Banking</span></div>;
-  if (project.visual === "containers") return <div className="visual visual-containers"><div className="container-title"><Boxes size={24}/><span>LA RAYA</span></div><div className="container-steps"><span>{t("Registro", "Register")}</span><i/><span>{t("Evidencia", "Evidence")}</span><i/><span>{t("Revisión", "Review")}</span></div></div>;
-  if (project.visual === "license") return <div className="visual visual-license"><KeyRound size={32}/><div className="license-plans"><span><strong>01</strong>{t("Mes", "Month")}</span><i/><span><strong>12</strong>{t("Meses", "Months")}</span></div><span className="license-small">1 DEVICE / 1 LICENSE</span></div>;
-  if (project.visual === "alerts") return <div className="visual visual-alerts"><div><Activity size={28}/><strong>{t("CÓDIGO AZUL", "BLUE CODE")}</strong></div><span>{t("Emisión · Recepción · Confirmación", "Send · Receive · Acknowledge")}</span></div>;
-  if (project.visual === "human") return <div className="visual visual-human"><span className="retro-tag">LEVEL 01 / HUMANISMO</span><strong>NÚCLEO<br/>HUMANO<span>_</span></strong><span className="retro-progress"><i/><i/><i/><i/><i/><i className="empty"/><i className="empty"/><i className="empty"/></span></div>;
-  return <div className="visual visual-concept"><Icon size={32}/><span>{t("Diseño de solución", "Solution design")}</span><div className="concept-grid"><span>01 / {t("Problema", "Problem")}</span><span>02 / {t("Alcance", "Scope")}</span><span>03 / {t("Arquitectura", "Architecture")}</span></div></div>;
-}
-
-function ProjectCard({ project, lang, featured, displayNumber, onOpen }: { project: Project; lang: Lang; featured: boolean; displayNumber?: string; onOpen: ()=>void }) {
-  const t = (es: string, en: string) => lang === "es" ? es : en;
-  return <article className={`project-card ${featured ? "featured" : ""}`}><button className="card-button" onClick={onOpen} aria-label={`${t("Explorar", "Explore")} ${project.name}`}><ProjectVisual project={project} lang={lang}/><div className="card-content"><div className="card-meta"><span>{text(project.type,lang)}</span><span>{displayNumber ?? project.number}</span></div><h3>{project.name}</h3><p>{text(project.description,lang)}</p><div className="stack-row">{project.stack.slice(0,3).map(s=><span key={s}>{lang==="en"?(translatedStack[s]??s):s}</span>)}</div><div className="card-footer"><span className="project-state">{text(project.status,lang)}</span><span className="open-case"><span>{t("Explorar caso", "Explore case")}</span><Plus size={17}/></span></div></div></button></article>;
-}
-
-function AiCloudProjectCard({ lang }: { lang: Lang }) {
-  const t = (es: string, en: string) => lang === "es" ? es : en;
-  return <div className="ai-cloud-direction" aria-label={t("Próximo flagship planificado", "Planned next flagship")}>
-    <div className="ai-cloud-copy">
-      <p className="eyebrow"><Rocket size={14}/>{t("Próximo flagship · Planificado", "Next flagship · Planned")}</p>
-      <h3>{aiCloudDirection.name}</h3>
-      <p>{text(aiCloudDirection.note,lang)}</p>
-      <small>{t("Dirección futura, no presentada como experiencia ya desplegada. RAG, embeddings, pgvector y vector search permanecen aquí como arquitectura objetivo hasta contar con evidencia de implementación.", "Future direction, not presented as already deployed experience. RAG, embeddings, pgvector and vector search remain here as target architecture until implementation evidence exists.")}</small>
-    </div>
-    <div className="target-architecture" aria-hidden="true"><span><Globe2 size={17}/>Next.js</span><i/><span><Server size={17}/>FastAPI</span><i/><span><Database size={17}/>PostgreSQL · pgvector</span><i/><span><BrainCircuit size={17}/>RAG · Agents</span></div>
-    <div className="target-stack">{aiCloudDirection.stack.map(s=><span key={s}>{s}</span>)}</div>
-  </div>;
+function isVerified(status: string) {
+  return /activo|publicado|producción|production|active|published|validado|validated|comprobad|confirmed|completada|completed|implementado|implemented/i.test(status);
 }
 
 export default function Portfolio({ initialContent }: { initialContent: PortfolioContent }) {
-  const { profile, projects, experience, certificates, expertise, contact, archiveRepos } = initialContent;
   const lang = useSyncExternalStore(subscribeLanguage, readLanguage, () => "es" as Lang);
-  const heroPhraseIndex = useSyncExternalStore(subscribeHeroPhrase, readHeroPhraseIndex, () => -1);
+  const t = useCallback((v: Copy) => text(v, lang), [lang]);
+  const L = useCallback((es: string, en: string) => (lang === "es" ? es : en), [lang]);
+  const c = initialContent;
+  const p = c.profile;
+
+  const [mode, setModeState] = useState<Mode>("magia");
+  const [open, setOpen] = useState<Project | null>(null);
   const [filter, setFilter] = useState<Category>("all");
-  const [query, setQuery] = useState("");
-  const [selected, setSelected] = useState<Project | null>(null);
-  const [commandOpen, setCommandOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const [copyError, setCopyError] = useState(false);
-  const [showAllAdditional, setShowAllAdditional] = useState(false);
-  const t = (es: string, en: string) => lang === "es" ? es : en;
-  const cvUrl = lang === "es" ? profile.cvEsUrl : profile.cvEnUrl;
-  const heroPhrase = heroPhraseIndex >= 0 ? heroPhrases[heroPhraseIndex] : { title: ["Menos magia.", "Less magic."] as const, subtitle: ["Más ingeniería.", "More engineering."] as const };
+  const [showAll, setShowAll] = useState(false);
 
-  useEffect(()=>{
-    const onKey=(e:KeyboardEvent)=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==="k"){e.preventDefault();setCommandOpen(v=>!v);}};
-    window.addEventListener("keydown",onKey);return ()=>window.removeEventListener("keydown",onKey);
-  },[]);
-  useEffect(()=>{document.documentElement.lang=lang;document.title=`${profile.shortName} | Senior Software Engineer · Mobile · Backend · Cloud · AI`;},[lang,profile.shortName]);
+  useEffect(() => { document.documentElement.lang = lang; }, [lang]);
+  useEffect(() => { document.documentElement.dataset.mode = mode; }, [mode]);
 
-  const featuredProjects = useMemo(() => featuredProjectIds.map(id => projects.find(p => p.id === id)).filter((p): p is Project => Boolean(p)), [projects]);
-  const featuredSet = useMemo(() => new Set(featuredProjectIds), []);
-  const additionalProjects = useMemo(() => {
-    const priority = new Map<string, number>(additionalPriorityIds.map((id, index) => [id, index]));
-    return projects
-      .filter(p => !featuredSet.has(p.id as typeof featuredProjectIds[number]))
-      .sort((a, b) => (priority.get(a.id) ?? 999) - (priority.get(b.id) ?? 999));
-  }, [projects, featuredSet]);
-  const additionalCategories = useMemo(() => categories.filter(c => c.id === "all" || additionalProjects.some(p => p.category === c.id)), [additionalProjects]);
-  const filtered = useMemo(()=>additionalProjects.filter(p=>(filter==="all"||p.category===filter)&&`${p.name} ${text(p.description,lang)} ${p.stack.join(" ")} ${text(p.type,lang)}`.toLocaleLowerCase().includes(query.toLocaleLowerCase().trim())),[filter,query,lang,additionalProjects]);
-  const isBrowsingAdditional = filter !== "all" || query.trim().length > 0;
-  const visibleAdditional = !showAllAdditional && !isBrowsingAdditional ? filtered.slice(0, 6) : filtered;
-  const links = [{id:"proyectos",label:t("Proyectos","Projects")},{id:"perfil",label:t("Perfil","About")},{id:"experiencia",label:t("Trayectoria","Experience")},{id:"credenciales",label:t("Credenciales","Credentials")}];
-  const openProject=(p:Project)=>{setCommandOpen(false);setTimeout(()=>setSelected(p),120);};
-  const emailSubject=lang==="es"?"Oportunidad Senior Software Engineering — Mario Gonsalvez":"Senior Software Engineering opportunity — Mario Gonsalvez";
-  const emailLink=`mailto:${contact.email}?subject=${encodeURIComponent(emailSubject)}`;
-  const caseSections = selected?.caseStudy;
+  const switchMode = useCallback((next: Mode, origin?: HTMLElement | null) => {
+    const root = document.documentElement;
+    if (origin) {
+      const r = origin.getBoundingClientRect();
+      root.style.setProperty("--vx", `${r.left + r.width / 2}px`);
+      root.style.setProperty("--vy", `${r.top + r.height / 2}px`);
+    }
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown };
+    if (doc.startViewTransition && !reduce) doc.startViewTransition(() => { flushSync(() => setModeState(next)); });
+    else setModeState(next);
+  }, []);
 
-  return <>
-    <a className="skip-link" href="#contenido">{t("Saltar al contenido", "Skip to content")}</a>
-    <header className="site-nav">
-      <a className="brand" href="#inicio" aria-label={t("Mario Gonsalvez, inicio", "Mario Gonsalvez, home")}><span className="monogram">M<span>G</span></span><span>{profile.shortName}<small>Senior Software Engineer</small></span></a>
-      <nav aria-label={t("Navegación principal", "Main navigation")}>{links.map(l=><a href={`#${l.id}`} key={l.id}>{l.label}</a>)}</nav>
-      <div className="nav-actions"><button className="command-toggle" onClick={()=>setCommandOpen(true)} aria-label={t("Buscar proyectos (Ctrl o Cmd K)", "Search projects (Ctrl or Cmd K)")}><Search size={17}/><kbd>⌘ K</kbd></button><div className="language-switch" role="group" aria-label={t("Idioma", "Language")}><button aria-pressed={lang==="es"} onClick={()=>setLang("es")}>ES</button><span>/</span><button aria-pressed={lang==="en"} onClick={()=>setLang("en")}>EN</button></div><a className="nav-contact" href="#contacto">{t("Hablemos", "Let's talk")}<Mail size={16}/></a><Sheet open={menuOpen} onOpenChange={setMenuOpen}><SheetTrigger asChild><button className="mobile-menu" aria-label={t("Abrir menú", "Open menu")}><Menu size={21}/></button></SheetTrigger><SheetContent side="right" className="mobile-sheet"><SheetHeader><SheetTitle>{profile.shortName}</SheetTitle><SheetDescription>Senior Software Engineer · Mobile · Backend · Cloud · AI</SheetDescription></SheetHeader><nav aria-label={t("Navegación móvil", "Mobile navigation")}>{[...links,{id:"contacto",label:t("Contacto", "Contact")}].map(l=><a href={`#${l.id}`} onClick={()=>setMenuOpen(false)} key={l.id}>{l.label}<Plus size={18}/></a>)}</nav><a className="button primary" href={cvUrl} download><Download size={16}/>{t("Descargar CV", "Download resume")}</a></SheetContent></Sheet></div>
-    </header>
+  const featured = useMemo(() => FEATURED.map(id => c.projects.find(x => x.id === id)).filter((x): x is Project => Boolean(x)), [c.projects]);
+  const archive = useMemo(() => {
+    const rest = c.projects.filter(x => !FEATURED.includes(x.id as (typeof FEATURED)[number]));
+    const prio = (id: string) => { const i = (additionalPriorityIds as readonly string[]).indexOf(id); return i === -1 ? 999 : i; };
+    return rest.sort((a, b) => prio(a.id) - prio(b.id));
+  }, [c.projects]);
+  const archiveCats = useMemo(() => categories.filter(cat => cat.id === "all" || archive.some(x => x.category === cat.id)), [archive]);
+  const filtered = archive.filter(x => filter === "all" || x.category === filter);
+  const visibleArchive = showAll ? filtered : filtered.slice(0, 6);
+  const teaching = c.projects.find(x => x.id === "dev-minds");
+  const cv = lang === "es" ? p.cvEsUrl : p.cvEnUrl;
 
-    <main id="contenido">
-      <section className="hero hero-repositioned page-width" id="inicio">
-        <div className="hero-copy">
-          <div className="hero-personal">{profile.photoUrl&&<span className="hero-avatar"><img src={profile.photoUrl} alt={profile.fullName} width="88" height="88" fetchPriority="high"/></span>}<span><strong>{profile.shortName}</strong><small>{t("Ingeniería de software · Colombia · UTC−5","Software engineering · Colombia · UTC−5")}</small></span></div>
-          <p className="eyebrow"><span className="line"/>Senior Software Engineer</p>
-          <h1 className="role-hero">Senior Software<br/><span>Engineer</span></h1>
-          <p className="hero-disciplines">Mobile <i>·</i> Backend <i>·</i> Cloud <i>·</i> AI</p>
-          <p className="hero-intro">{text(profile.introduction,lang)}</p>
-          <div className="hero-links"><a href="#proyectos" className="button primary">{t("Ver proyectos", "View projects")}</a><a className="button" href={contact.github} target="_blank" rel="noopener noreferrer"><Github size={16}/>{t("Ver GitHub", "View GitHub")}</a><a className="text-link" href={cvUrl} download><Download size={17}/>{t("Descargar CV", "Download resume")}</a></div>
-          <div className="hero-random-note"><span>{t("Engineering note", "Engineering note")}</span><strong>{text(heroPhrase.title,lang)} {text(heroPhrase.subtitle,lang)}</strong></div>
-          <div className="hero-facts"><div><strong>{profile.softwareYears}</strong><span>{t("Años en software", "Years in Software")}</span></div><div><strong>{profile.flutterYears}</strong><span>{t("Años con Flutter", "Years with Flutter")}</span></div><div className="fact-text"><strong>Full-Stack & Cloud</strong><span>{t("Experiencia", "Experience")}</span></div><div className="fact-text"><strong>AI</strong><span>Engineering</span></div></div>
+  return (
+    <div className="mg" data-mode={mode}>
+      <a className="skip" href="#trabajo">{L("Saltar al trabajo", "Skip to work")}</a>
+      <div className="sheet-grid" aria-hidden="true" />
+
+      <header className="nav">
+        <a className="mono-mark" href="#top" aria-label="Mario Gonsalvez, inicio">
+          <span className="mm">MG</span>
+          <span className="mm-txt"><b>{p.shortName}</b><small>{p.role}</small></span>
+        </a>
+        <nav aria-label={L("Secciones", "Sections")}>
+          <a href="#trabajo">{L("Trabajo", "Work")}</a>
+          <a href="#lab">Lab</a>
+          <a href="#trayectoria">{L("Trayectoria", "Journey")}</a>
+          <a href="#contacto">{L("Contacto", "Contact")}</a>
+        </nav>
+        <div className="nav-actions">
+          <div className="lang" role="group" aria-label={L("Idioma", "Language")}>
+            <button type="button" aria-pressed={lang === "es"} onClick={() => setLang("es")}>ES</button>
+            <button type="button" aria-pressed={lang === "en"} onClick={() => setLang("en")}>EN</button>
+          </div>
+          <ModeSwitch mode={mode} onChange={switchMode} L={L} />
         </div>
-        <div className="hero-showcase"><div className="showcase-top"><span><Code2 size={16}/>{t("Engineering lab", "Engineering lab")}</span><span>Mario / 2026</span></div><Tabs defaultValue="maya" className="demo-tabs"><TabsList aria-label={t("Demostraciones de proyectos", "Project demonstrations")} className="showcase-tabs"><TabsTrigger value="maya"><BrainCircuit size={15}/>AI</TabsTrigger><TabsTrigger value="commerce"><Layers3 size={15}/>Full-Stack</TabsTrigger><TabsTrigger value="music"><Server size={15}/>Desktop/API</TabsTrigger></TabsList><TabsContent value="maya" className="showcase-body"><MiniAgent lang={lang}/></TabsContent><TabsContent value="commerce" className="showcase-body"><MiniInventory lang={lang}/></TabsContent><TabsContent value="music" className="showcase-body"><MiniMusic lang={lang}/></TabsContent></Tabs><div className="showcase-footer"><Plus size={13}/><span>{t("Arquitectura, producto y entrega.", "Architecture, product and delivery.")}</span><button onClick={()=>setCommandOpen(true)}>{t("Buscar proyecto", "Find project")}<kbd>⌘ K</kbd></button></div></div>
-      </section>
+      </header>
 
-      <div className="discipline-strip"><div className="page-width"><span>Software Engineering</span><Plus size={15}/><span>Mobile Engineering</span><Plus size={15}/><span>Backend & APIs</span><Plus size={15}/><span>Cloud & AI Engineering</span><span className="strip-location"><MapPin size={14}/>Colombia · UTC−5</span></div></div>
+      <main id="top">
+        <Hero c={c} lang={lang} L={L} t={t} cv={cv} mode={mode} />
 
-      <section className="work-section page-width" id="proyectos">
-        <p className="eyebrow">01 / {t("Ingeniería & Proyectos", "Engineering & Projects")}</p>
-        <div className="section-heading"><h2>{t("No todos los proyectos pesan igual.", "Not every project carries the same weight.")}</h2><p>{t("Primero, los casos que mejor representan mi dirección como Senior Software Engineer. Después, el resto del trabajo técnico y experimental.", "First, the cases that best represent my direction as a Senior Software Engineer. Then, the rest of my technical and experimental work.")}</p></div>
+        {/* ---------- Featured work ---------- */}
+        <section className="sec" id="trabajo" aria-labelledby="trabajo-h">
+          <div className="sec-head">
+            <span className="tag">{L("Hoja 02 · Trabajo en producción", "Sheet 02 · Work in production")}</span>
+            <h2 id="trabajo-h">{L("Lo que está funcionando hoy.", "What is running today.")}</h2>
+            <p className="lede">{L("Primero lo que ya usan personas reales. Cada caso tiene dos caras: lo que hace y cómo está construido.", "Real users first. Every case has two sides: what it does and how it is built.")}</p>
+          </div>
+          <ol className="cases">
+            {featured.map((x, i) => <CaseRow key={x.id} x={x} i={i} t={t} L={L} mode={mode} onOpen={() => setOpen(x)} />)}
+          </ol>
+        </section>
 
-        <AiCloudProjectCard lang={lang}/>
+        {/* ---------- Lab ---------- */}
+        <section className="sec lab" id="lab" aria-labelledby="lab-h">
+          <div className="lab-grid">
+            <div className="sec-head">
+              <span className="tag">{L("Hoja 03 · Laboratorio", "Sheet 03 · Lab")}</span>
+              <h2 id="lab-h">{L("IA local. Acciones con control.", "Local AI. Controlled actions.")}</h2>
+              <p className="lede">{L("MAYA es mi agente local-first: modelos con Ollama, memoria en SQLite e identidad Ed25519. Cada acción pasa por un motor de políticas antes de ejecutarse. Pruébalo:", "MAYA is my local-first agent: Ollama models, SQLite memory and Ed25519 identity. Every action goes through a policy engine before it runs. Try it:")}</p>
+              <p className="next">
+                <span className="tag">{L("Próximo", "Next")}</span>
+                <span><b>{aiCloudDirection.name}</b> · {t(aiCloudDirection.headline)}</span>
+              </p>
+            </div>
+            <PolicyTerminal L={L} />
+          </div>
+        </section>
 
-        <div className="featured-heading"><span>{t("Featured Engineering Work", "Featured Engineering Work")}</span><p>{t("Seis casos actuales: primero evidencia cloud y Full-Stack profesional; después producto, enterprise mobile y backend/licensing.", "Six current cases: professional cloud and Full-Stack evidence first, followed by product, enterprise mobile and backend/licensing.")}</p></div>
-        <div className="project-grid flagship-grid">{featuredProjects.map((p,i)=><ProjectCard key={p.id} project={p} lang={lang} featured={true} displayNumber={String(i+1).padStart(2,"0")} onOpen={()=>setSelected(p)}/>)}</div>
+        {/* ---------- Archive ---------- */}
+        <section className="sec" id="archivo" aria-labelledby="archivo-h">
+          <div className="sec-head row">
+            <div>
+              <span className="tag">{L("Hoja 04 · Archivo técnico", "Sheet 04 · Technical archive")}</span>
+              <h2 id="archivo-h">{L("Más productos, automatización y experimentos.", "More products, automation and experiments.")}</h2>
+            </div>
+            <div className="chips" role="group" aria-label={L("Filtrar por categoría", "Filter by category")}>
+              {archiveCats.map(cat => (
+                <button key={cat.id} type="button" aria-pressed={filter === cat.id} onClick={() => { setFilter(cat.id); setShowAll(false); }}>
+                  {t(cat.label)} <span>{cat.id === "all" ? archive.length : archive.filter(x => x.category === cat.id).length}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+          <ul className="archive">
+            {visibleArchive.map(x => (
+              <li key={x.id} className="rv">
+                <button type="button" className="arc" onClick={() => setOpen(x)}>
+                  <span className="arc-n">{x.number}</span>
+                  <span className="arc-main">
+                    <span className="arc-type">{t(x.type)}</span>
+                    <b>{x.name}</b>
+                    <span className="arc-head">{t(x.headline)}</span>
+                  </span>
+                  <span className="arc-meta">
+                    <span className={`st ${isVerified(t(x.status)) ? "ok" : "wip"}`}>{t(x.status)}</span>
+                    <span className="arc-stack">{x.stack.slice(0, 3).join(" · ")}</span>
+                  </span>
+                  <span className="arc-go" aria-hidden="true">↗</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+          {filtered.length > 6 && (
+            <button type="button" className="btn ghost more" onClick={() => setShowAll(s => !s)}>
+              {showAll ? L("Mostrar menos", "Show less") : L(`Ver todos (${filtered.length})`, `See all (${filtered.length})`)}
+            </button>
+          )}
+        </section>
 
-        <div className="additional-heading"><div><span className="eyebrow">{t("Additional Projects / Engineering Archive", "Additional Projects / Engineering Archive")}</span><h3>{t("Más productos, automatización y trabajo técnico.", "More products, automation and technical work.")}</h3></div><span>{additionalProjects.length} {t("casos", "cases")}</span></div>
-        <Tabs value={filter} onValueChange={(v: string)=>setFilter(v as Category)} className="work-tabs"><div className="work-controls"><TabsList aria-label={t("Filtrar proyectos", "Filter projects")} className="filter-tabs">{additionalCategories.map(c=><TabsTrigger key={c.id} value={c.id}>{text(c.label,lang)}<span>{c.id==="all"?additionalProjects.length:additionalProjects.filter(p=>p.category===c.id).length}</span></TabsTrigger>)}</TabsList><div className="project-search"><Search size={16}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder={t("Nombre o tecnología", "Name or technology")} aria-label={t("Buscar nombre o tecnología", "Search by name or technology")}/>{query&&<button aria-label={t("Limpiar búsqueda", "Clear search")} onClick={()=>setQuery("")}><X size={15}/></button>}</div></div>{additionalCategories.map(c=><TabsContent value={c.id} key={c.id}><div className="project-grid additional-grid">{visibleAdditional.map(p=><ProjectCard key={p.id} project={p} lang={lang} featured={false} onOpen={()=>setSelected(p)}/>)}</div>{filtered.length===0&&<div className="empty-results"><Search size={32}/><h3>{t("No encontré ese proyecto.", "No matching project.")}</h3><p>{t("Prueba con Flutter, Python, FastAPI, Cloud o el nombre del producto.", "Try Flutter, Python, FastAPI, Cloud or the product name.")}</p><button className="button" onClick={()=>{setQuery("");setFilter("all");}}>{t("Ver todos", "Show all")}</button></div>}{c.id==="all"&&!isBrowsingAdditional&&additionalProjects.length>6&&<div className="additional-toggle-wrap"><button className="button additional-toggle" aria-expanded={showAllAdditional} onClick={()=>setShowAllAdditional(v=>!v)}>{showAllAdditional?t("Mostrar solo los 6 principales", "Show only the top 6"):t(`Ver los ${additionalProjects.length} proyectos`, `View all ${additionalProjects.length} projects`)}<ChevronDown size={17} className={showAllAdditional?"expanded":""}/></button></div>}</TabsContent>)}</Tabs>
-        <p className="work-note"><Code2 size={15}/>{t("Los casos profesionales respetan confidencialidad; las vistas del portafolio son ilustrativas cuando no existen capturas públicas.", "Professional cases respect confidentiality; portfolio visuals are illustrative when public screenshots are unavailable.")}</p>
-        <details className="archive-section"><summary><div><span className="eyebrow">{t("Engineering Archive", "Engineering Archive")}</span><h3>{t("Repositorios anteriores y módulos de aprendizaje.", "Earlier repositories and learning modules.")}</h3></div><span className="archive-count">{archiveRepos.length} {t("Repositorios", "Repositories")}<ChevronDown size={20}/></span></summary><div className="archive-intro"><p>{t("Trabajo anterior que conserva valor como evidencia del recorrido, sin competir visualmente con los flagship actuales.", "Earlier work preserved as evidence of the journey without competing visually with the current flagship cases.")}</p><a className="text-link" href={`${contact.github}?tab=repositories`} target="_blank" rel="noopener noreferrer"><Github size={16}/>{t("Ver GitHub", "View GitHub")}</a></div><div className="archive-grid">{archiveRepos.map((r,i)=><a href={`https://github.com/Wafer2000/${r}`} key={r} target="_blank" rel="noopener noreferrer"><span className="archive-index">{String(i+1).padStart(2,"0")}</span><FileCode2 size={17}/><span>{r}</span><ExternalLink size={14}/></a>)}</div></details>
-      </section>
+        {/* ---------- Journey as git log ---------- */}
+        <section className="sec" id="trayectoria" aria-labelledby="tray-h">
+          <div className="sec-head">
+            <span className="tag">{L("Hoja 05 · Trayectoria", "Sheet 05 · Journey")}</span>
+            <h2 id="tray-h">{L("Siete años de commits.", "Seven years of commits.")}</h2>
+            <p className="lede">{t(p.about[0] ?? p.introduction)}</p>
+          </div>
+          <div className="gitlog" role="list">
+            <div className="gl-cmd" aria-hidden="true"><span className="pr">$</span> git log --career --graph</div>
+            {c.experience.map((e, i) => (
+              <div className="gl-row rv" role="listitem" key={e.company + e.role}>
+                <span className="gl-graph" aria-hidden="true"><i className={i === 0 ? "head" : ""} /></span>
+                <span className="gl-hash" aria-hidden="true">{hash7(e.company + e.role)}</span>
+                <div className="gl-body">
+                  <div className="gl-title">
+                    {e.current && <span className="gl-ref">HEAD → {e.company}</span>}
+                    {!e.current && <span className="gl-co">{e.company}</span>}
+                    <b>{e.role}</b>
+                  </div>
+                  <span className="gl-date">{t(e.dates)}</span>
+                  <p>{t(e.description)}</p>
+                </div>
+              </div>
+            ))}
+            <div className="gl-row rv root" role="listitem">
+              <span className="gl-graph" aria-hidden="true"><i /></span>
+              <span className="gl-hash" aria-hidden="true">{hash7(p.university)}</span>
+              <div className="gl-body">
+                <div className="gl-title"><span className="gl-co">{L("commit inicial", "initial commit")}</span><b>{t(p.education)}</b></div>
+                <span className="gl-date">{p.university}</span>
+              </div>
+            </div>
+          </div>
+        </section>
 
-      <section className="about-section page-width" id="perfil"><div className="about-heading"><p className="eyebrow">02 / {t("Perfil", "About")}</p><h2>{t("Software de extremo a extremo.\nDe la interfaz a la nube.", "End-to-end software.\nFrom interface to cloud.")}</h2></div><div className="about-grid"><div className="identity-card"><div className="identity-photo">{profile.photoUrl&&<img src={profile.photoUrl} alt={profile.fullName} width="480" height="480" loading="lazy"/>}<span className="portrait-caption">MG / SOFTWARE ENGINEER<span>+</span></span></div><div className="identity-info"><h3>{profile.fullName}</h3><p><MapPin size={15}/>{profile.location}</p><span>{text(profile.education,lang)}<small>{profile.university}</small></span></div></div><div className="about-copy">{profile.about.map((p,i)=><p key={i}>{text(p,lang)}</p>)}<div className="about-principles"><span><Layers3 size={18}/>{t("Arquitectura antes del framework", "Architecture before framework")}</span><span><TestTube2 size={18}/>{t("Testing como parte de la entrega", "Testing as part of delivery")}</span><span><ShieldCheck size={18}/>{t("Seguridad y control por diseño", "Security and control by design")}</span></div></div></div></section>
+        {/* ---------- Expertise + credentials ---------- */}
+        <section className="sec" id="stack" aria-labelledby="stack-h">
+          <div className="sec-head">
+            <span className="tag">{L("Hoja 06 · Módulos", "Sheet 06 · Modules")}</span>
+            <h2 id="stack-h">{L("Con qué construyo.", "What I build with.")}</h2>
+          </div>
+          <div className="modules">
+            {c.expertise.map((m, i) => (
+              <article className="module rv" key={i}>
+                <span className="mod-id">M{String(i + 1).padStart(2, "0")}</span>
+                <h3>{t(m.title)}</h3>
+                <p>{t(m.note)}</p>
+                <ul>{m.items.map(it => <li key={it}>{it}</li>)}</ul>
+              </article>
+            ))}
+          </div>
+          <div className="creds">
+            <h3>{L("Credenciales", "Credentials")}</h3>
+            <ul>
+              {c.certificates.map(cert => (
+                <li key={cert.issuer + cert.name} className={/expir/i.test(t(cert.kind)) ? "old" : ""}>
+                  <span className="cr-iss">{cert.issuer}</span>
+                  <b>{cert.name}</b>
+                  <span className="cr-kind">{t(cert.kind)}{cert.year ? ` · ${cert.year}` : ""}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="cr-note">{p.training} — {t(p.trainingNote)}</p>
+          </div>
+        </section>
 
-      <section className="expertise-section"><div className="page-width"><div className="expertise-heading"><p className="eyebrow">03 / {t("Capacidades", "Capabilities")}</p><h2>{t("Una caja de herramientas para\nsoftware de producción.", "A production software\ntoolbox.")}</h2><p>{t("Backend y Software Engineering primero; cloud, mobile e IA como capacidades conectadas.", "Backend and Software Engineering first; cloud, mobile and AI as connected capabilities.")}</p></div><div className="expertise-grid">{expertise.map((e,i)=>{const Icon=[Server,Cloud,Smartphone,BrainCircuit][i]??Code2;return <article key={e.title[0]}><div className="expertise-top"><Icon size={24}/><span>0{i+1}</span></div><h3>{text(e.title,lang)}</h3><p>{text(e.note,lang)}</p><div className="tech-tags">{e.items.map(s=><span key={s}>{lang==="en"?(translatedStack[s]??s):s}</span>)}</div></article>;})}</div></div></section>
+        {/* ---------- Teaching ---------- */}
+        {teaching && (
+          <section className="sec teach" aria-labelledby="teach-h">
+            <div className="teach-in rv">
+              <span className="tag">{L("Hoja 07 · También enseño", "Sheet 07 · I also teach")}</span>
+              <h2 id="teach-h">{t(teaching.headline)}</h2>
+              <p className="lede">{t(teaching.description)}</p>
+              <button type="button" className="btn ghost" onClick={() => setOpen(teaching)}>{L("Ver Dev-Minds", "See Dev-Minds")} <span aria-hidden="true">↗</span></button>
+            </div>
+          </section>
+        )}
 
-      <section className="experience-section page-width" id="experiencia"><div className="experience-intro"><p className="eyebrow">04 / {t("Trayectoria", "Experience")}</p><h2>{t("De Full-Stack y cloud\na software financiero mobile.", "From Full-Stack and cloud\nto financial mobile software.")}</h2><p>{t("Los cargos se mantienen tal como fueron. La lectura cambia: cada etapa aporta una capa distinta a mi perfil de Senior Software Engineer.", "The job titles stay exactly as they were. The story changes: each stage adds a different layer to my Senior Software Engineer profile.")}</p><a className="text-link" href={contact.linkedin} target="_blank" rel="noopener noreferrer"><Linkedin size={18}/>{t("Perfil en LinkedIn", "LinkedIn profile")}<ExternalLink size={14}/></a></div><div className="timeline">{experience.map((e,i)=><article key={e.company}><div className={`timeline-marker ${e.current?"current":""}`}>{String(i+1).padStart(2,"0")}</div><div className="timeline-item"><div className="timeline-company"><h3>{e.company}</h3>{e.current&&<span>{t("Actual", "Current")}</span>}</div><strong>{e.role}</strong><p className="timeline-date">{text(e.dates,lang)}</p><p>{text(e.description,lang)}</p></div></article>)}</div></section>
+        {/* ---------- Contact ---------- */}
+        <section className="contact" id="contacto" aria-labelledby="contact-h">
+          <div className="contact-in">
+            <span className="tag">{L("Hoja 08 · Contacto", "Sheet 08 · Contact")}</span>
+            <h2 id="contact-h">{L("¿Construimos algo", "Shall we build something")}<br /><em>{L("que funcione de verdad?", "that actually works?")}</em></h2>
+            <div className="contact-grid">
+              <CopyRow label="Email" value={c.contact.email} L={L} />
+              <a className="c-link" href={c.contact.linkedin} target="_blank" rel="noopener noreferrer"><span>LinkedIn</span><b>{host(c.contact.linkedin)}</b><i aria-hidden="true">↗</i></a>
+              <a className="c-link" href={c.contact.github} target="_blank" rel="noopener noreferrer"><span>GitHub</span><b>{host(c.contact.github)}{new URL(c.contact.github).pathname}</b><i aria-hidden="true">↗</i></a>
+              <a className="c-link" href={c.contact.whatsapp} target="_blank" rel="noopener noreferrer"><span>WhatsApp</span><b>{L("Escríbeme", "Message me")}</b><i aria-hidden="true">↗</i></a>
+            </div>
+            <div className="cv-row">
+              <a className="btn solid" href={p.cvEsUrl} download>CV · Español <span aria-hidden="true">↓</span></a>
+              <a className="btn ghost light" href={p.cvEnUrl} download>CV · English <span aria-hidden="true">↓</span></a>
+            </div>
+          </div>
+        </section>
+      </main>
 
-      <section className="credentials-section page-width" id="credenciales"><p className="eyebrow">05 / {t("Credenciales prioritarias", "Priority credentials")}</p><div className="section-heading"><h2>{t("AI deployment,\nengineering & cloud.", "AI deployment,\nengineering & cloud.")}</h2><p>{t("Primero las credenciales que apoyan mi dirección actual. Las certificaciones cloud históricas se mantienen como contexto, no como protagonista.", "Credentials supporting my current direction come first. Historical cloud certifications remain as context, not as the headline.")}</p></div><div className="credentials-grid">{certificates.map(c=><article className={`credential ${c.kind[0].includes("histórica")?"historical":""}`} key={c.name}><div className="credential-issuer"><span>{c.issuer}</span><span>{c.year}</span></div><h3>{c.name}</h3><p><GraduationCap size={15}/>{text(c.kind,lang)}</p>{c.url&&<a className="credential-proof" href={c.url} target="_blank" rel="noopener noreferrer">{t("Ver credencial","View credential")}<ExternalLink size={14}/></a>}</article>)}</div><div className="learning-card"><BookOpen size={23}/><div><h3>{t("Formación técnica aplicada", "Applied technical learning")}</h3><p>{profile.training}</p><p className="learning-note">{text(profile.trainingNote,lang)}</p></div></div></section>
+      <footer className="foot">
+        <span>© {new Date().getFullYear()} {p.fullName}</span>
+        <span className="foot-mid">{p.location} · {ORIGIN}</span>
+        <span>{L("Diseñado y construido por mí. Sin plantillas.", "Designed and built by me. No templates.")}</span>
+      </footer>
 
-      <section className="contact-section" id="contacto"><div className="page-width"><p className="eyebrow">06 / {t("Siguiente oportunidad", "Next opportunity")}</p><div className="contact-heading"><h2>{t("¿Buscas un Senior Software Engineer con experiencia en mobile, backend, cloud o AI? Hablemos del problema y de cómo puedo aportar.", "Looking for a Senior Software Engineer with experience across mobile, backend, cloud or AI? Let’s talk about the problem and how I can contribute.")}</h2><div><a className="button lime" href={emailLink}><Mail size={17}/>{t("Contactarme", "Contact me")}</a></div></div><div className="email-row"><a href={emailLink}>{contact.email}</a><button onClick={async()=>{try{await navigator.clipboard.writeText(contact.email);setCopied(true);setCopyError(false);setTimeout(()=>setCopied(false),2500);}catch{setCopyError(true);}}} aria-label={t("Copiar email", "Copy email")}>{copied?<Check size={20}/>:<Copy size={20}/>}</button><span className="copy-feedback" aria-live="polite">{copied?t("Copiado","Copied"):copyError?t("Selecciona el email para copiarlo.","Select the email to copy it."):""}</span></div><div className="contact-bottom"><div className="socials"><a href={contact.github} target="_blank" rel="noopener noreferrer"><Github size={18}/>GitHub</a><a href={contact.linkedin} target="_blank" rel="noopener noreferrer"><Linkedin size={18}/>LinkedIn</a><a href={contact.whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp<ExternalLink size={14}/></a><a href={cvUrl} download><Download size={17}/>{t("Descargar CV", "Download resume")}</a></div><span>Colombia · UTC−5</span></div></div></section>
-    </main>
+      <CaseDialog x={open} onClose={() => setOpen(null)} t={t} L={L} />
+    </div>
+  );
+}
 
-    <footer className="site-footer page-width"><a className="footer-name" href="#inicio">{profile.shortName}<span>Senior Software Engineer</span></a><p>© {new Date().getFullYear()} · {t("Mobile · Backend · Cloud · AI", "Mobile · Backend · Cloud · AI")}</p><a href="#inicio">{t("Volver al inicio", "Back to top")}</a></footer>
+/* ================= Mode switch ================= */
+function ModeSwitch({ mode, onChange, L }: { mode: Mode; onChange: (m: Mode, el?: HTMLElement | null) => void; L: (a: string, b: string) => string }) {
+  const ref = useRef<HTMLButtonElement>(null);
+  const ing = mode === "ing";
+  return (
+    <button ref={ref} type="button" className="mode" role="switch" aria-checked={ing} onClick={() => onChange(ing ? "magia" : "ing", ref.current)}
+      title={L("Cambiar entre la vista pulida y el plano de ingeniería", "Switch between the polished view and the engineering blueprint")}>
+      <span className={!ing ? "on" : ""}>{L("Magia", "Magic")}</span>
+      <span className="knob" aria-hidden="true" />
+      <span className={ing ? "on" : ""}>{L("Ingeniería", "Engineering")}</span>
+    </button>
+  );
+}
 
-    <Dialog open={!!selected} onOpenChange={(open: boolean)=>{if(!open)setSelected(null);}}><DialogContent className="case-dialog" showCloseButton={false}>{selected&&<><div className="case-topbar"><span>{selected.number} / {text(selected.type,lang)}</span><button onClick={()=>setSelected(null)} aria-label={t("Cerrar caso", "Close case")}><X size={22}/></button></div><div className="case-body"><div className="case-header"><p className="eyebrow">{text(selected.status,lang)} · {selected.year}</p><DialogTitle>{selected.name}</DialogTitle><DialogDescription>{text(selected.headline,lang)}</DialogDescription><div className="case-tech">{selected.stack.map(s=><span key={s}>{lang==="en"?(translatedStack[s]??s):s}</span>)}</div></div>{selected.gallery&&selected.gallery.length>0&&<div className="case-gallery">{selected.gallery.map((photo,i)=><figure key={`${photo.url}-${i}`}><img src={photo.url} alt={text(photo.caption,lang)||selected.name} width="1000" height="600" loading="lazy"/>{photo.caption[0]&&<figcaption>{text(photo.caption,lang)}</figcaption>}</figure>)}</div>}
-      <Tabs defaultValue="overview" className="case-tabs" key={selected.id}><TabsList aria-label={t("Contenido del caso", "Case content")} className="case-tab-list"><TabsTrigger value="overview">{t("Contexto", "Context")}</TabsTrigger><TabsTrigger value="architecture">{t("Arquitectura", "Architecture")}</TabsTrigger><TabsTrigger value="engineering">{t("Ingeniería", "Engineering")}</TabsTrigger><TabsTrigger value="evidence">{t("Evidencia", "Evidence")}</TabsTrigger></TabsList>
-        <TabsContent value="overview"><div className="case-overview"><div><h3>{t("El problema", "The problem")}</h3><p>{text(selected.problem,lang)}</p>{caseSections?.context&&<><h3>{t("Contexto", "Context")}</h3><p>{text(caseSections.context,lang)}</p></>}<h3>{t("Mi aporte", "My contribution")}</h3><p>{text(selected.contribution,lang)}</p>{caseSections?.role&&<><h3>{t("Mi rol", "My role")}</h3><p>{text(caseSections.role,lang)}</p></>}</div><div className="case-feature-list"><h3>{t("Qué resuelve", "What it solves")}</h3>{selected.features.map((f,i)=><div key={f[0]}><span>{String(i+1).padStart(2,"0")}</span><p>{text(f,lang)}</p></div>)}</div></div></TabsContent>
-        <TabsContent value="architecture"><div className="case-architecture"><div className="architecture-list">{caseSections?.architecture?.length?caseSections.architecture.map((item,i)=><div key={item[0]}><span>0{i+1}</span><GitBranch size={20}/><p>{text(item,lang)}</p></div>):<p className="case-intro">{t("No publico un diagrama específico para este caso porque la información disponible no permite hacerlo sin inventar detalles.", "I do not publish a specific diagram for this case because the available information is not enough to do so without inventing details.")}</p>}</div>{caseSections?.deployment?.length&&<div className="case-subsection"><h3><Rocket size={18}/>{t("Deployment", "Deployment")}</h3>{caseSections.deployment.map(item=><p key={item[0]}>{text(item,lang)}</p>)}</div>}</div></TabsContent>
-        <TabsContent value="engineering"><div className="engineering-columns"><div><h3>{t("Decisiones técnicas", "Technical decisions")}</h3><div className="case-decisions">{selected.decisions.map((d,i)=><article key={d[0]}><span>0{i+1}</span><Layers3 size={23}/><p>{text(d,lang)}</p></article>)}</div></div><div>{caseSections?.challenges?.length&&<div className="case-subsection"><h3>{t("Retos", "Challenges")}</h3>{caseSections.challenges.map(item=><p key={item[0]}>{text(item,lang)}</p>)}</div>}{caseSections?.security?.length&&<div className="case-subsection"><h3><ShieldCheck size={18}/>{t("Seguridad", "Security")}</h3>{caseSections.security.map(item=><p key={item[0]}>{text(item,lang)}</p>)}</div>}</div></div></TabsContent>
-        <TabsContent value="evidence"><div className="case-evidence"><ShieldCheck size={32}/><h3>{t("Alcance comprobado", "Documented scope")}</h3><p>{text(selected.validation,lang)}</p>{caseSections?.testing?.length&&<div className="case-subsection"><h3><TestTube2 size={18}/>{t("Testing", "Testing")}</h3>{caseSections.testing.map(item=><p key={item[0]}>{text(item,lang)}</p>)}</div>}{caseSections?.results?.length&&<div className="case-subsection"><h3>{t("Resultados", "Results")}</h3>{caseSections.results.map(item=><p key={item[0]}>{text(item,lang)}</p>)}</div>}{caseSections?.lessons?.length&&<div className="case-subsection"><h3>{t("Lecciones aprendidas", "Lessons learned")}</h3>{caseSections.lessons.map(item=><p key={item[0]}>{text(item,lang)}</p>)}</div>}<div className="evidence-meta"><span>{t("Tipo de trabajo", "Work type")}<strong>{text(selected.type,lang)}</strong></span><span>{t("Estado", "Status")}<strong>{text(selected.status,lang)}</strong></span></div></div></TabsContent>
-      </Tabs><div className="case-links">{selected.link&&<a className="button primary" href={selected.link} target="_blank" rel="noopener noreferrer"><Globe2 size={16}/>{t("Live demo", "Live demo")}<ExternalLink size={14}/></a>}{selected.repo&&<a className="button" href={selected.repo} target="_blank" rel="noopener noreferrer"><Github size={16}/>{t("Repositorio", "Repository")}</a>}<button className="case-close-link" onClick={()=>setSelected(null)}>{t("Volver a proyectos", "Back to projects")}</button></div></div></>}</DialogContent></Dialog>
+/* ================= Hero with X-ray lens ================= */
+function Hero({ c, lang, L, t, cv, mode }: { c: PortfolioContent; lang: Lang; L: (a: string, b: string) => string; t: (v: Copy) => string; cv: string; mode: Mode }) {
+  const p = c.profile;
+  const ref = useRef<HTMLElement>(null);
 
-    <CommandDialog open={commandOpen} onOpenChange={setCommandOpen} title={t("Explorar proyectos", "Explore projects")} description={t("Busca por proyecto o tecnología y abre su caso de estudio.", "Search by project or technology and open its case study.")} className="portfolio-command"><CommandInput placeholder={t("Busca un proyecto o una tecnología…", "Find a project or technology…")} aria-label={t("Buscar proyectos", "Search projects")}/><CommandList><CommandEmpty>{t("No encontré resultados.", "No results found.")}</CommandEmpty><CommandGroup heading={t("Proyectos & Ingeniería", "Projects & Engineering")}>{projects.map(p=>{const Icon=icons[p.visual]??Code2;return <CommandItem key={p.id} value={`${p.name} ${p.stack.join(" ")} ${text(p.type,lang)}`} onSelect={()=>openProject(p)}><Icon size={19}/><span>{p.name}<small>{text(p.type,lang)}</small></span><span className="command-number">{p.number}</span></CommandItem>;})}</CommandGroup></CommandList></CommandDialog>
-  </>;
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const t0 = performance.now();
+    let x = el.clientWidth * 0.62, y = el.clientHeight * 0.45, tx = x, ty = y, last = -1e9, raf = 0;
+    const set = () => { el.style.setProperty("--lx", `${x}px`); el.style.setProperty("--ly", `${y}px`); };
+    const move = (e: PointerEvent) => {
+      const r = el.getBoundingClientRect();
+      tx = e.clientX - r.left; ty = e.clientY - r.top; last = performance.now();
+      el.classList.add("lens-on");
+    };
+    const leave = () => { last = -1e9; };
+    const loop = (now: number) => {
+      if (now - last > 2200) {
+        // idle: the lens wanders slowly over the hero so touch screens see it too
+        const k = (now - t0) / 1000, w = el.clientWidth, h = el.clientHeight;
+        tx = w * (0.5 + 0.34 * Math.sin(k * 0.42)); ty = h * (0.5 + 0.28 * Math.sin(k * 0.67 + 1));
+      }
+      x += (tx - x) * 0.12; y += (ty - y) * 0.12; set();
+      raf = requestAnimationFrame(loop);
+    };
+    set();
+    if (!reduce) {
+      el.addEventListener("pointermove", move);
+      el.addEventListener("pointerleave", leave);
+      raf = requestAnimationFrame(loop);
+    }
+    const io = new IntersectionObserver(([en]) => {
+      cancelAnimationFrame(raf);
+      if (en.isIntersecting && !reduce) raf = requestAnimationFrame(loop);
+    });
+    io.observe(el);
+    return () => { cancelAnimationFrame(raf); io.disconnect(); el.removeEventListener("pointermove", move); el.removeEventListener("pointerleave", leave); };
+  }, []);
+
+  const spec = [
+    ["role", `"${p.role}"`],
+    ["now", `"${c.experience.find(e => e.current)?.company ?? p.currentCompany} · ${c.experience.find(e => e.current)?.role ?? ""}"`],
+    ["since", "2018"],
+    ["origin", `"${p.location.split("·")[0].trim()} · ${ORIGIN}"`],
+    ["stack", `["Flutter", "Python", "FastAPI", "TypeScript", "GCP"]`],
+    ["principle", lang === "es" ? `"Menos magia. Más ingeniería."` : `"Less magic. More engineering."`],
+    ["ships", lang === "es" ? `"cuando las pruebas pasan"` : `"when the tests pass"`],
+  ];
+
+  const copyblock = (x: boolean) => (
+    <div className="hero-copy">
+      <div className="who">
+        <span className="avatar">{!x && <img src={p.photoUrl} alt={p.fullName} width={64} height={64} />}{x && <span className="av-x">64×64</span>}</span>
+        <span><b>{p.shortName}</b><small>{p.location}</small></span>
+      </div>
+      <h1 aria-label={L("Menos magia. Más ingeniería.", "Less magic. More engineering.")}>
+        <span className="l1">{L("Menos magia.", "Less magic.")}</span>
+        <span className="l2">{L("Más ingeniería.", "More engineering.")}</span>
+        {x && <span className="dim" aria-hidden="true"><i /> h1 · Archivo 800 · clamp(52px, 8.4vw, 132px)</span>}
+      </h1>
+      <p className="intro">{t(p.introduction)}</p>
+      <div className="cta">
+        <a className="btn solid" href="#trabajo">{L("Ver mi trabajo", "See my work")} <span aria-hidden="true">↓</span></a>
+        <a className="btn ghost" href={cv} download>{L("Descargar CV", "Download CV")}</a>
+        <a className="txt" href={c.contact.github} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+      </div>
+      <dl className="facts">
+        <div><dt>{L("Años en software", "Years in software")}</dt><dd>{p.softwareYears}</dd></div>
+        <div><dt>{L("Años con Flutter", "Years with Flutter")}</dt><dd>{p.flutterYears}</dd></div>
+        <div><dt>{L("Hoy en", "Now at")}</dt><dd>{p.currentCompany}</dd></div>
+      </dl>
+    </div>
+  );
+
+  return (
+    <section ref={ref} className={`hero ${mode === "ing" ? "full-x" : ""}`} aria-label={L("Presentación", "Introduction")}>
+      <div className="hero-layer magic">
+        {copyblock(false)}
+        <figure className="portrait">
+          <span className="crop tl" /><span className="crop tr" /><span className="crop bl" /><span className="crop br" />
+          <img src={p.photoUrl} alt="" width={480} height={600} />
+          <figcaption><span>Fig. 01</span> {p.fullName}</figcaption>
+        </figure>
+      </div>
+      <div className="hero-layer xray" aria-hidden="true">
+        {copyblock(true)}
+        <pre className="spec"><code>
+          <span className="cm">{"// mario.config.ts"}</span>{"\n"}
+          <span className="kw">export const</span> mario = {"{"}{"\n"}
+          {spec.map(([k, v]) => <span key={k}>{"  "}<span className="k">{k}</span>: <span className="v">{v}</span>,{"\n"}</span>)}
+          {"}"};{"\n"}
+          <span className="ok">✓ 7 checks passed</span>
+        </code></pre>
+      </div>
+      <div className="lens-ring" aria-hidden="true"><span>X-RAY</span></div>
+      <p className="hero-hint" aria-hidden="true">{L("Pasa el cursor: así está hecho por dentro.", "Hover: this is how it is built inside.")}</p>
+    </section>
+  );
+}
+
+/* ================= Featured case row ================= */
+function CaseRow({ x, i, t, L, mode, onOpen }: { x: Project; i: number; t: (v: Copy) => string; L: (a: string, b: string) => string; mode: Mode; onOpen: () => void }) {
+  const [eng, setEng] = useState(false);
+  const showEng = eng || mode === "ing";
+  const st = t(x.status);
+  return (
+    <li className={`case rv ${showEng ? "eng" : ""}`}>
+      <div className="case-n" aria-hidden="true">{String(i + 1).padStart(2, "0")}</div>
+      <div className="case-body">
+        <div className="case-top">
+          <span className="case-type">{t(x.type)}</span>
+          <span className={`st ${isVerified(st) ? "ok" : "wip"}`}>{st}</span>
+        </div>
+        <h3>{x.name}</h3>
+        {!showEng ? (
+          <div className="face front" key="front">
+            <p className="case-head">{t(x.headline)}</p>
+            <p className="case-desc">{t(x.description)}</p>
+          </div>
+        ) : (
+          <div className="face back" key="back">
+            <p className="eng-label">{L("Problema", "Problem")}</p>
+            <p className="case-desc">{t(x.problem)}</p>
+            <p className="eng-label">{L("Decisiones", "Decisions")}</p>
+            <ul className="decisions">{x.decisions.slice(0, 3).map((d, k) => <li key={k}>{t(d)}</li>)}</ul>
+            <p className="eng-label">{L("Evidencia", "Evidence")}</p>
+            <p className="evidence">{t(x.validation)}</p>
+          </div>
+        )}
+        <div className="case-foot">
+          <ul className="stack">{x.stack.slice(0, showEng ? 8 : 3).map(s => <li key={s}>{s}</li>)}</ul>
+          <div className="case-actions">
+            {mode !== "ing" && (
+              <button type="button" className="flip" aria-pressed={eng} onClick={() => setEng(v => !v)}>
+                {eng ? L("Ver producto", "See product") : L("Ver ingeniería", "See engineering")}
+              </button>
+            )}
+            <button type="button" className="btn ghost sm" onClick={onOpen}>{L("Caso completo", "Full case")}</button>
+            {x.link && <a className="btn solid sm" href={x.link} target="_blank" rel="noopener noreferrer">{host(x.link)} ↗</a>}
+          </div>
+        </div>
+      </div>
+    </li>
+  );
+}
+
+/* ================= MAYA policy terminal ================= */
+type Line = { k: "cmd" | "ok" | "no" | "info"; s: string };
+function PolicyTerminal({ L }: { L: (a: string, b: string) => string }) {
+  const [lines, setLines] = useState<Line[]>([{ k: "info", s: "maya v0.7.3 · policy engine ready · workspace: ~/proyectos" }]);
+  const [busy, setBusy] = useState(false);
+  const timers = useRef<number[]>([]);
+  useEffect(() => () => timers.current.forEach(clearTimeout), []);
+
+  const run = (kind: "read" | "write" | "shell") => {
+    if (busy) return;
+    setBusy(true);
+    const scripts: Record<string, Line[]> = {
+      read: [
+        { k: "cmd", s: "› list_files ./src" },
+        { k: "info", s: L("policy: lectura · workspace autorizado · identidad Ed25519 verificada", "policy: read · authorized workspace · Ed25519 identity verified") },
+        { k: "ok", s: L("SAFE · ejecutado · 14 archivos · auditado", "SAFE · executed · 14 files · audited") },
+      ],
+      write: [
+        { k: "cmd", s: "› write_file remote:/etc/hosts" },
+        { k: "info", s: L("policy: escritura fuera del workspace · worker remoto", "policy: write outside workspace · remote worker") },
+        { k: "no", s: L("BLOCKED · requiere aprobación local en el dispositivo", "BLOCKED · requires local approval on the device") },
+      ],
+      shell: [
+        { k: "cmd", s: "› run_shell \"git status\"" },
+        { k: "info", s: L("policy: comando de solo lectura · lease 30s", "policy: read-only command · 30s lease") },
+        { k: "ok", s: L("SAFE · ejecutado · sin cambios pendientes", "SAFE · executed · working tree clean") },
+      ],
+    };
+    const seq = scripts[kind];
+    seq.forEach((ln, idx) => {
+      timers.current.push(window.setTimeout(() => {
+        setLines(prev => [...prev.slice(-9), ln]);
+        if (idx === seq.length - 1) setBusy(false);
+      }, 380 + idx * 520));
+    });
+  };
+
+  return (
+    <div className="term rv">
+      <div className="term-bar"><i /><i /><i /><span>maya — policy engine</span></div>
+      <div className="term-out" role="log" aria-live="polite">
+        {lines.map((ln, i) => <div key={i} className={`tl ${ln.k}`}>{ln.s}</div>)}
+        <div className="tl caret" aria-hidden="true">▍</div>
+      </div>
+      <div className="term-btns">
+        <button type="button" onClick={() => run("read")} disabled={busy}>{L("Simular lectura", "Simulate read")}</button>
+        <button type="button" onClick={() => run("shell")} disabled={busy}>{L("Comando seguro", "Safe command")}</button>
+        <button type="button" className="danger" onClick={() => run("write")} disabled={busy}>{L("Escritura remota", "Remote write")}</button>
+      </div>
+      <p className="term-note">{L("Simulación de la política. No accede a tus archivos.", "Policy simulation. It does not access your files.")}</p>
+    </div>
+  );
+}
+
+/* ================= Copy row ================= */
+function CopyRow({ label, value, L }: { label: string; value: string; L: (a: string, b: string) => string }) {
+  const [done, setDone] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+  return (
+    <div className="c-link copy">
+      <span>{label}</span>
+      <b ref={ref}>{value}</b>
+      <button type="button" onClick={() => {
+        navigator.clipboard?.writeText(value).then(() => { setDone(true); setTimeout(() => setDone(false), 1600); }).catch(() => {
+          const r = document.createRange(); if (ref.current) { r.selectNodeContents(ref.current); getSelection()?.removeAllRanges(); getSelection()?.addRange(r); }
+        });
+      }}>{done ? L("Copiado", "Copied") : L("Copiar", "Copy")}</button>
+    </div>
+  );
+}
+
+/* ================= Case dialog ================= */
+function CaseDialog({ x, onClose, t, L }: { x: Project | null; onClose: () => void; t: (v: Copy) => string; L: (a: string, b: string) => string }) {
+  const ref = useRef<HTMLDialogElement>(null);
+  useEffect(() => {
+    const d = ref.current; if (!d) return;
+    if (x && !d.open) d.showModal();
+    if (!x && d.open) d.close();
+  }, [x]);
+  const cs = x?.caseStudy;
+  const list = (title: string, items?: readonly Copy[]) => items && items.length > 0 && (
+    <div className="cd-block"><h4>{title}</h4><ul>{items.map((it, i) => <li key={i}>{t(it)}</li>)}</ul></div>
+  );
+  return (
+    <dialog ref={ref} className="cd" onClose={onClose} onClick={e => { if (e.target === ref.current) onClose(); }} aria-labelledby="cd-title">
+      {x && (
+        <div className="cd-in">
+          <div className="cd-top">
+            <span className="tag">{L("Caso", "Case")} {x.number} · {x.year}</span>
+            <button type="button" className="cd-x" onClick={onClose} aria-label={L("Cerrar", "Close")}>✕</button>
+          </div>
+          <span className="case-type">{t(x.type)}</span>
+          <h3 id="cd-title">{x.name}</h3>
+          <p className="cd-head">{t(x.headline)}</p>
+          <span className={`st ${isVerified(t(x.status)) ? "ok" : "wip"}`}>{t(x.status)}</span>
+          <div className="cd-grid">
+            <div className="cd-block"><h4>{L("Problema", "Problem")}</h4><p>{t(x.problem)}</p></div>
+            <div className="cd-block"><h4>{L("Mi aporte", "My contribution")}</h4><p>{t(x.contribution)}</p></div>
+            {cs?.role && <div className="cd-block"><h4>{L("Rol", "Role")}</h4><p>{t(cs.role)}</p></div>}
+            {list(L("Funcionalidades", "Features"), x.features)}
+            {list(L("Decisiones", "Decisions"), x.decisions)}
+            {list(L("Arquitectura", "Architecture"), cs?.architecture)}
+            {list(L("Retos", "Challenges"), cs?.challenges)}
+            {list(L("Seguridad", "Security"), cs?.security)}
+            {list(L("Pruebas", "Testing"), cs?.testing)}
+            {list(L("Despliegue", "Deployment"), cs?.deployment)}
+            {list(L("Resultados", "Results"), cs?.results)}
+            <div className="cd-block ev"><h4>{L("Evidencia", "Evidence")}</h4><p>{t(x.validation)}</p></div>
+          </div>
+          {x.gallery && x.gallery.length > 0 && (
+            <div className="cd-gallery">{x.gallery.map((g, i) => <figure key={i}><img src={g.url} alt={t(g.caption)} loading="lazy" /><figcaption>{t(g.caption)}</figcaption></figure>)}</div>
+          )}
+          <ul className="stack">{x.stack.map(s => <li key={s}>{s}</li>)}</ul>
+          <div className="cd-links">
+            {x.link && <a className="btn solid" href={x.link} target="_blank" rel="noopener noreferrer">{host(x.link)} ↗</a>}
+            {x.repo && <a className="btn ghost" href={x.repo} target="_blank" rel="noopener noreferrer">{L("Repositorio", "Repository")} ↗</a>}
+          </div>
+        </div>
+      )}
+    </dialog>
+  );
 }
