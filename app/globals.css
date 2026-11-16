@@ -110,7 +110,7 @@ html[data-mode="ing"] .mode .knob::after{transform:translateX(16px);background:v
 .hero h1 .l2{color:var(--accent)}
 .magic h1 .l1,.magic h1 .l2{animation:plot 1.2s var(--ease) both}
 .magic h1 .l2{animation-delay:.25s}
-@keyframes plot{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes plot{from{clip-path:inset(-.3em 100% -.4em -.1em)}99%{clip-path:inset(-.3em -.1em -.4em -.1em)}to{clip-path:none}}
 .intro{font-size:clamp(17px,1.45vw,21px);color:var(--muted);max-width:52ch;margin:0}
 .cta{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px}
 .facts{display:flex;flex-wrap:wrap;gap:12px 40px;margin:6px 0 0;padding-top:22px;border-top:1px solid var(--rule)}
@@ -298,9 +298,13 @@ html[data-mode="ing"] .contact{background:#120d0a}
 .contact-in{max-width:1440px;margin:0 auto;padding:clamp(70px,9vw,120px) var(--gutr) clamp(60px,7vw,90px) var(--gut);display:grid;gap:34px}
 .contact h2{font-size:clamp(40px,6.6vw,104px)}
 .contact h2 em{font-style:normal;color:var(--brass)}
-.contact-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid var(--rule)}
+.contact-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:28px;border-top:1px solid var(--rule)}
+.c-link.copy{grid-column:1/-1}
+.c-link.copy b{overflow-wrap:normal;word-break:normal}
+/* the three link cells: label above the value so narrow tablet columns do not squeeze it */
+a.c-link{grid-template-columns:minmax(0,1fr) auto;gap:4px 12px}
+a.c-link span{grid-column:1/-1}
 .c-link{display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:14px;align-items:center;padding:20px 4px;border-bottom:1px solid var(--rule);text-decoration:none;transition:background .3s}
-.c-link:nth-child(odd){padding-right:24px}
 .c-link span{font:12px var(--f-m);color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
 .c-link b{font-weight:600;font-size:17px;overflow-wrap:anywhere}
 .c-link i{font-style:normal;font-size:18px;transition:transform .4s var(--ease)}
@@ -309,7 +313,7 @@ a.c-link:hover i{transform:translate(3px,-3px);color:var(--brass)}
 .c-link button{font:600 12px var(--f-m);border:1px solid var(--rule);background:transparent;color:var(--brass);border-radius:999px;padding:6px 12px;cursor:pointer}
 .cv-row{display:flex;flex-wrap:wrap;gap:12px}
 .btn.light{border-color:var(--paper);color:var(--paper)}
-@media (max-width:760px){.contact-grid{grid-template-columns:1fr}.c-link{grid-template-columns:minmax(0,1fr) auto;gap:4px 12px}.c-link span{grid-column:1/-1}.c-link b{font-size:16px;overflow-wrap:normal;word-break:normal}.c-link:nth-child(odd){padding-right:4px}}
+@media (max-width:760px){.contact-grid{grid-template-columns:1fr}.c-link{grid-template-columns:minmax(0,1fr) auto;gap:4px 12px}.c-link span{grid-column:1/-1}.c-link b{font-size:16px;overflow-wrap:normal;word-break:normal}}
 
 .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;padding:22px var(--gutr) calc(22px + env(safe-area-inset-bottom,0px)) var(--gut);background:var(--ink);color:#b8a996;font:12px var(--f-m);border-top:1px solid rgba(239,232,220,.12)}
 html[data-mode="ing"] .foot{background:#120d0a}

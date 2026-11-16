@@ -212,7 +212,7 @@ export const projects: Project[] = [
       ["Mantener las funciones de administración de licencias separadas del cliente.", "Keep license administration functions separate from the client application."],
     ],
     validation: ["La instalación y el funcionamiento fueron confirmados en Windows. Las mejoras de tiempos de respuesta y el ciclo de activación y expiración siguen bajo pruebas manuales.", "Installation and operation were confirmed on Windows. Response-time improvements and the activation/expiration lifecycle remain under manual testing."],
-    stack: ["PowerShell", "Windows Forms", "Python", "yt-dlp", "spotdl", "Supabase"], repo: "https://github.com/Wafer2000/MusicLinks",
+    stack: ["PowerShell", "Windows Forms", "Python", "yt-dlp", "spotdl", "Supabase"],
   },
   {
     id: "ai-global", number: "08", name: "AI Global", category: "web", year: "2026", visual: "global",
@@ -233,7 +233,6 @@ export const projects: Project[] = [
     ],
     validation: ["El historial registra código y despliegues de la plataforma. La auditoría independiente es un trabajo separado: la propiedad del producto no implica autoría de las pruebas realizadas por terceros.", "The history records platform code and deployments. Independent auditing is separate work: product ownership does not imply authorship of third-party tests."],
     stack: ["Next.js", "React", "TypeScript", "Supabase", "PostgreSQL", "Vercel"],
-    link: "https://ai-global-web.vercel.app", repo: "https://github.com/Wafer2000/ai-global-web",
   },
   {
     id: "banking", number: "09", name: "Mobile Banking", category: "mobile", year: "2025—2026", visual: "banking",
@@ -310,7 +309,7 @@ export const projects: Project[] = [
       testing: [["Se probaron generación mensual/anual y errores de plan, email y autenticación; el ciclo completo de expiración sigue marcado para prueba manual.", "Monthly/annual generation plus plan, email and authentication errors were tested; the full expiration lifecycle remains flagged for manual testing."]],
       results: [["Generación de licencias mensuales y anuales probada con un dispositivo por licencia.", "Monthly and annual license generation tested with one device per license."]],
     },
-    stack: ["PowerShell", "C# Launcher", "Supabase", "Edge Functions", "TypeScript", "DPAPI"], repo: "https://github.com/Wafer2000/MusicLinks",
+    stack: ["PowerShell", "C# Launcher", "Supabase", "Edge Functions", "TypeScript", "DPAPI"],
   },
   {
     id: "alerts", number: "12", name: "Alarmas médicas LAN", category: "desktop", year: "2026", visual: "alerts",
@@ -584,6 +583,85 @@ export const projects: Project[] = [
     stack: ["Git / GitHub", "CI/CD", "Vercel", "Supabase", "Firebase", "GCP", "AWS", "Azure", "Docker", "Kubernetes", "Azure DevOps"],
   },
 
+  {
+    id: "percha", number: "26", name: "Percha", category: "web", year: "2026", visual: "commerce",
+    type: ["Producto IP Global Digital · Comercio de moda", "IP Global Digital product · Fashion retail"], status: ["Demo pública · en desarrollo", "Public demo · in development"],
+    headline: ["La plataforma para tiendas que visten a la gente.", "The platform for stores that dress people."],
+    description: ["Vitrina en línea, pedidos por WhatsApp, caja de mostrador e inventario por talla y color para tiendas de ropa, calzado, calcetines y accesorios.", "Online storefront, WhatsApp orders, counter checkout and size-by-color inventory for clothing, footwear, sock and accessory stores."],
+    problem: ["Una tienda de ropa vende por tallas y colores: necesita que el cliente encuentre su talla, que el inventario no se descuadre entre la vitrina y el mostrador y que los costos fijos sean casi cero, aunque solo venda calcetines.", "A clothing store sells by size and color: customers need to find their size, inventory must stay in sync between storefront and counter, and fixed costs must be close to zero, even for a store that only sells socks."],
+    contribution: ["Diseño del producto y desarrollo Full-Stack: vitrina por tienda, guía de tallas, flujo de pedidos, panel administrativo, caja, inventario y reportes, sobre una arquitectura de costo casi cero.", "Product design and Full-Stack development: per-store storefront, size guide, order flow, admin panel, checkout, inventory and reports on a near-zero-cost architecture."],
+    features: [
+      ["Vitrina por tienda con colores que cambian la prenda, filtros y «Mi talla», que oculta lo que no hay en esa talla.", "Per-store storefront with live color swaps, filters and “My size”, which hides what is not available in that size."],
+      ["Guía de tallas con calculadora a partir de las medidas del cliente.", "Size guide with a calculator based on the customer’s measurements."],
+      ["Pedidos por WhatsApp que apartan las prendas, con código y página de seguimiento que se actualiza sola.", "WhatsApp orders that reserve items, with an order code and a self-updating tracking page."],
+      ["Tablero de pedidos, caja de mostrador, existencias en cuadrícula talla × color y reportes de tallas más vendidas.", "Order board, counter checkout, size × color stock grid and best-selling-size reports."],
+    ],
+    decisions: [
+      ["Ajustar tallas, categorías y guía de medidas al tipo de tienda en lugar de imponer un catálogo genérico.", "Adapt sizes, categories and the measurement guide to each store type instead of forcing a generic catalog."],
+      ["Usar un solo inventario para la vitrina y la caja, y devolver las prendas cuando un pedido se cancela.", "Share one inventory between storefront and checkout, and return items to stock when an order is cancelled."],
+      ["Mantener la operación en planes gratuitos (Vercel Hobby, Supabase Free, enlaces wa.me) sin comisiones por venta.", "Keep operations on free tiers (Vercel Hobby, Supabase Free, wa.me links) with no per-sale fees."],
+    ],
+    validation: ["La demo pública funciona en modo demostración con tres tiendas de ejemplo y datos en el navegador. El repositorio registra el desarrollo en noviembre de 2026; la operación con tiendas reales es la siguiente etapa.", "The public demo runs in demo mode with three sample stores and in-browser data. The repository records development in November 2026; operation with real stores is the next stage."],
+    stack: ["Next.js", "React", "TypeScript", "Supabase", "PostgreSQL", "Three.js", "WhatsApp", "Vercel"],
+    link: "https://percha-rho.vercel.app",
+  },
+  {
+    id: "sales-assistant", number: "27", name: "Asistente comercial IP Global", category: "ai", year: "2026", visual: "maya",
+    type: ["Herramienta interna · IA local · Telegram", "Internal tool · Local AI · Telegram"], status: ["Uso interno · en evolución", "Internal use · evolving"],
+    headline: ["Prospección comercial con IA local y aprobación humana.", "Sales prospecting with local AI and human approval."],
+    description: ["Asistente de ventas que busca negocios, investiga su web pública, redacta mensajes con una IA local y los envía a Telegram para que una persona los apruebe antes de contactar.", "A sales assistant that finds businesses, researches their public website, drafts messages with a local model and sends them to Telegram for a person to approve before any contact."],
+    problem: ["Prospectar clientes consume horas en buscar, investigar y redactar, y automatizarlo sin control termina en mensajes no deseados y costos de API.", "Prospecting eats hours of searching, researching and writing, and automating it without control ends in unwanted messages and API costs."],
+    contribution: ["Diseño y desarrollo del flujo completo: búsqueda en OpenStreetMap, revisión de sitios, priorización y redacción con Ollama, bot de Telegram, seguimiento del embudo, recordatorios y reporte semanal.", "Design and development of the full flow: OpenStreetMap search, site review, prioritization and drafting with Ollama, Telegram bot, funnel tracking, reminders and a weekly report."],
+    features: [
+      ["Búsqueda de negocios por rubro y ciudad con OpenStreetMap y descarte de los que están cerrados.", "Business search by industry and city using OpenStreetMap, discarding closed ones."],
+      ["Mensajes redactados por una IA local (Ollama) que la persona aprueba, edita o descarta desde Telegram.", "Messages drafted by a local model (Ollama) that a person approves, edits or discards from Telegram."],
+      ["Copiloto de conversación, seguimientos, agenda de demos y reporte semanal.", "Conversation copilot, follow-ups, demo scheduling and a weekly report."],
+    ],
+    decisions: [
+      ["El asistente nunca escribe solo a los clientes: deja el mensaje listo y la persona lo envía.", "The assistant never messages customers on its own: it prepares the message and a person sends it."],
+      ["Correr la IA en el equipo para que el costo operativo sea cero; la API externa es opcional.", "Run the model on-device so operating cost is zero; an external API is optional."],
+    ],
+    validation: ["Herramienta de uso interno para IP Global Digital, documentada en su repositorio. Corre en un Mac con Apple Silicon; los límites del sistema están descritos en la documentación.", "Internal tool for IP Global Digital, documented in its repository. It runs on an Apple Silicon Mac; the system’s limits are described in the documentation."],
+    stack: ["Python", "Ollama", "Telegram Bot API", "OpenStreetMap", "SQLite", "Automatización"],
+  },
+  {
+    id: "rallyiq", number: "28", name: "RallyIQ", category: "mobile", year: "2026", visual: "banking",
+    type: ["App para reloj · Garmin Connect IQ", "Watch app · Garmin Connect IQ"], status: ["v1.0 RC1 · pruebas en reloj", "v1.0 RC1 · on-watch testing"],
+    headline: ["El marcador de pádel y pickleball, en la muñeca.", "Padel and pickleball scoring, on your wrist."],
+    description: ["Aplicación para relojes Garmin que lleva el marcador de pádel y pickleball, registra estadísticas, muestra frecuencia cardíaca y guarda el historial de partidos.", "A Garmin watch app that keeps padel and pickleball scores, records stats, shows heart rate and stores match history."],
+    problem: ["Llevar el marcador y las estadísticas durante un partido no debería obligar a sacar el teléfono; el reloj tiene botones físicos, pantalla redonda y pocos recursos.", "Keeping score and stats during a match should not require pulling out a phone; the watch has physical buttons, a round screen and limited resources."],
+    contribution: ["Desarrollo de la aplicación en Monkey C: marcadores, configuración del formato, historial, calibración de golpes con acelerómetro e interfaz compacta para pantalla redonda.", "Development of the app in Monkey C: scoreboards, match format setup, history, accelerometer-based shot calibration and a compact round-screen UI."],
+    features: [
+      ["Marcador de pádel y pickleball con deshacer y resumen final.", "Padel and pickleball scoreboard with undo and a final summary."],
+      ["Registro de sets, rallies y golpes, con frecuencia cardíaca en pantalla.", "Sets, rallies and shots logging, with on-screen heart rate."],
+      ["Historial con estadísticas y calibración de golpes por acelerómetro.", "History with stats and accelerometer shot calibration."],
+    ],
+    decisions: [
+      ["Desactivar la sincronización con el teléfono en esta versión para evitar conexiones innecesarias.", "Turn off phone sync in this version to avoid unnecessary connections."],
+      ["Priorizar estabilidad en la versión candidata antes de agregar funciones grandes.", "Prioritize stability in the release candidate before adding major features."],
+    ],
+    validation: ["Versión v1.0 RC1 probada en simulador y en un Forerunner 265, con política de privacidad publicada.", "Version v1.0 RC1 tested in the simulator and on a Forerunner 265, with a published privacy policy."],
+    stack: ["Monkey C", "Garmin Connect IQ", "Wearables", "Acelerómetro"],
+  },
+  {
+    id: "rica-sazon", number: "29", name: "Rica Sazón", category: "web", year: "2026", visual: "mesaflow",
+    type: ["Encargo · Web de restaurante", "Commission · Restaurant website"], status: ["Sistema desarrollado", "Developed system"],
+    headline: ["Del menú al pedido por WhatsApp.", "From the menu to a WhatsApp order."],
+    description: ["Sitio web para el restaurante Rica Sazón con menú público, carrito, pedidos por WhatsApp y panel privado para administrar los platos.", "Website for the Rica Sazón restaurant with a public menu, cart, WhatsApp orders and a private panel to manage dishes."],
+    problem: ["Un restaurante necesitaba mostrar su menú y recibir pedidos desde el celular sin pagar una plataforma de domicilios ni depender de terceros para actualizar los platos.", "A restaurant needed to show its menu and take orders from phones without paying a delivery platform or depending on others to update dishes."],
+    contribution: ["Desarrollo del sitio, el carrito, el envío de pedidos por WhatsApp y el panel administrador con Supabase.", "Development of the site, cart, WhatsApp ordering and the Supabase-backed admin panel."],
+    features: [
+      ["Menú responsive con detalle de cada plato y carrito persistente.", "Responsive menu with dish details and a persistent cart."],
+      ["Pedidos enviados por WhatsApp y limpieza del carrito al confirmar.", "Orders sent through WhatsApp, clearing the cart on confirmation."],
+      ["Panel privado con inicio de sesión para administrar platos e imágenes.", "Private signed-in panel to manage dishes and images."],
+    ],
+    decisions: [
+      ["Usar WhatsApp como canal de pedidos para no depender de una pasarela ni de comisiones.", "Use WhatsApp as the order channel to avoid a payment gateway and fees."],
+      ["Supabase para autenticación, datos e imágenes con un despliegue sencillo en Vercel.", "Supabase for auth, data and images with a simple Vercel deployment."],
+    ],
+    validation: ["El repositorio documenta la versión actual, la configuración de Supabase y el build de producción en Vercel.", "The repository documents the current version, the Supabase setup and the Vercel production build."],
+    stack: ["Next.js", "TypeScript", "Tailwind CSS", "Supabase", "Vercel", "WhatsApp"],
+  },
 ];
 
 export const experience = [
@@ -613,7 +691,7 @@ export const certificates = [
 
 export const featuredProjectIds = ["cloud-solutions", "mesaflow", "commerce", "random-playlist", "device-control", "banking"] as const;
 
-export const additionalPriorityIds = ["exivun", "maya", "eficode-fullstack", "ai-global", "musiclinks", "licensing", "alerts", "containers", "cloud-delivery", "gyo-medical"] as const;
+export const additionalPriorityIds = ["percha", "exivun", "sales-assistant", "maya", "rallyiq", "eficode-fullstack", "ai-global", "musiclinks", "licensing", "alerts", "containers", "cloud-delivery", "gyo-medical", "rica-sazon"] as const;
 
 export const aiCloudDirection = {
   name: "AI Cloud Platform",
