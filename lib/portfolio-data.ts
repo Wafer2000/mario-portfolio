@@ -688,8 +688,8 @@ export const certificates = [
   { issuer: "OpenAI", name: "Cyber Solutions Practitioner", year: "2026", kind: ["Credencial prioritaria", "Priority credential"] as Copy, url: "https://oaipartnernetwork.credential.net/b9c50de0-8201-46a6-9152-28b944b9695f" },
   { issuer: "OpenAI", name: "Cyber Deployment Practitioner", year: "2026", kind: ["Credencial prioritaria", "Priority credential"] as Copy, url: "https://oaipartnernetwork.credential.net/5fe78292-8d4f-4ab2-8aa6-28321c69b6c9" },
   { issuer: "Google", name: "Certified Partner Specialist · Gemini Enterprise Agent Development", year: "2026", kind: ["Certificación · Vence 07/02/2027", "Certification · Expires February 7, 2027"] as Copy, url: "https://www.credly.com/badges/276f3e48-a7a5-4828-a393-44c0b7d86332" },
-  { issuer: "Google Cloud", name: "Associate Cloud Engineer", year: "2023—2026", kind: ["Certificación histórica · Expirada", "Historical certification · Expired"] as Copy, url: "https://www.linkedin.com/in/mariofernandogonsalvezarias/details/certifications/" },
-  { issuer: "Google Cloud", name: "Cloud Digital Leader", year: "", kind: ["Certificación histórica · Expirada", "Historical certification · Expired"] as Copy, url: "https://www.linkedin.com/in/mariofernandogonsalvezarias/details/certifications/" },
+  { issuer: "Google Cloud", name: "Associate Cloud Engineer", year: "2023—2026", kind: ["Certificación histórica · Expirada", "Historical certification · Expired"] as Copy, url: "https://www.credly.com/go/tro4saR94QrVFdESpohHIA" },
+  { issuer: "Google Cloud", name: "Cloud Digital Leader", year: "", kind: ["Certificación histórica · Expirada", "Historical certification · Expired"] as Copy, url: "https://www.credly.com/go/rSTe0cc55juj4ch8sh65HQ" },
 ];
 
 export const featuredProjectIds = ["cloud-solutions", "mesaflow", "commerce", "random-playlist", "device-control", "banking"] as const;
