@@ -679,14 +679,17 @@ export const expertise = [
 ];
 
 export const certificates = [
-  { issuer: "OpenAI", name: "Codex Deployment Practitioner", year: "2026", kind: ["Credencial prioritaria", "Priority credential"] as Copy },
-  { issuer: "OpenAI", name: "API Deployment Practitioner", year: "2026", kind: ["Credencial prioritaria", "Priority credential"] as Copy },
-  { issuer: "OpenAI", name: "Technical Practitioner", year: "2026", kind: ["Credencial prioritaria", "Priority credential"] as Copy },
-  { issuer: "OpenAI", name: "Cyber Solutions Practitioner", year: "2026", kind: ["Credencial prioritaria", "Priority credential"] as Copy },
-  { issuer: "OpenAI", name: "Cyber Deployment Practitioner", year: "2026", kind: ["Credencial prioritaria", "Priority credential"] as Copy },
-  { issuer: "Google", name: "Certified Partner Specialist · Gemini Enterprise Agent Development", year: "2026", kind: ["Certificación · Vence 07/02/2027", "Certification · Expires February 7, 2027"] as Copy },
-  { issuer: "Google Cloud", name: "Associate Cloud Engineer", year: "2023—2026", kind: ["Certificación histórica · Expirada", "Historical certification · Expired"] as Copy },
-  { issuer: "Google Cloud", name: "Cloud Digital Leader", year: "", kind: ["Certificación histórica · Expirada", "Historical certification · Expired"] as Copy },
+  { issuer: "OpenAI", name: "ChatGPT Solutions Practitioner", year: "2026", kind: ["Credencial prioritaria · Nov 2026", "Priority credential · Nov 2026"] as Copy, url: "https://www.linkedin.com/in/mariofernandogonsalvezarias/details/certifications/" },
+  { issuer: "OpenAI", name: "ChatGPT Deployment Practitioner", year: "2026", kind: ["Credencial prioritaria · Nov 2026", "Priority credential · Nov 2026"] as Copy, url: "https://www.linkedin.com/in/mariofernandogonsalvezarias/details/certifications/" },
+  { issuer: "OpenAI", name: "Codex Solutions Practitioner", year: "2026", kind: ["Credencial prioritaria · Nov 2026", "Priority credential · Nov 2026"] as Copy, url: "https://oaipartnernetwork.credential.net/0867bf9a-570d-4a66-9564-fcdeba44e5c9" },
+  { issuer: "OpenAI", name: "Codex Deployment Practitioner", year: "2026", kind: ["Credencial prioritaria", "Priority credential"] as Copy, url: "https://oaipartnernetwork.credential.net/50d588a9-4c0c-447c-9513-5839834b034a" },
+  { issuer: "OpenAI", name: "API Deployment Practitioner", year: "2026", kind: ["Credencial prioritaria", "Priority credential"] as Copy, url: "https://oaipartnernetwork.credential.net/d2f1a141-efe3-4b8f-9738-e547f42de1d2" },
+  { issuer: "OpenAI", name: "Technical Practitioner", year: "2026", kind: ["Credencial prioritaria", "Priority credential"] as Copy, url: "https://oaipartnernetwork.credential.net/67a40a8c-aa09-4c0e-ac65-b30e3f680d6e" },
+  { issuer: "OpenAI", name: "Cyber Solutions Practitioner", year: "2026", kind: ["Credencial prioritaria", "Priority credential"] as Copy, url: "https://oaipartnernetwork.credential.net/b9c50de0-8201-46a6-9152-28b944b9695f" },
+  { issuer: "OpenAI", name: "Cyber Deployment Practitioner", year: "2026", kind: ["Credencial prioritaria", "Priority credential"] as Copy, url: "https://oaipartnernetwork.credential.net/5fe78292-8d4f-4ab2-8aa6-28321c69b6c9" },
+  { issuer: "Google", name: "Certified Partner Specialist · Gemini Enterprise Agent Development", year: "2026", kind: ["Certificación · Vence 07/02/2027", "Certification · Expires February 7, 2027"] as Copy, url: "https://www.credly.com/badges/276f3e48-a7a5-4828-a393-44c0b7d86332" },
+  { issuer: "Google Cloud", name: "Associate Cloud Engineer", year: "2023—2026", kind: ["Certificación histórica · Expirada", "Historical certification · Expired"] as Copy, url: "https://www.linkedin.com/in/mariofernandogonsalvezarias/details/certifications/" },
+  { issuer: "Google Cloud", name: "Cloud Digital Leader", year: "", kind: ["Certificación histórica · Expirada", "Historical certification · Expired"] as Copy, url: "https://www.linkedin.com/in/mariofernandogonsalvezarias/details/certifications/" },
 ];
 
 export const featuredProjectIds = ["cloud-solutions", "mesaflow", "commerce", "random-playlist", "device-control", "banking"] as const;
