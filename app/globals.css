@@ -285,11 +285,16 @@ html[data-mode="ing"] .term{background:#140e0b;border-color:rgba(236,223,202,.3)
 .creds{margin-top:60px;display:grid;gap:18px}
 .creds h3{font:600 12px var(--f-m);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .creds ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
-.creds li{display:grid;gap:3px;padding:14px 16px;border:1px solid var(--rule);border-radius:10px;background:var(--card)}
+.creds li{position:relative;border:1px solid var(--rule);border-radius:10px;background:var(--card);overflow:hidden;transition:border-color .25s ease,transform .25s ease,background .25s ease}
+.creds li:hover{border-color:color-mix(in srgb,var(--accent) 55%,var(--rule));transform:translateY(-2px);background:var(--chip)}
 .creds li.old{opacity:.6}
+.cr-link{position:relative;display:grid;gap:3px;min-height:100%;padding:14px 42px 14px 16px;color:inherit;text-decoration:none}
+.cr-link:focus-visible{outline:2px solid var(--accent);outline-offset:-3px}
 .cr-iss{font:600 11.5px var(--f-m);color:var(--accent)}
 .creds li b{font-size:16px;font-weight:650;line-height:1.3}
 .cr-kind{font:11.5px var(--f-m);color:var(--muted)}
+.cr-open{position:absolute;right:15px;top:14px;font:600 15px var(--f-m);color:var(--accent);transition:transform .25s ease}
+.cr-link:hover .cr-open{transform:translate(2px,-2px)}
 .cr-note{margin:0;font:12.5px/1.6 var(--f-m);color:var(--muted);max-width:110ch}
 
 /* contact */
