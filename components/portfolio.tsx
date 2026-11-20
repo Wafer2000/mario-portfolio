@@ -234,9 +234,18 @@ export default function Portfolio({ initialContent }: { initialContent: Portfoli
             <ul>
               {c.certificates.map(cert => (
                 <li key={cert.issuer + cert.name} className={/expir/i.test(t(cert.kind)) ? "old" : ""}>
-                  <span className="cr-iss">{cert.issuer}</span>
-                  <b>{cert.name}</b>
-                  <span className="cr-kind">{t(cert.kind)}{cert.year ? ` · ${cert.year}` : ""}</span>
+                  <a
+                    className="cr-link"
+                    href={cert.url || c.contact.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${L("Ver certificado", "View certificate")}: ${cert.name}`}
+                  >
+                    <span className="cr-iss">{cert.issuer}</span>
+                    <b>{cert.name}</b>
+                    <span className="cr-kind">{t(cert.kind)}{cert.year ? ` · ${cert.year}` : ""}</span>
+                    <span className="cr-open" aria-hidden="true">↗</span>
+                  </a>
                 </li>
               ))}
             </ul>
