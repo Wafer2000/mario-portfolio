@@ -679,8 +679,8 @@ export const expertise = [
 ];
 
 export const certificates = [
-  { issuer: "OpenAI", name: "ChatGPT Solutions Practitioner", year: "2026", kind: ["Credencial prioritaria · Nov 2026", "Priority credential · Nov 2026"] as Copy, url: "https://www.linkedin.com/in/mariofernandogonsalvezarias/details/certifications/" },
-  { issuer: "OpenAI", name: "ChatGPT Deployment Practitioner", year: "2026", kind: ["Credencial prioritaria · Nov 2026", "Priority credential · Nov 2026"] as Copy, url: "https://www.linkedin.com/in/mariofernandogonsalvezarias/details/certifications/" },
+  { issuer: "OpenAI", name: "ChatGPT Solutions Practitioner", year: "2026", kind: ["Credencial prioritaria · Nov 2026", "Priority credential · Nov 2026"] as Copy, url: "https://oaipartnernetwork.credential.net/9c17a65f-0dcd-42bd-8ef5-99f9c9143d0c" },
+  { issuer: "OpenAI", name: "ChatGPT Deployment Practitioner", year: "2026", kind: ["Credencial prioritaria · Nov 2026", "Priority credential · Nov 2026"] as Copy, url: "https://oaipartnernetwork.credential.net/ccfc28a3-934e-4d6f-8c6b-1329769b37c1" },
   { issuer: "OpenAI", name: "Codex Solutions Practitioner", year: "2026", kind: ["Credencial prioritaria · Nov 2026", "Priority credential · Nov 2026"] as Copy, url: "https://oaipartnernetwork.credential.net/0867bf9a-570d-4a66-9564-fcdeba44e5c9" },
   { issuer: "OpenAI", name: "Codex Deployment Practitioner", year: "2026", kind: ["Credencial prioritaria", "Priority credential"] as Copy, url: "https://oaipartnernetwork.credential.net/50d588a9-4c0c-447c-9513-5839834b034a" },
   { issuer: "OpenAI", name: "API Deployment Practitioner", year: "2026", kind: ["Credencial prioritaria", "Priority credential"] as Copy, url: "https://oaipartnernetwork.credential.net/d2f1a141-efe3-4b8f-9738-e547f42de1d2" },
